@@ -4,13 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.observe
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.claire.carddiary.R
 import com.claire.carddiary.databinding.FragCardBinding
+import com.claire.carddiary.decoration.GridItemDecoration
+import com.claire.carddiary.utils.px
 
-class CardFragment : Fragment(R.layout.frag_card) {
+class CardFragment : Fragment() {
 
+    private val vm: CardViewModel by viewModels()
+    private val adapter: CardAdapter by lazy { CardAdapter() }
     private lateinit var binding: FragCardBinding
 
     override fun onCreateView(
@@ -27,6 +32,12 @@ class CardFragment : Fragment(R.layout.frag_card) {
 
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, 2)
+            adapter = this@CardFragment.adapter
+            addItemDecoration(GridItemDecoration(16.px, 8.px, 2))
+        }
+
+        vm.cardList.observe(viewLifecycleOwner) {
+            it?.let(adapter::submitList)
         }
     }
 }
