@@ -16,8 +16,7 @@ import com.claire.carddiary.utils.px
 class CardFragment : Fragment() {
 
     private val vm: CardViewModel by viewModels()
-    private val listener: (position: Int) -> Unit = {}
-    private val adapter: CardAdapter by lazy { CardAdapter(listener) }
+    private val adapter: CardAdapter by lazy { CardAdapter() }
     private lateinit var binding: FragCardBinding
 
     override fun onCreateView(
@@ -35,15 +34,17 @@ class CardFragment : Fragment() {
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, 2)
             adapter = this@CardFragment.adapter
-            addItemDecoration(GridItemDecoration(16.px, 8.px, 2))
+            addItemDecoration(GridItemDecoration(16.px, 16.px, 2))
+        }
+
+        with(adapter) {
+            listener = {
+                Toast.makeText(context, "click$it", Toast.LENGTH_SHORT).show()
+            }
         }
 
         vm.cardList.observe(viewLifecycleOwner) {
             it?.let(adapter::submitList)
-        }
-
-        vm.click.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
     }
 }
