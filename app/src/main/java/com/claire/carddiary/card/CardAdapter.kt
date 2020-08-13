@@ -12,7 +12,7 @@ class CardAdapter : DataBindingAdapter<Card>(DiffCallback()) {
             oldItem === newItem
 
         override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean =
-            oldItem.id == newItem.id
+            oldItem.cardId == newItem.cardId
     }
 
     override fun getItemViewType(position: Int): Int = R.layout.item_card
