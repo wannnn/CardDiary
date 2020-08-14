@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.claire.carddiary.databinding.FragCardBinding
-import com.claire.carddiary.decoration.GridItemDecoration
+import com.claire.carddiary.card.decoration.GridItemDecoration
 import com.claire.carddiary.utils.px
 
 class CardFragment : Fragment() {

@@ -71,6 +71,9 @@ dependencies {
     // coil
     implementation("io.coil-kt:coil:0.11.0")
 
+    // circle indicator
+    implementation 'me.relex:circleindicator:1.2.1@aar'
+
     // facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 

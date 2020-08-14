@@ -1,4 +1,4 @@
-package com.claire.carddiary.decoration
+package com.claire.carddiary.card.decoration
 
 import android.graphics.Rect
 import android.view.View
