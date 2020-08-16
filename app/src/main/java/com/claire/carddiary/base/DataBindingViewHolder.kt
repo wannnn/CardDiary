@@ -8,7 +8,7 @@ import com.claire.carddiary.utils.click
 
 class DataBindingViewHolder<T>(
     private val binding: ViewDataBinding,
-    var listener: ClickCallback
+    private var listener: ClickCallback
 ): RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: T, position: Int) {

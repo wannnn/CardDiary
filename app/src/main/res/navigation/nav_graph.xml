@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
-    app:startDestination="@id/cardFragment">
+    app:startDestination="@id/editFragment">
 
     <fragment
         android:id="@+id/cardFragment"
         android:name="com.claire.carddiary.card.CardFragment"
         android:label="CardFragment" />
+
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.claire.carddiary.edit.EditFragment"
+        android:label="EditFragment" />
 </navigation>
