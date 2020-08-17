@@ -27,7 +27,9 @@
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/indicator"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="@+id/image_pager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -35,18 +37,22 @@
                 app:tabGravity="center"
                 app:tabIndicatorHeight="0dp" />
 
-            <TextView
-                android:id="@+id/tv_title"
+            <EditText
+                android:id="@+id/edt_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:textSize="20sp"
+                android:hint="ABCDEF"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image_pager"
                 tools:text="ABCDEFG" />
 
-            <TextView
+            <EditText
+                android:id="@+id/edt_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -57,7 +63,7 @@
                 android:paddingEnd="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/edt_title"
                 tools:text="@string/debug_string" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
