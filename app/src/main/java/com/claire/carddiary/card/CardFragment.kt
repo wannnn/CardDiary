@@ -44,7 +44,7 @@ class CardFragment : Fragment() {
         }
 
         vm.cardList.observe(viewLifecycleOwner) {
-            it?.let(adapter::submitList)
+            adapter.submitList(it)
         }
     }
 }

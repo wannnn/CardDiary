@@ -7,13 +7,17 @@ import com.claire.carddiary.data.Card
 
 class CardViewModel : ViewModel() {
 
-    private val _cardList = MutableLiveData<List<Card>?>()
-    val cardList: LiveData<List<Card>?>
+    private val _cardList = MutableLiveData<List<Card>>()
+    val cardList: LiveData<List<Card>>
         get() = _cardList
 
+    private val _card = MutableLiveData<Card>()
 
     init {
         _cardList.value = List(5) { Card() }
     }
 
+    fun setTitle(title: String) {
+        _card.value = _card.value?.copy(title = title)
+    }
 }
