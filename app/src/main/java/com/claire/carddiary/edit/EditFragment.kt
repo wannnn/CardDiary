@@ -33,12 +33,14 @@ class EditFragment : Fragment() {
 
         binding.vm = vm
 
-        val adapter = ImagePagerAdapter(List(3) {""}).apply {
+        val adapter = ImagePagerAdapter().apply {
+            updateData(List(3) {""})
             listener = {
                 registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                     if (isGranted) {
-                        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-                            Toast.makeText(context, uri?.toString(), Toast.LENGTH_SHORT).show()
+                        registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+                            vm.setImages(uris)
+                            Toast.makeText(context, uris[0]?.toString(), Toast.LENGTH_SHORT).show()
                         }.launch("image/*")
                     } else {
                         Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()

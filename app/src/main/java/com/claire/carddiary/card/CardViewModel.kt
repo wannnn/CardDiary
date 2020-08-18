@@ -1,5 +1,6 @@
 package com.claire.carddiary.card
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,5 +20,9 @@ class CardViewModel : ViewModel() {
 
     fun setTitle(title: String) {
         _card.value = _card.value?.copy(title = title)
+    }
+
+    fun setImages(images: List<Uri>) {
+//        _card.value = _card.value?.copy(images = images)
     }
 }

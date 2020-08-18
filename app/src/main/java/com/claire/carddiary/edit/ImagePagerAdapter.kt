@@ -7,10 +7,9 @@ import com.claire.carddiary.base.DataBindingViewHolder
 import com.claire.carddiary.databinding.ItemImageBinding
 import com.claire.carddiary.utils.ClickCallback
 
-class ImagePagerAdapter(
-    private val images: List<String>
-): RecyclerView.Adapter<DataBindingViewHolder<String>>() {
+class ImagePagerAdapter: RecyclerView.Adapter<DataBindingViewHolder<String>>() {
 
+    private var images: List<String> = listOf()
     var listener: ClickCallback = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<String> {
@@ -22,4 +21,9 @@ class ImagePagerAdapter(
 
     override fun onBindViewHolder(holder: DataBindingViewHolder<String>, position: Int)
             = holder.bind(images[position], position)
+
+    fun updateData(images: List<String>) {
+        this.images = images
+        notifyDataSetChanged()
+    }
 }
