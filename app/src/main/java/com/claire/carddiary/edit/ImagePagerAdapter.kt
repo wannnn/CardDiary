@@ -19,8 +19,10 @@ class ImagePagerAdapter: RecyclerView.Adapter<DataBindingViewHolder<String>>() {
 
     override fun getItemCount(): Int = images.size
 
-    override fun onBindViewHolder(holder: DataBindingViewHolder<String>, position: Int)
-            = holder.bind(images[position], position)
+    override fun onBindViewHolder(holder: DataBindingViewHolder<String>, position: Int) {
+        holder.itemView.tag = position
+        holder.bind(images[position])
+    }
 
     fun updateData(images: List<String>) {
         this.images = images

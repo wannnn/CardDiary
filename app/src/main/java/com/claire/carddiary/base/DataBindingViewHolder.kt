@@ -11,11 +11,14 @@ class DataBindingViewHolder<T>(
     private var listener: ClickCallback
 ): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: T, position: Int) {
+    init {
+        binding.root.click {
+            listener.invoke(itemView.tag as Int)
+        }
+    }
+
+    fun bind(item: T) {
         binding.setVariable(BR.item, item)
         binding.executePendingBindings()
-        binding.root.click {
-            listener.invoke(position)
-        }
     }
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.observe
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,6 +19,7 @@ class EditFragment : Fragment() {
 
     private val vm: CardViewModel by viewModels()
     private lateinit var binding: FragEditBinding
+    private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,17 +32,17 @@ class EditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        observeViewModel()
 
         binding.vm = vm
 
-        val adapter = ImagePagerAdapter().apply {
-            updateData(List(3) {""})
+        with(adapter) {
             listener = {
                 registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
                     if (isGranted) {
                         registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
-                            vm.setImages(uris)
-                            Toast.makeText(context, uris[0]?.toString(), Toast.LENGTH_SHORT).show()
+                            val list = uris.map { it.toString() }
+                            vm.setImages(list)
                         }.launch("image/*")
                     } else {
                         Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
@@ -48,9 +50,16 @@ class EditFragment : Fragment() {
                 }.launch(READ_EXTERNAL_STORAGE)
             }
         }
+
         binding.imagePager.adapter = adapter
 
         TabLayoutMediator(binding.indicator, binding.imagePager) { _, _ -> }.attach()
 
+    }
+
+    private fun observeViewModel() {
+        vm.imageList.observe(viewLifecycleOwner) {
+            adapter.updateData(it)
+        }
     }
 }
