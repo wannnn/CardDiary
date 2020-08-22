@@ -3,4 +3,9 @@
     <string name="permission_denied">permission denied</string>
     <string name="title_hint">Title</string>
     <string name="debug_string">Events can be bound to handler methods directly, similar to the way android:onClick can be assigned to a method in an activity. One major advantage compared to the View onClick attribute is that the expression is processed at compile time, so if the method doesn\'t exist or its signature is incorrect, you receive a compile time error.</string>
+
+    <string name="menu_check">確定</string>
+    <string name="menu_edit">編輯</string>
+    <string name="menu_close">關閉</string>
+
 </resources>
