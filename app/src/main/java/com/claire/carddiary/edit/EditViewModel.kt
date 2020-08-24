@@ -3,9 +3,8 @@ package com.claire.carddiary.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.claire.carddiary.data.Card
+import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.utils.toSimpleDateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EditViewModel : ViewModel() {

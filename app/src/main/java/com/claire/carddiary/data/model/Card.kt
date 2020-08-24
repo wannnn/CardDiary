@@ -1,6 +1,11 @@
-package com.claire.carddiary.data
+package com.claire.carddiary.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "card")
 data class Card(
+    @PrimaryKey
     val cardId: Long = 0,
     val images: List<String> = listOf(),
     val title: String = "",

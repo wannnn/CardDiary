@@ -3,7 +3,7 @@ package com.claire.carddiary.card
 import androidx.recyclerview.widget.DiffUtil
 import com.claire.carddiary.R
 import com.claire.carddiary.base.DataBindingAdapter
-import com.claire.carddiary.data.Card
+import com.claire.carddiary.data.model.Card
 
 class CardAdapter : DataBindingAdapter<Card>(DiffCallback()) {
 

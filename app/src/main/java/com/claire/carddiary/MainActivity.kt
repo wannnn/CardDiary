@@ -3,6 +3,7 @@ package com.claire.carddiary
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         val editItem = menu.findItem(R.id.edit)
         val checkItem = menu.findItem(R.id.check)
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { controller, destination, _ ->
             controller.currentDestination?.let {
                 when(destination.id) {
                     R.id.cardFragment -> {
@@ -42,7 +43,12 @@ class MainActivity : AppCompatActivity() {
                     R.id.editFragment -> {
                         closeItem.isVisible = false
                         editItem.isVisible = false
+                        checkItem.setOnMenuItemClickListener {
+                            Toast.makeText(this, "save data!", Toast.LENGTH_SHORT).show()
+                            true
+                        }
                     }
+                    else -> {}
                 }
             }
         }

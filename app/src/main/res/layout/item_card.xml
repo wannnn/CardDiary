@@ -6,7 +6,7 @@
     <data>
         <variable
             name="item"
-            type="com.claire.carddiary.data.Card" />
+            type="com.claire.carddiary.data.model.Card" />
     </data>
 
     <androidx.cardview.widget.CardView

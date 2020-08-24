@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/editFragment">
 
     <fragment
         android:id="@+id/cardFragment"
         android:name="com.claire.carddiary.card.CardFragment"
-        android:label="CardFragment" />
+        android:label="CardFragment"
+        tools:layout="@layout/frag_card">
+        <action
+            android:id="@+id/to_editFragment"
+            app:destination="@id/editFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/editFragment"
         android:name="com.claire.carddiary.edit.EditFragment"
-        android:label="EditFragment" />
+        android:label="EditFragment"
+        tools:layout="@layout/frag_edit">
+        <argument
+            android:name="data"
+            app:argType="com.claire.carddiary.data.Card"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+    </fragment>
+
 </navigation>

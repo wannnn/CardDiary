@@ -3,7 +3,7 @@ package com.claire.carddiary.card
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.claire.carddiary.data.Card
+import com.claire.carddiary.data.model.Card
 
 class CardViewModel : ViewModel() {
 
