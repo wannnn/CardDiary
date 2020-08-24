@@ -16,7 +16,6 @@ import com.claire.carddiary.R
 import com.claire.carddiary.ShareViewModel
 import com.claire.carddiary.databinding.FragEditBinding
 import com.google.android.material.tabs.TabLayoutMediator
-import java.text.SimpleDateFormat
 import java.util.*
 
 class EditFragment : Fragment() {
@@ -53,11 +52,16 @@ class EditFragment : Fragment() {
 
     private fun observeViewModel() {
         vm.card.observe(viewLifecycleOwner) {
+            binding.item = it
             adapter.updateData(it.images)
         }
 
         vm.alertMsg.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+
+        vm.openPicker.observe(viewLifecycleOwner) {
+            openDatePicker()
         }
     }
 
@@ -77,11 +81,18 @@ class EditFragment : Fragment() {
     }
 
     private fun openDatePicker() {
+        val calender = Calendar.getInstance()
+
         val dateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
-//            calender.set(year, month, day)
-            SimpleDateFormat("yyyy / MM / dd", Locale.TAIWAN)
+            calender.set(year, month, day)
+            vm.setDate(calender.time)
         }
 
+        DatePickerDialog(requireContext(),
+            dateListener,
+            calender.get(Calendar.YEAR),
+            calender.get(Calendar.MONTH),
+            calender.get(Calendar.DAY_OF_MONTH)).show()
     }
 
 }
