@@ -3,11 +3,14 @@ package com.claire.carddiary.edit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.claire.carddiary.data.CardRepository
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.utils.toSimpleDateFormat
 import java.util.*
 
-class EditViewModel : ViewModel() {
+class EditViewModel(
+    val repository: CardRepository
+) : ViewModel() {
 
     private val _card = MutableLiveData(getInitCard())
     val card: LiveData<Card>

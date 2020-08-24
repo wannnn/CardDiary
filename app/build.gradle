@@ -76,6 +76,10 @@ dependencies {
     // coil
     implementation("io.coil-kt:coil:0.11.0")
 
+    // moshi
+    implementation "com.squareup.moshi:moshi:1.8.0"
+    implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
+
     // facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
 
