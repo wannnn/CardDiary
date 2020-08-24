@@ -4,8 +4,7 @@ data class Card(
     val cardId: Long = 0,
     val images: List<String> = listOf(),
     val title: String = "",
-    val subTitle: String = "",
-    val date: Long = 0,
+    val date: String = "",
     val weather: Int = 0,  // ex.(0:sunny 1:rainy)
     val content: String = "",
     val location: Location = Location()

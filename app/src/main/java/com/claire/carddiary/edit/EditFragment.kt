@@ -1,6 +1,7 @@
 package com.claire.carddiary.edit
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,13 +14,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.claire.carddiary.R
 import com.claire.carddiary.ShareViewModel
-import com.claire.carddiary.card.CardViewModel
 import com.claire.carddiary.databinding.FragEditBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EditFragment : Fragment() {
 
-    private val vm: CardViewModel by viewModels()
+    private val vm: EditViewModel by viewModels()
     private val shareVm: ShareViewModel by activityViewModels()
     private lateinit var binding: FragEditBinding
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter() }
@@ -73,4 +75,13 @@ class EditFragment : Fragment() {
             }
         }.launch(READ_EXTERNAL_STORAGE)
     }
+
+    private fun openDatePicker() {
+        val dateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+//            calender.set(year, month, day)
+            SimpleDateFormat("yyyy / MM / dd", Locale.TAIWAN)
+        }
+
+    }
+
 }
