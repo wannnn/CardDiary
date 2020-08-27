@@ -13,15 +13,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.claire.carddiary.R
-import com.claire.carddiary.ShareViewModel
+import com.claire.carddiary.ViewModelFactory
 import com.claire.carddiary.databinding.FragEditBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
 
 class EditFragment : Fragment() {
 
-    private val vm: EditViewModel by viewModels()
-    private val shareVm: ShareViewModel by activityViewModels()
+    private val vm: CardViewModel by activityViewModels { ViewModelFactory() }
     private lateinit var binding: FragEditBinding
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter() }
 

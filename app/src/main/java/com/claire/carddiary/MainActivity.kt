@@ -6,15 +6,17 @@ import android.view.Menu
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.claire.carddiary.databinding.ActivityMainBinding
+import com.claire.carddiary.edit.CardViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val shareVm: ShareViewModel by viewModels()
+    private val vm: CardViewModel by viewModels()
     private val navController by lazy { findNavController(R.id.container) }
 
     override fun onCreate(savedInstanceState: Bundle?) {

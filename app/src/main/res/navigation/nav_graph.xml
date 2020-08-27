@@ -19,12 +19,6 @@
         android:id="@+id/editFragment"
         android:name="com.claire.carddiary.edit.EditFragment"
         android:label="EditFragment"
-        tools:layout="@layout/frag_edit">
-        <argument
-            android:name="data"
-            app:argType="com.claire.carddiary.data.Card"
-            android:defaultValue="@null"
-            app:nullable="true"/>
-    </fragment>
+        tools:layout="@layout/frag_edit"/>
 
 </navigation>

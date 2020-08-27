@@ -8,9 +8,13 @@ import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.utils.toSimpleDateFormat
 import java.util.*
 
-class EditViewModel(
+class CardViewModel(
     val repository: CardRepository
 ) : ViewModel() {
+
+    private val _cardList = MutableLiveData<List<Card>>()
+    val cardList: LiveData<List<Card>>
+        get() = _cardList
 
     private val _card = MutableLiveData(getInitCard())
     val card: LiveData<Card>
@@ -24,6 +28,10 @@ class EditViewModel(
     val openPicker: LiveData<Boolean>
         get() = _openPicker
 
+
+    init {
+        _cardList.value = List(5) { Card() }
+    }
 
     private fun getInitCard(): Card {
         return Card(
