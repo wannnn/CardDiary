@@ -6,19 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import com.claire.carddiary.ViewModelFactory
 import com.claire.carddiary.card.decoration.GridItemDecoration
 import com.claire.carddiary.databinding.FragCardBinding
-import com.claire.carddiary.edit.CardViewModel
 import com.claire.carddiary.utils.px
 
 class CardFragment : Fragment() {
 
-    private val vm: CardViewModel by activityViewModels { ViewModelFactory() }
+    private val vm: CardViewModel by viewModels { ViewModelFactory() }
     private val adapter: CardAdapter by lazy { CardAdapter() }
     private lateinit var binding: FragCardBinding
 

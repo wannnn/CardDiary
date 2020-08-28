@@ -20,7 +20,7 @@ import java.util.*
 
 class EditFragment : Fragment() {
 
-    private val vm: CardViewModel by activityViewModels { ViewModelFactory() }
+    private val vm: EditViewModel by activityViewModels { ViewModelFactory() }
     private lateinit var binding: FragEditBinding
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter() }
 

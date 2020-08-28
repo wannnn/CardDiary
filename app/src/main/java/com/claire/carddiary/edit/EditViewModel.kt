@@ -1,5 +1,7 @@
 package com.claire.carddiary.edit
 
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,13 +10,9 @@ import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.utils.toSimpleDateFormat
 import java.util.*
 
-class CardViewModel(
+class EditViewModel(
     val repository: CardRepository
 ) : ViewModel() {
-
-    private val _cardList = MutableLiveData<List<Card>>()
-    val cardList: LiveData<List<Card>>
-        get() = _cardList
 
     private val _card = MutableLiveData(getInitCard())
     val card: LiveData<Card>
@@ -28,15 +26,19 @@ class CardViewModel(
     val openPicker: LiveData<Boolean>
         get() = _openPicker
 
-
-    init {
-        _cardList.value = List(5) { Card() }
+    val textWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            setContent(s.toString())
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
     private fun getInitCard(): Card {
         return Card(
             images = List(1) { "" },
-            date = Date().toSimpleDateFormat
+            date = Date().toSimpleDateFormat,
+            content = "default text"
         )
     }
 
@@ -65,5 +67,13 @@ class CardViewModel(
 
     fun setDate(date: Date) {
         _card.value = _card.value?.copy(date = date.toSimpleDateFormat)
+    }
+
+    fun setContent(content: String) {
+        _card.value = _card.value?.copy(content = content)
+    }
+
+    fun saveData() {
+
     }
 }

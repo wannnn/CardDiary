@@ -6,17 +6,16 @@ import android.view.Menu
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.claire.carddiary.databinding.ActivityMainBinding
-import com.claire.carddiary.edit.CardViewModel
+import com.claire.carddiary.edit.EditViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val vm: CardViewModel by viewModels()
+    private val vm: EditViewModel by viewModels()
     private val navController by lazy { findNavController(R.id.container) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                         closeItem.isVisible = false
                         editItem.isVisible = false
                         checkItem.setOnMenuItemClickListener {
+                            vm.saveData()
                             Toast.makeText(this, "save data!", Toast.LENGTH_SHORT).show()
                             true
                         }

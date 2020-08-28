@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "card")
 data class Card(
-    @PrimaryKey
-    val cardId: Long = 0,
+    @PrimaryKey(autoGenerate = true)
+    val cardId: Int = 0,
     val images: List<String> = listOf(),
     val title: String = "",
     val date: String = "",
