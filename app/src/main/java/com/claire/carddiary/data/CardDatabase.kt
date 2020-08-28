@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.model.User
 
-@Database(entities = [Card::class, User::class], version = 1, exportSchema = false)
+@Database(entities = [Card::class, Card.Location::class, User::class], version = 1, exportSchema = false)
 abstract class CardDatabase: RoomDatabase() {
 
     abstract fun cardDao(): CardDao

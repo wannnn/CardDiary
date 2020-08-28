@@ -26,7 +26,15 @@ class EditViewModel(
     val openPicker: LiveData<Boolean>
         get() = _openPicker
 
-    val textWatcher = object : TextWatcher {
+    val titleTextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            setTitle(s.toString())
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+    }
+
+    val contentTextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
             setContent(s.toString())
         }
@@ -37,6 +45,7 @@ class EditViewModel(
     private fun getInitCard(): Card {
         return Card(
             images = List(1) { "" },
+            title = "Test Test Test",
             date = Date().toSimpleDateFormat,
             content = "default text"
         )
