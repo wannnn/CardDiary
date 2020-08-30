@@ -1,6 +1,5 @@
 package com.claire.carddiary.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +10,7 @@ import com.claire.carddiary.data.model.Card
 interface CardDao {
 
     @Query("SELECT * FROM CARD")
-    fun getCards(): LiveData<List<Card>>
+    suspend fun getCards(): List<Card>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCard(card: Card)

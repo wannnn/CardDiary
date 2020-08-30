@@ -1,7 +1,9 @@
 package com.claire.carddiary.data
 
-interface CardRepository {
-    suspend fun getCards()
+import com.claire.carddiary.Resource
+import com.claire.carddiary.data.model.Card
 
-    suspend fun insertCard()
+interface CardRepository {
+    suspend fun getCards(): Resource<List<Card>>
+    suspend fun insertCard(card: Card)
 }

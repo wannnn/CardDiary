@@ -5,16 +5,18 @@ import android.text.TextWatcher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.claire.carddiary.data.CardRepository
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.utils.toSimpleDateFormat
+import kotlinx.coroutines.launch
 import java.util.*
 
 class EditViewModel(
-    val repository: CardRepository
+    private val repository: CardRepository
 ) : ViewModel() {
 
-    private val _card = MutableLiveData(getInitCard())
+    private val _card = MutableLiveData(getEmptyCard())
     val card: LiveData<Card>
         get() = _card
 
@@ -42,7 +44,7 @@ class EditViewModel(
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
-    private fun getInitCard(): Card {
+    private fun getEmptyCard(): Card {
         return Card(
             images = List(1) { "" },
             title = "Test Test Test",
@@ -82,7 +84,7 @@ class EditViewModel(
         _card.value = _card.value?.copy(content = content)
     }
 
-    fun saveData() {
-
+    fun saveData() =viewModelScope.launch {
+        repository.insertCard(_card.value ?: getEmptyCard())
     }
 }

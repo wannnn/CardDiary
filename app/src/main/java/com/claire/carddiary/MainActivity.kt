@@ -10,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.claire.carddiary.databinding.ActivityMainBinding
 import com.claire.carddiary.edit.EditViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         navController.setGraph(R.navigation.nav_graph)
         setupActionBarWithNavController(navController)
     }
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                         checkItem.isVisible = false
                     }
                     R.id.editFragment -> {
+                        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_20)
                         closeItem.isVisible = false
                         editItem.isVisible = false
                         checkItem.setOnMenuItemClickListener {
