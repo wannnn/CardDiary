@@ -37,6 +37,7 @@ class CardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
         binding.vm = vm
+        vm.getCards()
 
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, 2)
@@ -49,7 +50,6 @@ class CardFragment : Fragment() {
                 Toast.makeText(context, "click$it", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun observeViewModel() {
@@ -64,7 +64,7 @@ class CardFragment : Fragment() {
         }
 
         vm.errorMsg.observe(viewLifecycleOwner) {
-
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
         vm.navigateToEdit.observeSingle(viewLifecycleOwner, Observer {

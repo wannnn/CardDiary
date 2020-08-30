@@ -37,13 +37,14 @@ class MainActivity : AppCompatActivity() {
                 when(destination.id) {
                     R.id.cardFragment -> {
                         closeItem.isVisible = false
-                        editItem.isVisible = false
+                        editItem.isVisible = true
                         checkItem.isVisible = false
                     }
                     R.id.editFragment -> {
                         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_20)
                         closeItem.isVisible = false
                         editItem.isVisible = false
+                        checkItem.isVisible = true
                         checkItem.setOnMenuItemClickListener {
                             vm.saveData()
                             Toast.makeText(this, "save data!", Toast.LENGTH_SHORT).show()

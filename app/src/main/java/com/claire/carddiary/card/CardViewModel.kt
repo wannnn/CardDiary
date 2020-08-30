@@ -26,12 +26,11 @@ class CardViewModel(
     val navigateToEdit: SingleLiveEvent<Boolean>
         get() = _navigateToEdit
 
-    init {
-        viewModelScope.launch {
-            when(val resource = repository.getCards()) {
-                is Success -> _cardList.value = resource.data
-                is Error -> _errorMsg.value = resource.errorMessage
-            }
+
+    fun getCards() = viewModelScope.launch {
+        when(val resource = repository.getCards()) {
+            is Success -> _cardList.value = resource.data
+            is Error -> _errorMsg.value = resource.errorMessage
         }
     }
 

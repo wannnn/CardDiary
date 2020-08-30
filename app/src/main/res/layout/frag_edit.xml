@@ -50,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:inputType="text"
                 android:text="@{item.title}"
                 android:textSize="20sp"
                 android:addTextChangedListener="@{vm.titleTextWatcher}"

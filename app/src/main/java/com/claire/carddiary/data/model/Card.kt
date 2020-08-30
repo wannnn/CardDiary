@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.claire.carddiary.data.CardTypeConverters
+import com.squareup.moshi.JsonClass
 import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = "card")
@@ -20,6 +21,7 @@ data class Card(
     val content: String = "",
     val location: Location = Location()
 ): Parcelable {
+
     @Entity(tableName = "location")
     @Parcelize
     data class Location(

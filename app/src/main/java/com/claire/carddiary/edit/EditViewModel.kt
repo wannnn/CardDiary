@@ -84,7 +84,7 @@ class EditViewModel(
         _card.value = _card.value?.copy(content = content)
     }
 
-    fun saveData() =viewModelScope.launch {
+    fun saveData() = viewModelScope.launch {
         repository.insertCard(_card.value ?: getEmptyCard())
     }
 }
