@@ -47,7 +47,8 @@ class MainActivity : AppCompatActivity() {
                         checkItem.isVisible = true
                         checkItem.setOnMenuItemClickListener {
                             vm.saveData()
-                            Toast.makeText(this, "save data!", Toast.LENGTH_SHORT).show()
+                            navController.navigateUp()
+                            Toast.makeText(this, "save!", Toast.LENGTH_SHORT).show()
                             true
                         }
                     }

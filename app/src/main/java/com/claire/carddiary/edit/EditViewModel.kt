@@ -16,7 +16,7 @@ class EditViewModel(
     private val repository: CardRepository
 ) : ViewModel() {
 
-    private val _card = MutableLiveData(getEmptyCard())
+    private val _card = MutableLiveData(getDefaultEmptyCard())
     val card: LiveData<Card>
         get() = _card
 
@@ -44,13 +44,17 @@ class EditViewModel(
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
-    private fun getEmptyCard(): Card {
+    private fun getDefaultEmptyCard(): Card {
         return Card(
             images = List(1) { "" },
             title = "Test Test Test",
             date = Date().toSimpleDateFormat,
             content = "default text"
         )
+    }
+
+    fun setInitCard(card: Card?) {
+        card?.let { _card.value = card }
     }
 
     fun setTitle(title: String) {
@@ -85,6 +89,6 @@ class EditViewModel(
     }
 
     fun saveData() = viewModelScope.launch {
-        repository.insertCard(_card.value ?: getEmptyCard())
+        repository.insertCard(_card.value ?: getDefaultEmptyCard())
     }
 }

@@ -11,6 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.navArgs
 import com.claire.carddiary.R
 import com.claire.carddiary.ViewModelFactory
 import com.claire.carddiary.databinding.FragEditBinding
@@ -22,6 +23,7 @@ class EditFragment : Fragment() {
     private val vm: EditViewModel by activityViewModels { ViewModelFactory() }
     private lateinit var binding: FragEditBinding
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter() }
+    private val args: EditFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +39,7 @@ class EditFragment : Fragment() {
         observeViewModel()
 
         binding.vm = vm
+        vm.setInitCard(args.item)
 
         with(adapter) {
             listener = { openGallery() }

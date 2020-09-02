@@ -47,7 +47,7 @@ class CardFragment : Fragment() {
 
         with(adapter) {
             listener = {
-                Toast.makeText(context, "click$it", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(CardFragmentDirections.toEditFragment(vm.getCard(it)))
             }
         }
     }
@@ -68,7 +68,7 @@ class CardFragment : Fragment() {
         }
 
         vm.navigateToEdit.observeSingle(viewLifecycleOwner, Observer {
-            findNavController().navigate(CardFragmentDirections.toEditFragment())
+            findNavController().navigate(CardFragmentDirections.toEditFragment(null))
         })
     }
 }
