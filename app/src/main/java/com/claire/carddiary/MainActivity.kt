@@ -9,12 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.claire.carddiary.databinding.ActivityMainBinding
-import com.claire.carddiary.edit.EditViewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val vm: EditViewModel by viewModels()
+    private val vm: MainViewModel by viewModels()
     private val navController by lazy { findNavController(R.id.container) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,22 +30,29 @@ class MainActivity : AppCompatActivity() {
         val closeItem = menu.findItem(R.id.close)
         val editItem = menu.findItem(R.id.edit)
         val checkItem = menu.findItem(R.id.check)
+        val addItem = menu.findItem(R.id.add)
 
         navController.addOnDestinationChangedListener { controller, destination, _ ->
             controller.currentDestination?.let {
                 when(destination.id) {
                     R.id.cardFragment -> {
                         closeItem.isVisible = false
-                        editItem.isVisible = true
+                        editItem.isVisible = false
                         checkItem.isVisible = false
+                        addItem.isVisible = true
+                        addItem.setOnMenuItemClickListener {
+                            navController.navigate(NavGraphDirections.actionGlobalEditFragment(null))
+                            true
+                        }
                     }
                     R.id.editFragment -> {
                         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_20)
                         closeItem.isVisible = false
                         editItem.isVisible = false
                         checkItem.isVisible = true
+                        addItem.isVisible = false
                         checkItem.setOnMenuItemClickListener {
-                            vm.saveData()
+                            vm.callSaveData()
                             navController.navigateUp()
                             Toast.makeText(this, "save!", Toast.LENGTH_SHORT).show()
                             true

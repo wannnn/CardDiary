@@ -86,6 +86,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
+                android:hint="@string/content_hint"
                 android:minLines="5"
                 android:background="@drawable/bg_content"
                 android:paddingStart="5dp"

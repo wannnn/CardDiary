@@ -22,8 +22,8 @@ class CardViewModel(
     val errorMsg: LiveData<String>
         get() = _errorMsg
 
-    private val _navigateToEdit = SingleLiveEvent<Boolean>()
-    val navigateToEdit: SingleLiveEvent<Boolean>
+    private val _navigateToEdit = SingleLiveEvent<Any>()
+    val navigateToEdit: SingleLiveEvent<Any>
         get() = _navigateToEdit
 
 

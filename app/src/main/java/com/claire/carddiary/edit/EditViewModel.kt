@@ -44,9 +44,7 @@ class EditViewModel(
     private fun getDefaultEmptyCard(): Card {
         return Card(
             images = List(1) { "" },
-            title = "Test Test Test",
-            date = Date().toSimpleDateFormat,
-            content = "default text"
+            date = Date().toSimpleDateFormat
         )
     }
 
