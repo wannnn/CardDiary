@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -88,6 +89,13 @@ dependencies {
 
     // facebook shimmer
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
+    // firebase
+    implementation 'com.google.firebase:firebase-core:17.5.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:19.2.0'
+    implementation 'com.google.firebase:firebase-firestore:21.6.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:21.6.0'
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
 
     // test
     testImplementation 'junit:junit:4.12'
