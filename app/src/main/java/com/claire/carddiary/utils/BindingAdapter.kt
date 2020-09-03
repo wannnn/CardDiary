@@ -10,7 +10,9 @@ import androidx.databinding.BindingAdapter
 
 @BindingAdapter("android:imagePath")
 fun setImage(view: ImageView, path: String) {
-    view.setImageURI(path.toUri())
+    if (path.contains("content://")) {
+        view.setImageURI(path.toUri())
+    }
 }
 
 @BindingAdapter("android:addTextChangedListener")

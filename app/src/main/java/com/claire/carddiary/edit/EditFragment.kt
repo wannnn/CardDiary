@@ -37,12 +37,15 @@ class EditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
-
         binding.vm = vm
         vm.setInitCard(args.item)
 
         with(adapter) {
             listener = { openGallery() }
+        }
+
+        binding.listener = {
+            openDatePicker()
         }
 
         binding.imagePager.adapter = adapter
@@ -61,9 +64,6 @@ class EditFragment : Fragment() {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        vm.openPicker.observe(viewLifecycleOwner) {
-            openDatePicker()
-        }
     }
 
     private fun openGallery() {

@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="kotlin.jvm.functions.Function1"/>
+        <import type="kotlin.Unit"/>
+
         <variable
             name="vm"
             type="com.claire.carddiary.edit.EditViewModel" />
@@ -11,6 +14,10 @@
         <variable
             name="item"
             type="com.claire.carddiary.data.model.Card" />
+
+        <variable
+            name="listener"
+            type="Function1&lt;Integer, Unit>" />
     </data>
 
     <ScrollView
@@ -66,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@{item.date}"
-                android:onClick="@{() -> vm.openDatePicker()}"
+                android:onClick="@{_ -> listener.invoke(0)}"
                 app:layout_constraintStart_toStartOf="@+id/edt_title"
                 app:layout_constraintTop_toBottomOf="@+id/edt_title"
                 tools:text="11 January 1996" />
