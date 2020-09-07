@@ -1,7 +1,6 @@
 package com.claire.carddiary.card
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +17,6 @@ import com.claire.carddiary.databinding.FragCardBinding
 import com.claire.carddiary.utils.gone
 import com.claire.carddiary.utils.px
 import com.claire.carddiary.utils.visible
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 
 class CardFragment : Fragment() {
@@ -28,7 +24,7 @@ class CardFragment : Fragment() {
     private val vm: CardViewModel by viewModels { ViewModelFactory() }
     private val adapter: CardAdapter by lazy { CardAdapter() }
     private lateinit var binding: FragCardBinding
-    val db = Firebase.firestore
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,9 +52,6 @@ class CardFragment : Fragment() {
                 findNavController().navigate(CardFragmentDirections.toEditFragment(vm.getCard(it)))
             }
         }
-
-        addData()
-        readData()
     }
 
     private fun observeViewModel() {
@@ -81,35 +74,4 @@ class CardFragment : Fragment() {
         })
     }
 
-    fun addData() {
-        // Create a new user with a first and last name
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815
-        )
-
-        // Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(javaClass.simpleName, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(javaClass.simpleName, "Error adding document", e)
-            }
-    }
-
-    fun readData() {
-        db.collection("users")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(javaClass.simpleName, "${document.id} => ${document.data}")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(javaClass.simpleName, "Error getting documents.", exception)
-            }
-    }
 }
