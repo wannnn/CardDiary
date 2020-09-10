@@ -1,14 +1,15 @@
 package com.claire.carddiary
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.claire.carddiary.databinding.ActivityMainBinding
+import com.claire.carddiary.utils.getStatusBarHeight
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.statusBarHeight = getStatusBarHeight
 
         setSupportActionBar(binding.toolbar)
         navController.setGraph(R.navigation.nav_graph)
