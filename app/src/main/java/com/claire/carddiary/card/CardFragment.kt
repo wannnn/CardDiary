@@ -82,7 +82,7 @@ class CardFragment : Fragment() {
         })
 
         mainVm.isExpand.observe(viewLifecycleOwner) {
-            
+
         }
     }
 
