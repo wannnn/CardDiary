@@ -3,13 +3,17 @@ package com.claire.carddiary
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.claire.carddiary.databinding.ActivityMainBinding
+import com.claire.carddiary.utils.click
 import com.claire.carddiary.utils.getStatusBarHeight
 
 
@@ -28,6 +32,21 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         navController.setGraph(R.navigation.nav_graph)
         setupActionBarWithNavController(navController)
+
+        val view = layoutInflater.inflate(R.layout.view_arrow, null) as? ImageView
+//        val rotation = AnimationUtils.loadAnimation(this, R.anim.anim_rotate)
+        view?.click {
+            vm.setExpand()
+//            it.startAnimation(rotation)
+        }
+        vm.isExpand.observe(this, Observer {
+            if (it) {
+                view?.setImageResource(R.drawable.ic_arrow_up_24)
+            } else {
+                view?.setImageResource(R.drawable.ic_arrow_down_24)
+            }
+            menu?.getItem(0)?.actionView = view
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -58,11 +77,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.arrow_down -> {
-                setOptionsItemVisibility(isArrowDown = false, isArrowUp = true)
-                true
-            }
-            R.id.arrow_up -> {
-                setOptionsItemVisibility(isArrowDown = true, isArrowUp = false)
+                vm.setExpand()
                 true
             }
             R.id.close -> {
@@ -83,23 +98,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOptionsItemVisibility(
         isArrowDown:Boolean = false,
-        isArrowUp:Boolean = false,
         isClose:Boolean = false,
         isEdit:Boolean = false,
         isCheck:Boolean = false
     ) {
         menu?.let {
-            val arrowDownItem = it.findItem(R.id.arrow_down)
-            val arrowUpItem = it.findItem(R.id.arrow_up)
-            val closeItem = it.findItem(R.id.close)
-            val editItem = it.findItem(R.id.edit)
-            val checkItem = it.findItem(R.id.check)
-
-            arrowDownItem.isVisible = isArrowDown
-            arrowUpItem.isVisible = isArrowUp
-            closeItem.isVisible = isClose
-            editItem.isVisible = isEdit
-            checkItem.isVisible = isCheck
+            it.findItem(R.id.arrow_down).isVisible = isArrowDown
+            it.findItem(R.id.close).isVisible = isClose
+            it.findItem(R.id.edit).isVisible = isEdit
+            it.findItem(R.id.check).isVisible = isCheck
         }
     }
 

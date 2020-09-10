@@ -7,11 +7,6 @@
         android:icon="@drawable/ic_arrow_down_24"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/arrow_up"
-        android:title="@string/menu_arrow_up"
-        android:icon="@drawable/ic_arrow_up_24"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/check"
         android:title="@string/menu_check"
         android:icon="@drawable/ic_check_24"
