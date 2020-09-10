@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="statusBarHeight"
-            type="Integer" />
+            name="vm"
+            type="com.claire.carddiary.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
             android:background="@color/rosePink"
             app:titleTextColor="@color/white"
             android:elevation="8dp"
-            android:paddingTop="@{statusBarHeight}"
+            android:paddingTop="@{vm.statusBarHeight}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,6 +37,40 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:navGraph="@navigation/nav_graph" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_add_white_24"
+            android:tint="@color/white"
+            app:backgroundTint="@color/gray_888888"
+            app:fabSize="mini"
+            android:visibility="gone"
+            android:alpha="0"
+            android:onClick="@{() -> vm.fabClick(0)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:rippleColor="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:alpha="0"
+            android:src="@drawable/ic_profile_24"
+            android:tint="@color/white"
+            android:visibility="gone"
+            app:backgroundTint="@color/gray_888888"
+            app:fabSize="mini"
+            android:onClick="@{() -> vm.fabClick(1)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fab_add"
+            app:rippleColor="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

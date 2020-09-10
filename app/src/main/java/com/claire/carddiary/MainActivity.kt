@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.claire.carddiary.databinding.ActivityMainBinding
-import com.claire.carddiary.utils.getStatusBarHeight
+import com.claire.carddiary.utils.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,17 +25,38 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.statusBarHeight = getStatusBarHeight
+        binding.vm = vm
+        vm.setStatusBarHeight(getStatusBarHeight)
+
+        observeViewModel()
 
         setSupportActionBar(binding.toolbar)
         navController.setGraph(R.navigation.nav_graph)
         setupActionBarWithNavController(navController)
+    }
+
+    private fun observeViewModel() {
 
         vm.isExpand.observe(this, Observer {
             if (it) {
                 menu?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_up_24)
+                binding.fabAdd.expandFab()
+                binding.fabProfile.expandFab()
             } else {
                 menu?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_arrow_down_24)
+                binding.fabAdd.collapseFab()
+                binding.fabProfile.collapseFab()
+            }
+        })
+
+        vm.fabClick.observe(this, Observer {
+            when(it) {
+                0 -> {
+                    vm.setExpand()
+                    navController.navigate(NavGraphDirections.actionGlobalEditFragment(null))
+                }
+                1 -> {}
+                else -> {}
             }
         })
     }
@@ -49,10 +70,6 @@ class MainActivity : AppCompatActivity() {
                 when(destination.id) {
                     R.id.cardFragment -> {
                         setOptionsItemVisibility(isArrow = true)
-//                        arrowDownItem.setOnMenuItemClickListener {
-//                            navController.navigate(NavGraphDirections.actionGlobalEditFragment(null))
-//                            true
-//                        }
                     }
                     R.id.editFragment -> {
                         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_20)
