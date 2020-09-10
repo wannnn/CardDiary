@@ -42,14 +42,17 @@ class CardFragment : Fragment() {
         vm.getCards()
 
         with(binding.rvCard) {
-            layoutManager = GridLayoutManager(context, 2)
+            layoutManager = GridLayoutManager(context, 1)
             adapter = this@CardFragment.adapter
-            addItemDecoration(GridItemDecoration(16.px, 16.px, 2))
+            addItemDecoration(GridItemDecoration(16.px, 16.px, 1))
         }
 
         with(adapter) {
-            listener = {
+            click = {
                 findNavController().navigate(CardFragmentDirections.toEditFragment(vm.getCard(it)))
+            }
+            longClick = {
+                
             }
         }
     }

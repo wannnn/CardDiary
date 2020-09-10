@@ -34,13 +34,11 @@ android {
         jvmTarget = "1.8"
     }
 
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
     }
 
-    dataBinding {
-        enabled = true
-    }
 }
 
 kapt {
@@ -60,7 +58,7 @@ dependencies {
 
     // supportLib
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
     // navigation
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.0"

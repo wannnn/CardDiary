@@ -3,6 +3,7 @@ package com.claire.carddiary.card.decoration
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.claire.carddiary.utils.px
 
 class GridItemDecoration(
     private val space: Int,
@@ -16,20 +17,38 @@ class GridItemDecoration(
         state: RecyclerView.State
     ) {
         val position = parent.getChildAdapterPosition(view)
-        outRect.top = 0
-        outRect.bottom = 0
-        when {
-            position % spanCount == 0 -> {
+        when(spanCount) {
+            1 -> {
                 outRect.left = margin
-                outRect.right = space / 2
-            }
-            position % spanCount == spanCount - 1 -> {
-                outRect.left = space / 2
                 outRect.right = margin
+                when(position) {
+                    0 -> {
+                        outRect.top = 20.px
+                        outRect.bottom = 10.px
+                    }
+                    else -> {
+                        outRect.top = 10.px
+                        outRect.bottom = 10.px
+                    }
+                }
             }
-            else -> {
-                outRect.left = space / 2
-                outRect.right = space / 2
+            2 -> {
+                when {
+                    position % spanCount == 0 -> {
+                        outRect.left = margin
+                        outRect.right = space / 2
+                    }
+                    position % spanCount == spanCount - 1 -> {
+                        outRect.left = space / 2
+                        outRect.right = margin
+                    }
+                    else -> {
+                        outRect.left = space / 2
+                        outRect.right = space / 2
+                    }
+                }
+                outRect.top = 16.px
+                outRect.bottom = 16.px
             }
         }
     }

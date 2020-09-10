@@ -15,6 +15,6 @@ class CardAdapter : DataBindingAdapter<Card>(DiffCallback()) {
             oldItem == newItem
     }
 
-    override fun getItemViewType(position: Int): Int = R.layout.item_card
+    override fun getItemViewType(position: Int): Int = R.layout.item_card_large
 
 }
