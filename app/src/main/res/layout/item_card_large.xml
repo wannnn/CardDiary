@@ -80,7 +80,7 @@
 
             <include
                 android:id="@+id/lay_delete"
-                layout="@layout/item_delete_view"
+                layout="@layout/view_delete"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone"

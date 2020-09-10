@@ -2,10 +2,11 @@
     <string name="app_name">CardDiary</string>
 
     <!-- option menu item -->
-    <string name="menu_add">新增</string>
-    <string name="menu_check">確定</string>
-    <string name="menu_edit">編輯</string>
-    <string name="menu_close">關閉</string>
+    <string name="menu_arrow_down">expand</string>
+    <string name="menu_arrow_up">collapse</string>
+    <string name="menu_check">done</string>
+    <string name="menu_edit">edit</string>
+    <string name="menu_close">close</string>
 
     <!-- EditFragment -->
     <string name="permission_denied">permission denied</string>
