@@ -27,10 +27,10 @@ fun View?.expandFab() {
     this?.let {
         it.visible()
         it.alpha = 0f
-        it.translationY = it.height.toFloat()
+        it.translationY = 0f
         it.animate()
             .setDuration(200)
-            .translationY(0f)
+            .translationY(it.height.toFloat())
             .setListener(object : AnimatorListenerAdapter() { })
             .alpha(1f)
             .start()
@@ -41,10 +41,10 @@ fun View?.collapseFab() {
     this?.let {
         it.visible()
         it.alpha = 1f
-        it.translationY = 0f
+        it.translationY = it.height.toFloat()
         it.animate()
             .setDuration(200)
-            .translationY(it.height.toFloat())
+            .translationY(0f)
             .setListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationEnd(animation: Animator) {
                     gone()

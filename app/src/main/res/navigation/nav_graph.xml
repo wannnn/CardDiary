@@ -26,6 +26,13 @@
             app:argType="com.claire.carddiary.data.model.Card" />
     </fragment>
 
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.claire.carddiary.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/frag_profile"/>
+
     <action android:id="@+id/action_global_editFragment" app:destination="@id/editFragment"/>
+    <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment"/>
 
 </navigation>

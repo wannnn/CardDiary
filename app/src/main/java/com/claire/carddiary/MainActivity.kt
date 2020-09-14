@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
         observeViewModel()
 
         setSupportActionBar(binding.toolbar)
-        navController.setGraph(R.navigation.nav_graph)
         setupActionBarWithNavController(navController)
     }
 
@@ -50,12 +49,10 @@ class MainActivity : AppCompatActivity() {
         })
 
         vm.fabClick.observe(this, Observer {
+            vm.setExpand()
             when(it) {
-                0 -> {
-                    vm.setExpand()
-                    navController.navigate(NavGraphDirections.actionGlobalEditFragment(null))
-                }
-                1 -> {}
+                0 -> navController.navigate(NavGraphDirections.actionGlobalEditFragment(null))
+                1 -> navController.navigate(NavGraphDirections.actionGlobalProfileFragment())
                 else -> {}
             }
         })
@@ -74,6 +71,10 @@ class MainActivity : AppCompatActivity() {
                     R.id.editFragment -> {
                         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_20)
                         setOptionsItemVisibility(isCheck = true)
+                    }
+                    R.id.profileFragment -> {
+                        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_20)
+                        setOptionsItemVisibility()
                     }
                     else -> {}
                 }
