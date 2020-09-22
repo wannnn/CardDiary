@@ -1,4 +1,4 @@
-package com.claire.carddiary.data
+package com.claire.carddiary.data.source.local
 
 import androidx.room.Dao
 import androidx.room.Insert

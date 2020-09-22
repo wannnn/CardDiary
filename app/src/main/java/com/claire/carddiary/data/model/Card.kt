@@ -4,8 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.claire.carddiary.data.CardTypeConverters
-import com.squareup.moshi.JsonClass
+import com.claire.carddiary.data.source.local.CardTypeConverters
 import kotlinx.android.parcel.Parcelize
 
 @Entity(tableName = "card")

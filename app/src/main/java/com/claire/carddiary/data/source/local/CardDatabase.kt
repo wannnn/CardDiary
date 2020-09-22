@@ -1,4 +1,4 @@
-package com.claire.carddiary.data
+package com.claire.carddiary.data.source.local
 
 import android.content.Context
 import androidx.room.Database
@@ -20,13 +20,20 @@ abstract class CardDatabase: RoomDatabase() {
         @Volatile private var instance: CardDatabase? = null
 
         fun getInstance(context: Context): CardDatabase {
-            return instance ?: synchronized(this) {
-                instance ?: buildDatabase(context).also { instance = it }
+            return instance
+                ?: synchronized(this) {
+                instance
+                    ?: buildDatabase(
+                        context
+                    )
+                        .also { instance = it }
             }
         }
 
         private fun buildDatabase(context: Context): CardDatabase {
-            return Room.databaseBuilder(context, CardDatabase::class.java, DATABASE_NAME)
+            return Room.databaseBuilder(context, CardDatabase::class.java,
+                DATABASE_NAME
+            )
                 .addCallback(object : RoomDatabase.Callback() {
 
                 })
