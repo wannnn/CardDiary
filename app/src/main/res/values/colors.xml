@@ -10,6 +10,7 @@
     <color name="transparent_40">#66000000</color>
 
     <color name="gray_f2f2f2">#f2f2f2</color>
+    <color name="gray_cccccc">#cccccc</color>
     <color name="gray_808080">#808080</color>
     <color name="gray_888888">#ff888888</color>
     <color name="gray_666666">#ff666666</color>

@@ -6,29 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
-import com.claire.carddiary.MainViewModel
+import com.claire.carddiary.NavGraphDirections
+import com.claire.carddiary.R
 import com.claire.carddiary.ViewModelFactory
 import com.claire.carddiary.card.decoration.GridItemDecoration
 import com.claire.carddiary.databinding.FragCardBinding
-import com.claire.carddiary.utils.gone
-import com.claire.carddiary.utils.px
-import com.claire.carddiary.utils.visible
+import com.claire.carddiary.utils.*
 
 
 class CardFragment : Fragment() {
 
     private val vm: CardViewModel by viewModels { ViewModelFactory() }
-    private val mainVm: MainViewModel by activityViewModels()
     private val adapter: CardAdapter by lazy { CardAdapter() }
     private lateinit var binding: FragCardBinding
-    private lateinit var concatAdapter: ConcatAdapter
 
 
     override fun onCreateView(
@@ -45,6 +40,15 @@ class CardFragment : Fragment() {
         observeViewModel()
         binding.vm = vm
         vm.getCards()
+
+        with(binding.toolbar) {
+            setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.arrow -> vm.setExpand()
+                }
+                true
+            }
+        }
 
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, 1)
@@ -81,9 +85,24 @@ class CardFragment : Fragment() {
             findNavController().navigate(CardFragmentDirections.toEditFragment(null))
         })
 
-        mainVm.isExpand.observe(viewLifecycleOwner) {
-
+        vm.isExpand.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.fabEdit.expandFab()
+                binding.fabProfile.expandFab()
+            } else {
+                binding.fabEdit.collapseFab()
+                binding.fabProfile.collapseFab()
+            }
         }
+
+        vm.fabClick.observeSingle(viewLifecycleOwner, Observer {
+            vm.setExpand()
+            when(it) {
+                0 -> findNavController().navigate(CardFragmentDirections.toEditFragment(null))
+                1 -> findNavController().navigate(NavGraphDirections.actionGlobalProfileFragment())
+                else -> {}
+            }
+        })
     }
 
 }

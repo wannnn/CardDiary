@@ -15,16 +15,20 @@ class CardViewModel(
 ) : ViewModel() {
 
     private val _cardList = MutableLiveData<List<Card>>()
-    val cardList: LiveData<List<Card>>
-        get() = _cardList
+    val cardList: LiveData<List<Card>> = _cardList
 
     private val _errorMsg = MutableLiveData<String>()
-    val errorMsg: LiveData<String>
-        get() = _errorMsg
+    val errorMsg: LiveData<String> = _errorMsg
 
     private val _navigateToEdit = SingleLiveEvent<Any>()
-    val navigateToEdit: SingleLiveEvent<Any>
-        get() = _navigateToEdit
+    val navigateToEdit: SingleLiveEvent<Any> = _navigateToEdit
+
+    private val _isExpand = MutableLiveData<Boolean>(false)
+    val isExpand: LiveData<Boolean> = _isExpand
+
+    private val _fabClick = SingleLiveEvent<Int>()
+    val fabClick: SingleLiveEvent<Int> = _fabClick
+
 
 
     fun getCards() = viewModelScope.launch {
@@ -40,6 +44,14 @@ class CardViewModel(
 
     fun navigateToEdit() {
         _navigateToEdit.call()
+    }
+
+    fun setExpand() {
+        _isExpand.value = _isExpand.value?.not()
+    }
+
+    fun fabClick(position: Int) {
+        _fabClick.value = position
     }
 
 }

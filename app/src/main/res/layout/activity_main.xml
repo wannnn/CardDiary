@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="vm"
-            type="com.claire.carddiary.MainViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,64 +12,13 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@color/rosePink"
-            app:titleTextColor="@color/white"
-            android:paddingTop="@{vm.statusBarHeight}"
-            android:elevation="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/container"
             android:name="androidx.navigation.fragment.NavHostFragment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:defaultNavHost="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:navGraph="@navigation/nav_graph" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_add_white_24"
-            android:tint="@color/white"
-            app:backgroundTint="@color/gray_888888"
-            app:fabSize="mini"
-            android:visibility="gone"
-            android:alpha="0"
-            android:onClick="@{() -> vm.fabClick(0)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:rippleColor="@color/white" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:alpha="0"
-            android:src="@drawable/ic_profile_24"
-            android:tint="@color/white"
-            android:visibility="gone"
-            app:backgroundTint="@color/gray_888888"
-            app:fabSize="mini"
-            android:onClick="@{() -> vm.fabClick(1)}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fab_add"
-            app:rippleColor="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
