@@ -14,8 +14,8 @@ class CardRepositoryImp(
     }
 
     override suspend fun insertCard(card: Card) {
-//        remoteDataSource.insertCard(card)
-        localDataSource.insertCard(card)
+        remoteDataSource.insertCard(card)
+//        localDataSource.insertCard(card)
     }
 
 }

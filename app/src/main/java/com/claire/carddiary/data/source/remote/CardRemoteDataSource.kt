@@ -1,15 +1,20 @@
 package com.claire.carddiary.data.source.remote
 
 import android.util.Log
+import androidx.core.net.toUri
+import com.claire.carddiary.CardApplication.Companion.instance
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 object CardRemoteDataSource : CardDataSource {
 
     private val firebase = Firebase.firestore
+    private val storage = Firebase.storage
+    var storageRef = storage.reference
 
     override suspend fun getCards(): Resource<List<Card>> {
         return Resource.Success(listOf())
@@ -17,6 +22,28 @@ object CardRemoteDataSource : CardDataSource {
 
     override suspend fun insertCard(card: Card) {
 
+        // 先將圖片傳至 fire store
+        card.images.forEach { uri ->
+
+            val imageRef = storageRef.child(uri.toUri().lastPathSegment ?: System.currentTimeMillis().toString())
+            val uploadTask = instance.contentResolver?.openInputStream(uri.toUri())?.let {
+                imageRef.putStream(it)
+            }
+            uploadTask?.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    println("Failure! ${task.result} ${task.exception?.message}")
+                }
+                imageRef.downloadUrl
+            }?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    println("Success! $downloadUri")
+                } else {
+                    println("Failure! ${task.result} ${task.exception?.message}")
+                }
+            }
+
+        }
     }
 
     fun addData() {

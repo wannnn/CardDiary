@@ -4,7 +4,6 @@ import com.claire.carddiary.CardApplication
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
-import java.lang.Exception
 
 class CardLocalDataSource : CardDataSource {
 
