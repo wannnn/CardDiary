@@ -70,9 +70,9 @@ class CardFragment : Fragment() {
 
         vm.cardList.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
-                binding.imgDefault.visible()
+                binding.txtDefault.visible()
             } else {
-                binding.imgDefault.gone()
+                binding.txtDefault.gone()
                 adapter.submitList(it)
             }
         }

@@ -49,7 +49,7 @@ class EditFragment : Fragment() {
                 when(it.itemId) {
                     R.id.check -> {
                         vm.saveData()
-                        findNavController().navigateUp()
+//                        findNavController().navigateUp()
                         Toast.makeText(context, "save!", Toast.LENGTH_SHORT).show()
                     }
                 }

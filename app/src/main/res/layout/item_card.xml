@@ -25,6 +25,7 @@
                 android:layout_height="300dp"
                 android:background="@drawable/placeholder"
                 android:scaleType="centerCrop"
+                android:imagePath="@{item.images[0]}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

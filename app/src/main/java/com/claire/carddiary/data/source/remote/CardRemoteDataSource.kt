@@ -1,32 +1,37 @@
 package com.claire.carddiary.data.source.remote
 
+import android.net.Uri
 import android.util.Log
 import androidx.core.net.toUri
 import com.claire.carddiary.CardApplication.Companion.instance
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
+import com.claire.carddiary.utils.toSimpleDateFormat
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.flow.*
+import java.util.*
 
 object CardRemoteDataSource : CardDataSource {
 
     private val firebase = Firebase.firestore
     private val storage = Firebase.storage
-    var storageRef = storage.reference
+    private var storageRef = storage.reference
 
     override suspend fun getCards(): Resource<List<Card>> {
         return Resource.Success(listOf())
     }
 
-    override suspend fun insertCard(card: Card) {
+    override suspend fun insertImages(images: List<String>?) = flow {
 
-        // 先將圖片傳至 fire store
-        card.images.forEach { uri ->
+        val pathString = images?.map { it.toUri().lastPathSegment ?: Date().toSimpleDateFormat }.orEmpty()
+        val imagesUris: MutableList<Uri?> = mutableListOf()
 
-            val imageRef = storageRef.child(uri.toUri().lastPathSegment ?: System.currentTimeMillis().toString())
-            val uploadTask = instance.contentResolver?.openInputStream(uri.toUri())?.let {
+        images?.forEachIndexed { index, value ->
+            val imageRef = storageRef.child(pathString[index])
+            val uploadTask = instance.contentResolver?.openInputStream(value.toUri())?.let {
                 imageRef.putStream(it)
             }
             uploadTask?.continueWithTask { task ->
@@ -36,19 +41,19 @@ object CardRemoteDataSource : CardDataSource {
                 imageRef.downloadUrl
             }?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val downloadUri = task.result
-                    println("Success! $downloadUri")
+                    imagesUris.add(task.result)
                 } else {
                     println("Failure! ${task.result} ${task.exception?.message}")
                 }
             }
 
+            if (index == images.size) emit(imagesUris)
         }
     }
 
-    fun addData() {
-        // Create a new user with a first and last name
-        val card = hashMapOf(
+    override suspend fun insertCard(card: Card) {
+
+        val data = hashMapOf(
             "cardId" to "Ada",
             "images" to "Lovelace",
             "title" to 1815,
@@ -58,6 +63,7 @@ object CardRemoteDataSource : CardDataSource {
             "location" to 1815
         )
 
+        val reference = firebase.collection("cards").add(card)
         // Add a new document with a generated ID
         firebase.collection("cards")
             .add(card)
@@ -69,7 +75,11 @@ object CardRemoteDataSource : CardDataSource {
             }
     }
 
+
     fun readData() {
+        val snapshot = firebase.collection("cards").get()
+
+
         firebase.collection("cards")
             .get()
             .addOnSuccessListener { result ->

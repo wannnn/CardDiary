@@ -40,13 +40,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/img_default"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <TextView
+            android:id="@+id/txt_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:visibility="gone"
-            android:onClick="@{() -> vm.navigateToEdit()}"
-            android:background="@drawable/bg_img_default"/>
+            android:text="@string/empty_msg"
+            android:onClick="@{() -> vm.navigateToEdit()}" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_edit"
@@ -59,7 +60,7 @@
             android:layout_gravity="end"
             app:backgroundTint="@color/gray_888888"
             app:fabSize="mini"
-            android:visibility="visible"
+            android:visibility="gone"
             android:alpha="0"
             android:onClick="@{() -> vm.fabClick(0)}"
             app:rippleColor="@color/white" />
@@ -74,7 +75,7 @@
             android:alpha="0"
             android:src="@drawable/ic_profile_24"
             android:tint="@color/white"
-            android:visibility="visible"
+            android:visibility="gone"
             app:backgroundTint="@color/gray_888888"
             app:fabSize="mini"
             android:onClick="@{() -> vm.fabClick(1)}"

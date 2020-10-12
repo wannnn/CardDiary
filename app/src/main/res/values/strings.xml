@@ -7,6 +7,9 @@
     <string name="menu_edit">edit</string>
     <string name="menu_close">close</string>
 
+    <!-- CardFragment -->
+    <string name="empty_msg">Add Your First Diary</string>
+
     <!-- EditFragment -->
     <string name="permission_denied">permission denied</string>
     <string name="title_hint">Title</string>

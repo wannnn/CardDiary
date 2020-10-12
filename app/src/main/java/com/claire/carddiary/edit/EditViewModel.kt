@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.claire.carddiary.data.CardRepository
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.utils.toSimpleDateFormat
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -16,7 +17,7 @@ class EditViewModel(
     private val repository: CardRepository
 ) : ViewModel() {
 
-    private val _card = MutableLiveData(getDefaultEmptyCard())
+    private val _card = MutableLiveData(Card.Empty)
     val card: LiveData<Card>
         get() = _card
 
@@ -40,13 +41,6 @@ class EditViewModel(
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
-
-    private fun getDefaultEmptyCard(): Card {
-        return Card(
-            images = List(1) { "" },
-            date = Date().toSimpleDateFormat
-        )
-    }
 
     fun setInitCard(card: Card?) {
         card?.let { _card.value = card }
@@ -80,6 +74,15 @@ class EditViewModel(
     }
 
     fun saveData() = viewModelScope.launch {
-        repository.insertCard(_card.value ?: getDefaultEmptyCard())
+        repository.insertImages(_card.value?.images).collect { uris ->
+            uris.forEach {
+                println("Success! $it")
+            }
+
+        }.runCatching {
+
+        }
+
+        repository.insertCard(_card.value ?: Card.Empty)
     }
 }

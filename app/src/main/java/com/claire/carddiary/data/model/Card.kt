@@ -5,7 +5,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.claire.carddiary.data.source.local.CardTypeConverters
+import com.claire.carddiary.utils.toSimpleDateFormat
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Entity(tableName = "card")
 @TypeConverters(CardTypeConverters::class)
@@ -29,4 +31,8 @@ data class Card(
         val country: String = "",
         val city: String = ""
     ): Parcelable
+
+    companion object {
+        val Empty = Card(images = List(1) { "" }, date = Date().toSimpleDateFormat)
+    }
 }
