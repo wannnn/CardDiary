@@ -2,12 +2,15 @@ package com.claire.carddiary.edit
 
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.claire.carddiary.CardApplication
 import com.claire.carddiary.data.CardRepository
 import com.claire.carddiary.data.model.Card
+import com.claire.carddiary.data.source.remote.CardRemoteDataSource
 import com.claire.carddiary.utils.toSimpleDateFormat
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -74,15 +77,31 @@ class EditViewModel(
     }
 
     fun saveData() = viewModelScope.launch {
-        repository.insertImages(_card.value?.images).collect { uris ->
-            uris.forEach {
-                println("Success! $it")
-            }
-
-        }.runCatching {
-
-        }
-
+//        CardRemoteDataSource.firebase
+        insertImages()
         repository.insertCard(_card.value ?: Card.Empty)
+    }
+
+    private fun insertImages() = viewModelScope.launch {
+        val pathString = _card.value?.images?.map { it.toUri().lastPathSegment ?: Date().toSimpleDateFormat }.orEmpty()
+
+        _card.value?.images?.forEachIndexed { index, value ->
+            val imageRef = CardRemoteDataSource.storageRef.child(pathString[index])
+            val uploadTask = CardApplication.instance.contentResolver?.openInputStream(value.toUri())?.let {
+                imageRef.putStream(it)
+            }
+            uploadTask?.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    println("Failure! ${task.result} ${task.exception?.message}")
+                }
+                imageRef.downloadUrl
+            }?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    println(task.result)
+                } else {
+                    println("Failure! ${task.result} ${task.exception?.message}")
+                }
+            }
+        }
     }
 }

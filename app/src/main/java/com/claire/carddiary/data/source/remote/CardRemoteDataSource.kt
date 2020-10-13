@@ -1,54 +1,21 @@
 package com.claire.carddiary.data.source.remote
 
-import android.net.Uri
 import android.util.Log
-import androidx.core.net.toUri
-import com.claire.carddiary.CardApplication.Companion.instance
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
-import com.claire.carddiary.utils.toSimpleDateFormat
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.flow.*
-import java.util.*
 
 object CardRemoteDataSource : CardDataSource {
 
-    private val firebase = Firebase.firestore
-    private val storage = Firebase.storage
-    private var storageRef = storage.reference
+    val firebase = Firebase.firestore
+    val storage = Firebase.storage
+    var storageRef = storage.reference
 
     override suspend fun getCards(): Resource<List<Card>> {
         return Resource.Success(listOf())
-    }
-
-    override suspend fun insertImages(images: List<String>?) = flow {
-
-        val pathString = images?.map { it.toUri().lastPathSegment ?: Date().toSimpleDateFormat }.orEmpty()
-        val imagesUris: MutableList<Uri?> = mutableListOf()
-
-        images?.forEachIndexed { index, value ->
-            val imageRef = storageRef.child(pathString[index])
-            val uploadTask = instance.contentResolver?.openInputStream(value.toUri())?.let {
-                imageRef.putStream(it)
-            }
-            uploadTask?.continueWithTask { task ->
-                if (!task.isSuccessful) {
-                    println("Failure! ${task.result} ${task.exception?.message}")
-                }
-                imageRef.downloadUrl
-            }?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    imagesUris.add(task.result)
-                } else {
-                    println("Failure! ${task.result} ${task.exception?.message}")
-                }
-            }
-
-            if (index == images.size) emit(imagesUris)
-        }
     }
 
     override suspend fun insertCard(card: Card) {
