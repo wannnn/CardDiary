@@ -12,6 +12,7 @@ import com.claire.carddiary.data.CardRepository
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.remote.CardRemoteDataSource
 import com.claire.carddiary.utils.toSimpleDateFormat
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
@@ -21,12 +22,13 @@ class EditViewModel(
 ) : ViewModel() {
 
     private val _card = MutableLiveData(Card.Empty)
-    val card: LiveData<Card>
-        get() = _card
+    val card: LiveData<Card> = _card
 
     private val _alertMsg = MutableLiveData<String>()
-    val alertMsg: LiveData<String>
-        get() = _alertMsg
+    val alertMsg: LiveData<String> = _alertMsg
+
+    private val _uploadImgFailMsg = MutableLiveData<String>()
+    val uploadImgFailMsg: LiveData<String> = _uploadImgFailMsg
 
     val titleTextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -77,12 +79,16 @@ class EditViewModel(
     }
 
     fun saveData() = viewModelScope.launch {
-//        CardRemoteDataSource.firebase
+
         insertImages()
-        repository.insertCard(_card.value ?: Card.Empty)
+
+
+//        repository.insertCard(_card.value ?: Card.Empty)
+//        println("Add!")
     }
 
-    private fun insertImages() = viewModelScope.launch {
+    private fun insertImages() {
+
         val pathString = _card.value?.images?.map { it.toUri().lastPathSegment ?: Date().toSimpleDateFormat }.orEmpty()
 
         _card.value?.images?.forEachIndexed { index, value ->
@@ -90,18 +96,24 @@ class EditViewModel(
             val uploadTask = CardApplication.instance.contentResolver?.openInputStream(value.toUri())?.let {
                 imageRef.putStream(it)
             }
+
             uploadTask?.continueWithTask { task ->
+
                 if (!task.isSuccessful) {
-                    println("Failure! ${task.result} ${task.exception?.message}")
+                    _uploadImgFailMsg.value = "Failure! ${task.result} ${task.exception?.message}"
                 }
                 imageRef.downloadUrl
+
             }?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    println(task.result)
+
+                if (!task.isSuccessful) {
+                    _uploadImgFailMsg.value = "Failure! ${task.result} ${task.exception?.message}"
                 } else {
-                    println("Failure! ${task.result} ${task.exception?.message}")
+                    println(task.result)
                 }
+
             }
         }
+
     }
 }

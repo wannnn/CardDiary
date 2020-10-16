@@ -2,11 +2,13 @@ package com.claire.carddiary.edit
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,6 +27,23 @@ class EditFragment : Fragment() {
     private lateinit var binding: FragEditBinding
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter() }
     private val args: EditFragmentArgs by navArgs()
+
+    private lateinit var checkPermission: ActivityResultLauncher<String>
+    private lateinit var pickImage: ActivityResultLauncher<String>
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        checkPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (!isGranted) Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+        }
+        pickImage = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
+            if (uris.isEmpty().not()) {
+                val list = uris.map { it.toString() }
+                vm.setImages(list)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,18 +103,8 @@ class EditFragment : Fragment() {
     }
 
     private fun openGallery() {
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
-                    if (uris.isEmpty().not()) {
-                        val list = uris.map { it.toString() }
-                        vm.setImages(list)
-                    }
-                }.launch("image/*")
-            } else {
-                Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
-            }
-        }.launch(READ_EXTERNAL_STORAGE)
+        checkPermission.launch(READ_EXTERNAL_STORAGE)
+        pickImage.launch("image/*")
     }
 
     private fun openDatePicker() {
