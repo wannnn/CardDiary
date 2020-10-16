@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.claire.carddiary.NavGraphDirections
@@ -81,7 +79,7 @@ class CardFragment : Fragment() {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        vm.navigateToEdit.observeSingle(viewLifecycleOwner, Observer {
+        vm.navigateToEdit.observeSingle(viewLifecycleOwner, {
             findNavController().navigate(CardFragmentDirections.toEditFragment(null))
         })
 
@@ -95,7 +93,7 @@ class CardFragment : Fragment() {
             }
         }
 
-        vm.fabClick.observeSingle(viewLifecycleOwner, Observer {
+        vm.fabClick.observeSingle(viewLifecycleOwner, {
             vm.setExpand()
             when(it) {
                 0 -> findNavController().navigate(CardFragmentDirections.toEditFragment(null))
