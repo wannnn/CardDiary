@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -58,7 +59,7 @@ class EditFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
         binding.vm = vm
-        vm.setInitCard(args.item)
+        vm.setScriptCard(args.item)
 
         with(binding.toolbar) {
             setupWithNavController(binding.toolbar, findNavController())
@@ -66,9 +67,10 @@ class EditFragment : Fragment() {
             setOnMenuItemClickListener {
                 when(it.itemId) {
                     R.id.check -> {
-                        vm.saveData()
-//                        findNavController().navigateUp()
+                        val inputStreams = vm.getImages().map { uri -> context.contentResolver?.openInputStream(uri.toUri()) }
+                        vm.insertImages(inputStreams)
                         Toast.makeText(context, "save!", Toast.LENGTH_SHORT).show()
+//                        findNavController().navigateUp()
                     }
                 }
                 true
@@ -97,6 +99,16 @@ class EditFragment : Fragment() {
         }
 
         vm.alertMsg.observe(viewLifecycleOwner) {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+
+        vm.uploadedImages.observe(viewLifecycleOwner) {
+            if (it.size == vm.getImages().size) {
+                vm.insertCard()
+            }
+        }
+
+        vm.uploadImgFailMsg.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 

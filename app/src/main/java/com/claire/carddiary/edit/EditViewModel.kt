@@ -1,5 +1,6 @@
 package com.claire.carddiary.edit
 
+import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.core.net.toUri
@@ -7,14 +8,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claire.carddiary.CardApplication
 import com.claire.carddiary.data.CardRepository
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.remote.CardRemoteDataSource
 import com.claire.carddiary.utils.toSimpleDateFormat
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.InputStream
 import java.util.*
 
 class EditViewModel(
@@ -26,6 +25,9 @@ class EditViewModel(
 
     private val _alertMsg = MutableLiveData<String>()
     val alertMsg: LiveData<String> = _alertMsg
+
+    private val _uploadedImages = MutableLiveData<List<String>>(listOf())
+    val uploadedImages: LiveData<List<String>> = _uploadedImages
 
     private val _uploadImgFailMsg = MutableLiveData<String>()
     val uploadImgFailMsg: LiveData<String> = _uploadImgFailMsg
@@ -47,7 +49,9 @@ class EditViewModel(
     }
 
 
-    fun setInitCard(card: Card?) {
+    fun getImages(): List<String> = _card.value?.images.orEmpty()
+
+    fun setScriptCard(card: Card?) {  // 草搞
         card?.let { _card.value = card }
     }
 
@@ -78,42 +82,44 @@ class EditViewModel(
         _card.value = _card.value?.copy(content = content)
     }
 
-    fun saveData() = viewModelScope.launch {
+    fun insertImages(inputStreams: List<InputStream?>) {
 
-        insertImages()
+        val pathString = getImages().map { it.toUri().lastPathSegment ?: Date().toSimpleDateFormat }
 
+        inputStreams.forEachIndexed { index, value ->
 
-//        repository.insertCard(_card.value ?: Card.Empty)
-//        println("Add!")
-    }
+            viewModelScope.launch {
+                val imageRef = CardRemoteDataSource.storageRef.child(pathString[index])
+                val uploadTask = value?.let { imageRef.putStream(it) }
 
-    private fun insertImages() {
+                uploadTask?.continueWithTask { task ->
 
-        val pathString = _card.value?.images?.map { it.toUri().lastPathSegment ?: Date().toSimpleDateFormat }.orEmpty()
+                    if (!task.isSuccessful) {
+                        _uploadImgFailMsg.value = "Failure! ${task.result} ${task.exception?.message}"
+                    }
+                    imageRef.downloadUrl
 
-        _card.value?.images?.forEachIndexed { index, value ->
-            val imageRef = CardRemoteDataSource.storageRef.child(pathString[index])
-            val uploadTask = CardApplication.instance.contentResolver?.openInputStream(value.toUri())?.let {
-                imageRef.putStream(it)
+                }?.addOnCompleteListener { task ->
+
+                    if (!task.isSuccessful) {
+                        _uploadImgFailMsg.value = "Failure! ${task.result} ${task.exception?.message}"
+                    } else {
+                        _uploadedImages.value = _uploadedImages.value?.toMutableList()?.apply {
+                            add((task.result ?: Uri.EMPTY).toString())
+                        }
+                        println(task.result)
+                    }
+
+                }
             }
 
-            uploadTask?.continueWithTask { task ->
-
-                if (!task.isSuccessful) {
-                    _uploadImgFailMsg.value = "Failure! ${task.result} ${task.exception?.message}"
-                }
-                imageRef.downloadUrl
-
-            }?.addOnCompleteListener { task ->
-
-                if (!task.isSuccessful) {
-                    _uploadImgFailMsg.value = "Failure! ${task.result} ${task.exception?.message}"
-                } else {
-                    println(task.result)
-                }
-
-            }
         }
 
     }
+
+    fun insertCard() = viewModelScope.launch {
+        _card.value = _card.value?.copy(images = _uploadedImages.value?.toList().orEmpty())
+        repository.insertCard(_card.value ?: Card.Empty)
+    }
+
 }
