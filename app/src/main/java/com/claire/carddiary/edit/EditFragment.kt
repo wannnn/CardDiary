@@ -12,10 +12,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.claire.carddiary.MainViewModel
 import com.claire.carddiary.R
 import com.claire.carddiary.ViewModelFactory
 import com.claire.carddiary.databinding.FragEditBinding
@@ -24,7 +26,8 @@ import java.util.*
 
 class EditFragment : Fragment() {
 
-    private val vm: EditViewModel by viewModels { ViewModelFactory() }
+    private val vm: EditViewModel by viewModels()
+    private val mainVm: MainViewModel by activityViewModels { ViewModelFactory() }
     private lateinit var binding: FragEditBinding
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter() }
     private val args: EditFragmentArgs by navArgs()
@@ -36,7 +39,11 @@ class EditFragment : Fragment() {
         super.onAttach(context)
 
         checkPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (!isGranted) Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+            if (isGranted) {
+                pickImage.launch("image/*")
+            } else {
+                Toast.makeText(context, getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
+            }
         }
         pickImage = registerForActivityResult(ActivityResultContracts.GetMultipleContents()) { uris ->
             if (uris.isEmpty().not()) {
@@ -66,11 +73,13 @@ class EditFragment : Fragment() {
             setNavigationIcon(R.drawable.ic_arrow_back_20)
             setOnMenuItemClickListener {
                 when(it.itemId) {
-                    R.id.check -> {
-                        val inputStreams = vm.getImages().map { uri -> context.contentResolver?.openInputStream(uri.toUri()) }
-                        vm.insertImages(inputStreams)
+                    R.id.check -> {  // save data
+                        val inputStreams = vm.getImages().map { uri ->
+                            requireContext().contentResolver.openInputStream(uri.toUri())
+                        }
+                        mainVm.insertImages(vm.getCard(), inputStreams)
                         Toast.makeText(context, "save!", Toast.LENGTH_SHORT).show()
-//                        findNavController().navigateUp()
+                        findNavController().navigateUp()
                     }
                 }
                 true
@@ -102,21 +111,10 @@ class EditFragment : Fragment() {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        vm.uploadedImages.observe(viewLifecycleOwner) {
-            if (it.size == vm.getImages().size) {
-                vm.insertCard()
-            }
-        }
-
-        vm.uploadImgFailMsg.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-        }
-
     }
 
     private fun openGallery() {
         checkPermission.launch(READ_EXTERNAL_STORAGE)
-        pickImage.launch("image/*")
     }
 
     private fun openDatePicker() {

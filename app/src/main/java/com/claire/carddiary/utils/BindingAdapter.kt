@@ -8,8 +8,8 @@ import coil.api.load
 
 
 @BindingAdapter("android:imagePath")
-fun setImage(view: ImageView, path: String) {
-    view.load(path)
+fun setImage(view: ImageView, path: String?) {
+    path?.let { view.load(it) }
 }
 
 @BindingAdapter("android:addTextChangedListener")

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.claire.carddiary.MainViewModel
 import com.claire.carddiary.NavGraphDirections
 import com.claire.carddiary.R
 import com.claire.carddiary.ViewModelFactory
@@ -20,6 +22,7 @@ import com.claire.carddiary.utils.*
 class CardFragment : Fragment() {
 
     private val vm: CardViewModel by viewModels { ViewModelFactory() }
+    private val mainVm: MainViewModel by activityViewModels { ViewModelFactory() }
     private val adapter: CardAdapter by lazy { CardAdapter() }
     private lateinit var binding: FragCardBinding
 
@@ -101,6 +104,20 @@ class CardFragment : Fragment() {
                 else -> {}
             }
         })
+
+        mainVm.uploadedImages.observe(viewLifecycleOwner) {
+            if (it.size == mainVm.getImagesSize()) {
+                mainVm.insertCard()
+            }
+        }
+
+        mainVm.uploadImgFailMsg.observe(viewLifecycleOwner) {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        }
+
+        mainVm.refresh.observe(viewLifecycleOwner) {
+            vm.getCards()
+        }
     }
 
 }

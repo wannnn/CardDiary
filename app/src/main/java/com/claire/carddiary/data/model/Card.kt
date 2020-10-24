@@ -13,8 +13,8 @@ import java.util.*
 @TypeConverters(CardTypeConverters::class)
 @Parcelize
 data class Card(
-    @PrimaryKey(autoGenerate = true)
-    val cardId: Int = 0,
+    @PrimaryKey
+    val cardId: String = "",
     val images: List<String> = listOf(),
     val title: String = "",
     val date: String = "",
@@ -27,12 +27,16 @@ data class Card(
     @Parcelize
     data class Location(
         @PrimaryKey
-        val cardId: Long = 0,
+        val cardId: String = "",
         val country: String = "",
         val city: String = ""
     ): Parcelable
 
     companion object {
-        val Empty = Card(images = List(1) { "" }, date = Date().toSimpleDateFormat)
+        val Empty = Card(
+            cardId = UUID.randomUUID().toString(),
+            images = List(1) { "" },
+            date = Date().toSimpleDateFormat
+        )
     }
 }

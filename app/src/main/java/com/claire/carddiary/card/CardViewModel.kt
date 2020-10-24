@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.claire.carddiary.Resource.*
 import com.claire.carddiary.data.CardRepository
 import com.claire.carddiary.data.model.Card
+import com.claire.carddiary.data.source.remote.CardRemoteDataSource
 import com.claire.carddiary.utils.SingleLiveEvent
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.launch
 
 class CardViewModel(
@@ -23,7 +24,7 @@ class CardViewModel(
     private val _navigateToEdit = SingleLiveEvent<Any>()
     val navigateToEdit: SingleLiveEvent<Any> = _navigateToEdit
 
-    private val _isExpand = MutableLiveData<Boolean>(false)
+    private val _isExpand = MutableLiveData(false)
     val isExpand: LiveData<Boolean> = _isExpand
 
     private val _fabClick = SingleLiveEvent<Int>()
@@ -32,10 +33,22 @@ class CardViewModel(
 
 
     fun getCards() = viewModelScope.launch {
-        when(val resource = repository.getCards()) {
-            is Success -> _cardList.value = resource.data
-            is Error -> _errorMsg.value = resource.errorMessage
-        }
+
+        // local
+//        when(val resource = repository.getCards()) {
+//            is Success -> _cardList.value = resource.data
+//            is Error -> _errorMsg.value = resource.errorMessage
+//        }
+
+        CardRemoteDataSource.firebase.collection("cards")
+            .get()
+            .addOnSuccessListener { result ->
+                _cardList.value = result.map { it.toObject() }
+            }
+            .addOnFailureListener { exception ->
+                println("Error getting documents. $exception")
+            }
+
     }
 
     fun getCard(index: Int): Card {

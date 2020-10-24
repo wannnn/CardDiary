@@ -33,7 +33,7 @@ class CardTypeConverters {
     @TypeConverter
     fun convertLocationToJson(location: Location?): String? {
         location?.let {
-            return moshi.adapter<Location>(Location::class.java).toJson(location)
+            return moshi.adapter(Location::class.java).toJson(location)
         }
         return null
     }
