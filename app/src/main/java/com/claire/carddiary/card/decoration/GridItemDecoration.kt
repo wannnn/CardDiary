@@ -17,6 +17,7 @@ class GridItemDecoration(
         state: RecyclerView.State
     ) {
         val position = parent.getChildAdapterPosition(view)
+        if (position == -1) return
         when(spanCount) {
             1 -> {
                 outRect.left = margin

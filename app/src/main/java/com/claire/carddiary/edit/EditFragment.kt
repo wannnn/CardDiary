@@ -10,16 +10,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import com.claire.carddiary.MainViewModel
 import com.claire.carddiary.R
-import com.claire.carddiary.ViewModelFactory
 import com.claire.carddiary.databinding.FragEditBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
@@ -27,7 +23,6 @@ import java.util.*
 class EditFragment : Fragment() {
 
     private val vm: EditViewModel by viewModels()
-    private val mainVm: MainViewModel by activityViewModels { ViewModelFactory() }
     private lateinit var binding: FragEditBinding
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter() }
     private val args: EditFragmentArgs by navArgs()
@@ -74,11 +69,8 @@ class EditFragment : Fragment() {
             setOnMenuItemClickListener {
                 when(it.itemId) {
                     R.id.check -> {  // save data
-                        val inputStreams = vm.getImages().map { uri ->
-                            requireContext().contentResolver.openInputStream(uri.toUri())
-                        }
-                        mainVm.insertImages(vm.getCard(), inputStreams)
                         Toast.makeText(context, "save!", Toast.LENGTH_SHORT).show()
+                        findNavController().previousBackStackEntry?.savedStateHandle?.set("card", vm.getCard())
                         findNavController().navigateUp()
                     }
                 }

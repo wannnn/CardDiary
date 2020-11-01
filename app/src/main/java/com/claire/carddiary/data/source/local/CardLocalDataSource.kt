@@ -4,6 +4,7 @@ import com.claire.carddiary.CardApplication
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
+import java.io.InputStream
 
 class CardLocalDataSource : CardDataSource {
 
@@ -17,8 +18,17 @@ class CardLocalDataSource : CardDataSource {
         }
     }
 
-    override suspend fun insertCard(card: Card) {
-        db.insertCard(card)
+    override suspend fun uploadPhoto(pathString: String, inputStream: InputStream): Resource<String> {
+        return Resource.Success("")
+    }
+
+    override suspend fun insertCard(card: Card): Resource<Boolean> {
+        return try {
+            db.insertCard(card)
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Resource.Error(e.localizedMessage.orEmpty())
+        }
     }
 
 }

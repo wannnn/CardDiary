@@ -13,8 +13,6 @@ class ViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         with(modelClass) {
             when {
-                isAssignableFrom(MainViewModel::class.java) ->
-                    MainViewModel(cardRepository)
                 isAssignableFrom(CardViewModel::class.java) ->
                     CardViewModel(cardRepository)
                 else ->
