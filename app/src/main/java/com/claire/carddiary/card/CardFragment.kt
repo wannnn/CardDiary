@@ -115,16 +115,11 @@ class CardFragment : Fragment() {
             }
             vm.uploadPhotos(card, inputStreams)
             savedStateHandle.remove<Card>("card")
+            binding.rvCard.smoothScrollToPosition(0)
         }
 
         vm.progress.observeSingle(viewLifecycleOwner) {
-            println(it)
-            if (it[0].progress == 100) {
-                postAdapter.submitList(listOf())
-            } else {
-                postAdapter.submitList(it)
-            }
-            binding.rvCard.smoothScrollToPosition(0)
+            postAdapter.submitList(it)
         }
 
         vm.errorMsg.observe(viewLifecycleOwner) {

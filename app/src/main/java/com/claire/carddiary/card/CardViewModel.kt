@@ -119,7 +119,9 @@ class CardViewModel(
             is Resource.Success -> {
                 _post = _post.copy(progress = 100)
                 _progress.value = listOf(_post)
+                delay(1500)
                 getCards()
+                _progress.value = listOf()
             }
             is Resource.NetworkError -> _errorMsg.value = resource.errorMessage
         }
