@@ -38,7 +38,8 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.claire.carddiary.detail.DetailFragment"
-        android:label="DetailFragment" >
+        android:label="DetailFragment"
+        tools:layout="@layout/frag_detail">
         <argument
             android:name="item"
             app:argType="com.claire.carddiary.data.model.Card" />

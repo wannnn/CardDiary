@@ -60,8 +60,7 @@ class CardFragment : Fragment() {
 
         with(cardAdapter) {
             clickListener = {
-                findNavController().navigate(CardFragmentDirections.toEditFragment(vm.getCard(it)))
-//                vm.getCard(it)?.let { card -> findNavController().navigate(CardFragmentDirections.toDetailFragment(card)) }
+                vm.getCard(it)?.let { card -> findNavController().navigate(CardFragmentDirections.toDetailFragment(card)) }
             }
             longClickListener = {
                 Toast.makeText(context, "long clickListener!$it", Toast.LENGTH_SHORT).show()

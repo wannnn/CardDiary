@@ -73,7 +73,7 @@
                 android:id="@+id/img_favorite"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_favorite_border"
+                android:src="@drawable/ic_heart_fill"
                 app:layout_constraintBottom_toBottomOf="@+id/txt_date"
                 app:layout_constraintEnd_toEndOf="@+id/txt_title"
                 app:layout_constraintTop_toTopOf="@+id/txt_date" />
