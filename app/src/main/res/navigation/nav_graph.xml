@@ -13,6 +13,9 @@
         <action
             android:id="@+id/to_editFragment"
             app:destination="@id/editFragment" />
+        <action
+            android:id="@+id/to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
 
     <fragment
@@ -31,6 +34,15 @@
         android:name="com.claire.carddiary.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/frag_profile"/>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.claire.carddiary.detail.DetailFragment"
+        android:label="DetailFragment" >
+        <argument
+            android:name="item"
+            app:argType="com.claire.carddiary.data.model.Card" />
+    </fragment>
 
     <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment"/>
 

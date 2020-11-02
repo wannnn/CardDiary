@@ -51,8 +51,8 @@ class CardViewModel(
 
     }
 
-    fun getCard(index: Int): Card {
-        return _cardList.value?.getOrNull(index) ?: Card()
+    fun getCard(index: Int): Card? {
+        return _cardList.value?.getOrNull(index)
     }
 
     fun navigateToEdit() {
