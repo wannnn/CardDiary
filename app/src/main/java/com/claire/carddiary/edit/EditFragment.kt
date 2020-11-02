@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.claire.carddiary.R
 import com.claire.carddiary.databinding.FragEditBinding
+import com.claire.carddiary.utils.hideKeyboard
 import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
 
@@ -79,7 +80,7 @@ class EditFragment : Fragment() {
         }
 
         with(adapter) {
-            listener = { openGallery() }
+            clickListener = { openGallery() }
         }
 
         binding.listener = {
@@ -96,7 +97,7 @@ class EditFragment : Fragment() {
 
         vm.card.observe(viewLifecycleOwner) {
             binding.item = it
-            adapter.updateData(it.images)
+            adapter.submitList(it.images)
         }
 
         vm.alertMsg.observe(viewLifecycleOwner) {
@@ -110,6 +111,7 @@ class EditFragment : Fragment() {
     }
 
     private fun openDatePicker() {
+        hideKeyboard()
         val calender = Calendar.getInstance()
 
         val dateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->

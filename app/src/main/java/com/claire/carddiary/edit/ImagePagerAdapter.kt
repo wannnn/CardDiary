@@ -1,31 +1,19 @@
 package com.claire.carddiary.edit
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
-import com.claire.carddiary.base.DataBindingViewHolder
-import com.claire.carddiary.databinding.ItemImageBinding
-import com.claire.carddiary.utils.ClickCallback
+import androidx.recyclerview.widget.DiffUtil
+import com.claire.carddiary.R
+import com.claire.carddiary.base.DataBindingAdapter
 
-class ImagePagerAdapter: RecyclerView.Adapter<DataBindingViewHolder<String>>() {
+class ImagePagerAdapter: DataBindingAdapter<String>(DiffCallback()) {
 
-    private var images: List<String> = listOf()
-    var listener: ClickCallback = {}
+    class DiffCallback : DiffUtil.ItemCallback<String>() {
+        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean =
+            oldItem == newItem
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<String> {
-        val binding = ItemImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return DataBindingViewHolder(binding, listener)
+        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean =
+            oldItem == newItem
     }
 
-    override fun getItemCount(): Int = images.size
+    override fun getItemViewType(position: Int): Int = R.layout.item_image
 
-    override fun onBindViewHolder(holder: DataBindingViewHolder<String>, position: Int) {
-        holder.itemView.tag = position
-        holder.bind(images[position])
-    }
-
-    fun updateData(images: List<String>) {
-        this.images = images
-        notifyDataSetChanged()
-    }
 }

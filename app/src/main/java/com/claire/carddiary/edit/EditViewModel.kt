@@ -35,8 +35,6 @@ class EditViewModel : ViewModel() {
 
     fun getCard(): Card = _card.value ?: Card.Empty
 
-    fun getImages(): List<String> = _card.value?.images.orEmpty()
-
     fun setScriptCard(card: Card?) {  // 草搞
         card?.let { _card.value = card }
     }

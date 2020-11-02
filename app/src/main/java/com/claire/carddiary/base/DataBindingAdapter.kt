@@ -12,13 +12,13 @@ import com.claire.carddiary.utils.LongClickCallback
 abstract class DataBindingAdapter<T>(diffCallback: DiffUtil.ItemCallback<T>) :
     ListAdapter<T, DataBindingViewHolder<T>>(diffCallback) {
 
-    var click: ClickCallback = {}
-    var longClick: LongClickCallback = {}
+    var clickListener: ClickCallback = {}
+    var longClickListener: LongClickCallback = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<T> {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, viewType, parent, false)
-        return DataBindingViewHolder(binding, click, longClick)
+        return DataBindingViewHolder(binding, clickListener, longClickListener)
     }
 
     override fun onBindViewHolder(holder: DataBindingViewHolder<T>, position: Int) {

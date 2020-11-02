@@ -9,16 +9,16 @@ import com.claire.carddiary.utils.click
 
 class DataBindingViewHolder<T>(
     private val binding: ViewDataBinding,
-    private var click: ClickCallback,
-    private var longClick: LongClickCallback = {}
+    private var clickListener: ClickCallback,
+    private var longClickListener: LongClickCallback = {}
 ): RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.root.click {
-            click.invoke(itemView.tag as Int)
+            clickListener.invoke(itemView.tag as Int)
         }
         binding.root.setOnLongClickListener {
-            longClick.invoke(itemView.tag as Int)
+            longClickListener.invoke(itemView.tag as Int)
             true
         }
     }
