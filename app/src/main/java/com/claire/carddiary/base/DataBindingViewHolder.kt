@@ -27,4 +27,9 @@ class DataBindingViewHolder<T>(
         binding.setVariable(BR.item, item)
         binding.executePendingBindings()
     }
+
+    fun bindWithPayload(payload: Any) {
+        binding.setVariable(BR.payload, payload)
+        binding.executePendingBindings()
+    }
 }

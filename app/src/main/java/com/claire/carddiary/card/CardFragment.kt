@@ -5,16 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
-import com.claire.carddiary.MainViewModel
 import com.claire.carddiary.NavGraphDirections
 import com.claire.carddiary.R
 import com.claire.carddiary.ViewModelFactory
 import com.claire.carddiary.card.decoration.GridItemDecoration
+import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.databinding.FragCardBinding
 import com.claire.carddiary.utils.*
 
@@ -22,8 +23,9 @@ import com.claire.carddiary.utils.*
 class CardFragment : Fragment() {
 
     private val vm: CardViewModel by viewModels { ViewModelFactory() }
-    private val mainVm: MainViewModel by activityViewModels { ViewModelFactory() }
-    private val adapter: CardAdapter by lazy { CardAdapter() }
+    private val postAdapter: PostAdapter by lazy { PostAdapter() }
+    private val cardAdapter: CardAdapter by lazy { CardAdapter() }
+    private val concatAdapter = ConcatAdapter(postAdapter, cardAdapter)
     private lateinit var binding: FragCardBinding
 
 
@@ -40,7 +42,6 @@ class CardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
         binding.vm = vm
-        vm.getCards()
 
         with(binding.toolbar) {
             setOnMenuItemClickListener {
@@ -53,11 +54,11 @@ class CardFragment : Fragment() {
 
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, 1)
-            adapter = this@CardFragment.adapter
+            adapter = concatAdapter
             addItemDecoration(GridItemDecoration(16.px, 16.px, 1))
         }
 
-        with(adapter) {
+        with(cardAdapter) {
             click = {
 //                findNavController().navigate(CardFragmentDirections.toEditFragment(vm.getCard(it)))
                 vm.getCard(it)?.let { card -> findNavController().navigate(CardFragmentDirections.toDetailFragment(card)) }
@@ -66,16 +67,17 @@ class CardFragment : Fragment() {
                 Toast.makeText(context, "long click!$it", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 
     private fun observeViewModel() {
 
-        vm.cardList.observe(viewLifecycleOwner) {
+        vm.cardList.observeSingle(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 binding.txtDefault.visible()
             } else {
                 binding.txtDefault.gone()
-                adapter.submitList(it)
+                cardAdapter.submitList(it)
             }
         }
 
@@ -83,9 +85,9 @@ class CardFragment : Fragment() {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        vm.navigateToEdit.observeSingle(viewLifecycleOwner, {
+        vm.navigateToEdit.observeSingle(viewLifecycleOwner) {
             findNavController().navigate(CardFragmentDirections.toEditFragment(null))
-        })
+        }
 
         vm.isExpand.observe(viewLifecycleOwner) {
             if (it) {
@@ -97,28 +99,34 @@ class CardFragment : Fragment() {
             }
         }
 
-        vm.fabClick.observeSingle(viewLifecycleOwner, {
+        vm.fabClick.observeSingle(viewLifecycleOwner) {
             vm.setExpand()
             when(it) {
                 0 -> findNavController().navigate(CardFragmentDirections.toEditFragment(null))
                 1 -> findNavController().navigate(NavGraphDirections.actionGlobalProfileFragment())
                 else -> {}
             }
-        })
-
-        mainVm.uploadedImages.observe(viewLifecycleOwner) {
-            if (it.size == mainVm.getImagesSize()) {
-                mainVm.insertCard()
-            }
         }
 
-        mainVm.uploadImgFailMsg.observe(viewLifecycleOwner) {
+        val savedStateHandle = findNavController().currentBackStackEntry?.savedStateHandle
+        savedStateHandle?.getLiveData<Card>("card")?.observe(
+            viewLifecycleOwner) { card ->
+            val inputStreams = card.images.mapNotNull { uri ->
+                context?.contentResolver?.openInputStream(uri.toUri())
+            }
+            vm.uploadPhotos(card, inputStreams)
+            savedStateHandle.remove<Card>("card")
+            binding.rvCard.smoothScrollToPosition(0)
+        }
+
+        vm.progress.observeSingle(viewLifecycleOwner) {
+            postAdapter.submitList(it)
+        }
+
+        vm.errorMsg.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        mainVm.refresh.observe(viewLifecycleOwner) {
-            vm.getCards()
-        }
     }
 
 }

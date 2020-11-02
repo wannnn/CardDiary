@@ -9,6 +9,7 @@
 
     <!-- CardFragment -->
     <string name="empty_msg">Add Your First Diary</string>
+    <string name="sending">Sending…</string>
 
     <!-- EditFragment -->
     <string name="permission_denied">permission denied</string>
