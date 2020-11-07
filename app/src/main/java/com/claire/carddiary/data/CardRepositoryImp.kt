@@ -1,9 +1,9 @@
 package com.claire.carddiary.data
 
+import android.net.Uri
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
-import java.io.InputStream
 
 class CardRepositoryImp(
     private val localDataSource: CardDataSource,
@@ -14,8 +14,8 @@ class CardRepositoryImp(
         return remoteDataSource.getCards()
     }
 
-    override suspend fun uploadPhoto(pathString: String, inputStream: InputStream): Resource<String> {
-        return remoteDataSource.uploadPhoto(pathString, inputStream)
+    override suspend fun uploadPhoto(uri: Uri): Resource<String> {
+        return remoteDataSource.uploadPhoto(uri)
     }
 
     override suspend fun insertCard(card: Card): Resource<Boolean> {

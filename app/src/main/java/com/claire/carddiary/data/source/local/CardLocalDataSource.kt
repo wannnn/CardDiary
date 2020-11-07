@@ -1,10 +1,10 @@
 package com.claire.carddiary.data.source.local
 
+import android.net.Uri
 import com.claire.carddiary.CardApplication
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
-import java.io.InputStream
 
 class CardLocalDataSource : CardDataSource {
 
@@ -18,7 +18,7 @@ class CardLocalDataSource : CardDataSource {
         }
     }
 
-    override suspend fun uploadPhoto(pathString: String, inputStream: InputStream): Resource<String> {
+    override suspend fun uploadPhoto(uri: Uri): Resource<String> {
         return Resource.Success("")
     }
 

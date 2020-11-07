@@ -1,5 +1,6 @@
 package com.claire.carddiary.card
 
+import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +13,6 @@ import com.claire.carddiary.data.model.Post
 import com.claire.carddiary.utils.SingleLiveEvent
 import com.claire.carddiary.utils.toSimpleDateFormat
 import kotlinx.coroutines.*
-import java.io.InputStream
 import java.util.*
 
 class CardViewModel(
@@ -76,23 +76,22 @@ class CardViewModel(
         _fabClick.value = position
     }
 
-    fun uploadPhotos(card: Card, inputStreams: List<InputStream>) = viewModelScope.launch {
+    fun upload(card: Card) = viewModelScope.launch {
         count = 0
         _card = card
         _progress.value = listOf(Post(card.images[0], 0))
 
-        val pathString = _card.images.map { it.toUri().lastPathSegment ?: Date().toSimpleDateFormat }
-
+        val photos = card.images.map { it.toUri() }
 
         imagesUrl = try {
 
             withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-                inputStreams.mapIndexed { index, value ->
+                photos.map { value ->
                     async {
-                        when(val resource = repository.uploadPhoto(pathString[index], value)) {
+                        when(val resource = repository.uploadPhoto(value)) {
                             is Resource.Success -> {
                                 withContext(Dispatchers.Main) {
-                                    _post = _post.copy(progress = (count++ / pathString.size.toDouble() * 100).toInt())
+                                    _post = _post.copy(progress = (count++ / photos.size.toDouble() * 100).toInt())
                                     _progress.value = listOf(_post)
                                     println(resource.data)
                                 }
