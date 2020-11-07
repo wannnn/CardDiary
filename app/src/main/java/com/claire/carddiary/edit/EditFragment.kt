@@ -70,7 +70,7 @@ class EditFragment : Fragment() {
             setOnMenuItemClickListener {
                 when(it.itemId) {
                     R.id.check -> {  // save data
-                        Toast.makeText(context, "save!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.uploading), Toast.LENGTH_SHORT).show()
                         findNavController().previousBackStackEntry?.savedStateHandle?.set("card", vm.getCard())
                         findNavController().navigateUp()
                     }

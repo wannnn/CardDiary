@@ -1,16 +1,18 @@
 package com.claire.carddiary.data
 
 import android.net.Uri
+import androidx.paging.PagingData
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
+import kotlinx.coroutines.flow.Flow
 
 class CardRepositoryImp(
     private val localDataSource: CardDataSource,
     private val remoteDataSource: CardDataSource
 ): CardRepository {
 
-    override suspend fun getCards(): Resource<List<Card>> {
+    override suspend fun getCards(): Flow<PagingData<Card>> {
         return remoteDataSource.getCards()
     }
 

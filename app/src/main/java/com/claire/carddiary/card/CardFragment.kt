@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.filter
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.claire.carddiary.NavGraphDirections
@@ -59,11 +60,17 @@ class CardFragment : Fragment() {
 
         with(cardAdapter) {
             clickListener = {
-                vm.getCard(it)?.let { card -> findNavController().navigate(CardFragmentDirections.toDetailFragment(card)) }
+                findNavController().navigate(CardFragmentDirections.toDetailFragment(it))
             }
             longClickListener = {
                 Toast.makeText(context, "long clickListener!$it", Toast.LENGTH_SHORT).show()
             }
+
+            addLoadStateListener { loadState ->
+
+
+            }
+
         }
 
     }
@@ -71,11 +78,12 @@ class CardFragment : Fragment() {
     private fun observeViewModel() {
 
         vm.cardList.observeSingle(viewLifecycleOwner) {
-            if (it.isNullOrEmpty()) {
+            cardAdapter.submitData(lifecycle, it)
+
+            if (it == null) {
                 binding.txtDefault.visible()
             } else {
                 binding.txtDefault.gone()
-                cardAdapter.submitList(it)
             }
         }
 
@@ -109,10 +117,10 @@ class CardFragment : Fragment() {
         val savedStateHandle = findNavController().currentBackStackEntry?.savedStateHandle
         savedStateHandle?.getLiveData<Card>("card")?.observe(viewLifecycleOwner) { card ->
 
+            binding.rvCard.smoothScrollToPosition(0)
             vm.upload(card)
 
             savedStateHandle.remove<Card>("card")
-            binding.rvCard.smoothScrollToPosition(0)
         }
 
         vm.progress.observeSingle(viewLifecycleOwner) {

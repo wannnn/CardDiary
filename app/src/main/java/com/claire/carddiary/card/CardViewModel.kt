@@ -1,26 +1,29 @@
 package com.claire.carddiary.card
 
-import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.CardRepository
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.model.Post
 import com.claire.carddiary.utils.SingleLiveEvent
-import com.claire.carddiary.utils.toSimpleDateFormat
 import kotlinx.coroutines.*
-import java.util.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectIndexed
+import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.singleOrNull
 
 class CardViewModel(
     private val repository: CardRepository
 ) : ViewModel() {
 
-    private val _cardList = SingleLiveEvent<List<Card>>()
-    val cardList: SingleLiveEvent<List<Card>> = _cardList
+    private val _cardList = SingleLiveEvent<PagingData<Card>>()
+    val cardList: SingleLiveEvent<PagingData<Card>> = _cardList
 
     private val _errorMsg = MutableLiveData<String>()
     val errorMsg: LiveData<String> = _errorMsg
@@ -34,7 +37,7 @@ class CardViewModel(
     private val _fabClick = SingleLiveEvent<Int>()
     val fabClick: SingleLiveEvent<Int> = _fabClick
 
-    private var _card = Card.Empty
+    private var _card = Card()
 
     private var _post = Post()
 
@@ -53,15 +56,9 @@ class CardViewModel(
 
     private fun getCards() = viewModelScope.launch {
 
-        when(val resource = repository.getCards()) {
-            is Resource.Success -> _cardList.value = resource.data
-            is Resource.NetworkError -> _errorMsg.value = resource.errorMessage
+        repository.getCards().cachedIn(viewModelScope).collect {
+            _cardList.value = it
         }
-
-    }
-
-    fun getCard(index: Int): Card? {
-        return _cardList.value?.getOrNull(index)
     }
 
     fun navigateToEdit() {

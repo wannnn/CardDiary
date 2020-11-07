@@ -14,10 +14,10 @@ import java.util.*
 @Parcelize
 data class Card(
     @PrimaryKey
-    val cardId: String = "",
+    val cardId: String = UUID.randomUUID().toString(),
     val images: List<String> = listOf(),
     val title: String = "",
-    val date: String = "",
+    val date: String = Date().toSimpleDateFormat,
     val weather: Int = 0,  // ex.(0:sunny 1:rainy)
     val content: String = "",
     val location: Location = Location()
@@ -31,12 +31,4 @@ data class Card(
         val country: String = "",
         val city: String = ""
     ): Parcelable
-
-    companion object {
-        val Empty = Card(
-            cardId = UUID.randomUUID().toString(),
-            images = List(1) { "" },
-            date = Date().toSimpleDateFormat
-        )
-    }
 }

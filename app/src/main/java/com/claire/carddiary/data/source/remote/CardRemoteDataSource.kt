@@ -1,15 +1,17 @@
 package com.claire.carddiary.data.source.remote
 
 import android.net.Uri
+import androidx.paging.*
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
-import com.claire.carddiary.utils.compressBySize
+import com.claire.carddiary.data.source.FirebasePagingDataSource
 import com.claire.carddiary.utils.toSimpleDateFormat
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import java.util.*
 
@@ -19,20 +21,11 @@ object CardRemoteDataSource : CardDataSource {
     private val storage = Firebase.storage
     var storageRef = storage.reference
 
-    override suspend fun getCards(): Resource<List<Card>> {
+    override suspend fun getCards(): Flow<PagingData<Card>> {
 
-        return try {
-
-            val result = firebase.collection("cards")
-                .get()
-                .await()
-                .mapNotNull { it.toObject() as? Card }
-
-            Resource.Success(result)
-
-        } catch (e: Exception) {
-            Resource.NetworkError("Error getting documents")
-        }
+        return Pager(PagingConfig(pageSize = 5)) {
+            FirebasePagingDataSource(FirebaseFirestore.getInstance())
+        }.flow
 
     }
 

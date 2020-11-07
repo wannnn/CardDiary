@@ -11,7 +11,7 @@ import java.util.*
 
 class EditViewModel : ViewModel() {
 
-    private val _card = MutableLiveData(Card.Empty)
+    private val _card = MutableLiveData(Card())
     val card: LiveData<Card> = _card
 
     private val _alertMsg = MutableLiveData<String>()
@@ -33,7 +33,11 @@ class EditViewModel : ViewModel() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
-    fun getCard(): Card = _card.value ?: Card.Empty
+    init {
+        _card.value = _card.value?.copy(images = listOf(""))
+    }
+
+    fun getCard(): Card = _card.value ?: Card()
 
     fun setScriptCard(card: Card?) {  // 草搞
         card?.let { _card.value = card }
@@ -64,6 +68,10 @@ class EditViewModel : ViewModel() {
 
     fun setContent(content: String) {
         _card.value = _card.value?.copy(content = content)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
     }
 
 }

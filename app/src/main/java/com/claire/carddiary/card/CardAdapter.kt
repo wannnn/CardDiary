@@ -1,11 +1,21 @@
 package com.claire.carddiary.card
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import com.claire.carddiary.R
-import com.claire.carddiary.base.DataBindingAdapter
+import com.claire.carddiary.base.DataBindingViewHolder
 import com.claire.carddiary.data.model.Card
+import com.claire.carddiary.utils.LongClickCallback
+import com.claire.carddiary.utils.click
 
-class CardAdapter : DataBindingAdapter<Card>(DiffCallback()) {
+class CardAdapter : PagingDataAdapter<Card, DataBindingViewHolder<Card>>(DiffCallback()) {
+
+    var clickListener: (card: Card) -> Unit = {}
+    var longClickListener: LongClickCallback = {}
 
     class DiffCallback : DiffUtil.ItemCallback<Card>() {
         override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean =
@@ -16,5 +26,24 @@ class CardAdapter : DataBindingAdapter<Card>(DiffCallback()) {
     }
 
     override fun getItemViewType(position: Int): Int = R.layout.item_card_large
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<Card> {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, viewType, parent, false)
+        return DataBindingViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: DataBindingViewHolder<Card>, position: Int) {
+        holder.bind(getItem(position) ?: return)
+
+        holder.itemView.click {
+            clickListener.invoke(getItem(position) ?: Card())
+        }
+
+        holder.itemView.setOnLongClickListener {
+            longClickListener.invoke(position)
+            true
+        }
+    }
 
 }
