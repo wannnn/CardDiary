@@ -6,7 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
 
-class FirebasePagingDataSource(
+class CardPagingSource(
     private val db: FirebaseFirestore
 ) : PagingSource<QuerySnapshot, Card>() {
 

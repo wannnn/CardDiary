@@ -5,9 +5,8 @@ import androidx.paging.*
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
-import com.claire.carddiary.data.source.FirebasePagingDataSource
+import com.claire.carddiary.data.source.CardPagingSource
 import com.claire.carddiary.utils.toSimpleDateFormat
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -24,7 +23,7 @@ object CardRemoteDataSource : CardDataSource {
     override suspend fun getCards(): Flow<PagingData<Card>> {
 
         return Pager(PagingConfig(pageSize = 5)) {
-            FirebasePagingDataSource(FirebaseFirestore.getInstance())
+            CardPagingSource(firebase)
         }.flow
 
     }

@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.paging.filter
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import com.claire.carddiary.NavGraphDirections
@@ -59,6 +59,9 @@ class CardFragment : Fragment() {
         }
 
         with(cardAdapter) {
+
+            withLoadStateFooter(CardLoadStateAdapter(this::retry))
+
             clickListener = {
                 findNavController().navigate(CardFragmentDirections.toDetailFragment(it))
             }
@@ -68,6 +71,23 @@ class CardFragment : Fragment() {
 
             addLoadStateListener { loadState ->
 
+                if (loadState.refresh is LoadState.Loading){
+                    // progress bar visible
+                }
+                else{
+                    // progress bar gone
+
+                    // getting the error
+                    val error = when {
+                        loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
+                        loadState.append is LoadState.Error -> loadState.append as LoadState.Error
+                        loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
+                        else -> null
+                    }
+                    error?.let {
+                        Toast.makeText(context, it.error.message, Toast.LENGTH_SHORT).show()
+                    }
+                }
 
             }
 
@@ -115,12 +135,12 @@ class CardFragment : Fragment() {
         }
 
         val savedStateHandle = findNavController().currentBackStackEntry?.savedStateHandle
-        savedStateHandle?.getLiveData<Card>("card")?.observe(viewLifecycleOwner) { card ->
+        savedStateHandle?.getLiveData<Card>(getString(R.string.nav_key_card))?.observe(viewLifecycleOwner) { card ->
 
             binding.rvCard.smoothScrollToPosition(0)
             vm.upload(card)
 
-            savedStateHandle.remove<Card>("card")
+            savedStateHandle.remove<Card>(getString(R.string.nav_key_card))
         }
 
         vm.progress.observeSingle(viewLifecycleOwner) {

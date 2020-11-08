@@ -7,6 +7,11 @@
     <string name="menu_edit">edit</string>
     <string name="menu_close">close</string>
 
+    <!-- LoginFragment -->
+    <string name="account">帳號</string>
+    <string name="password">密碼</string>
+    <string name="forget_password">忘記密碼？</string>
+
     <!-- CardFragment -->
     <string name="empty_msg">Add Your First Diary</string>
     <string name="uploading">Uploading…</string>
@@ -18,6 +23,9 @@
     <string name="tool_content">Events can be bound to handler methods directly, similar to the way android:onClick can be assigned to a method in an activity. One major advantage compared to the View onClick attribute is that the expression is processed at compile time, so if the method doesn\'t exist or its signature is incorrect, you receive a compile time error.</string>
 
     <!-- LoadState -->
-    <string name="loading_error">Something went wrong</string>
+    <string name="loading_error">Retry</string>
+
+    <!-- Navigation PopBack Arg key -->
+    <string name="nav_key_card">card</string>
 
 </resources>

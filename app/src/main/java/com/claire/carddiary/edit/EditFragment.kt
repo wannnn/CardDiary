@@ -71,7 +71,7 @@ class EditFragment : Fragment() {
                 when(it.itemId) {
                     R.id.check -> {  // save data
                         Toast.makeText(context, getString(R.string.uploading), Toast.LENGTH_SHORT).show()
-                        findNavController().previousBackStackEntry?.savedStateHandle?.set("card", vm.getCard())
+                        findNavController().previousBackStackEntry?.savedStateHandle?.set(getString(R.string.nav_key_card), vm.getCard())
                         findNavController().navigateUp()
                     }
                 }
@@ -83,9 +83,7 @@ class EditFragment : Fragment() {
             clickListener = { openGallery() }
         }
 
-        binding.listener = {
-            openDatePicker()
-        }
+        binding.listener = { openDatePicker() }
 
         binding.imagePager.adapter = adapter
 
