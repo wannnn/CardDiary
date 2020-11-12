@@ -25,7 +25,10 @@ class CardFragment : Fragment() {
     private val vm: CardViewModel by viewModels { ViewModelFactory() }
     private val postAdapter: PostAdapter by lazy { PostAdapter() }
     private val cardAdapter: CardAdapter by lazy { CardAdapter() }
-    private val concatAdapter = ConcatAdapter(postAdapter, cardAdapter)
+    private val concatAdapter by lazy { ConcatAdapter(
+        postAdapter,
+        cardAdapter.withLoadStateFooter(CardLoadStateAdapter(cardAdapter::retry)))
+    }
     private lateinit var binding: FragCardBinding
 
 
@@ -60,11 +63,10 @@ class CardFragment : Fragment() {
 
         with(cardAdapter) {
 
-            withLoadStateFooter(CardLoadStateAdapter(this::retry))
-
             clickListener = {
                 findNavController().navigate(CardFragmentDirections.toDetailFragment(it))
             }
+
             longClickListener = {
                 Toast.makeText(context, "long clickListener!$it", Toast.LENGTH_SHORT).show()
             }
