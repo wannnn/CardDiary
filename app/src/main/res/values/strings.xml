@@ -13,7 +13,7 @@
     <string name="forget_password">忘記密碼？</string>
 
     <!-- CardFragment -->
-    <string name="empty_msg">Add Your First Diary</string>
+    <string name="empty_msg">This is Empty</string>
     <string name="uploading">Uploading…</string>
 
     <!-- EditFragment -->
@@ -24,6 +24,7 @@
 
     <!-- LoadState -->
     <string name="loading_error">Retry</string>
+    <string name="loading_end">End</string>
 
     <!-- Navigation PopBack Arg key -->
     <string name="nav_key_card">card</string>

@@ -39,6 +39,7 @@ class CardLoadStateAdapter(
 
             binding.progress.isVisible = loadState is LoadState.Loading
             binding.retry.isVisible = loadState is LoadState.Error
+            binding.end.isVisible = loadState.endOfPaginationReached
         }
     }
 }

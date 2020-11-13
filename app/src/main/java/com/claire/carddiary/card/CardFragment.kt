@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -76,7 +77,7 @@ class CardFragment : Fragment() {
                 if (loadState.refresh is LoadState.Loading){
                     // progress bar visible
                 }
-                else{
+                else {
                     // progress bar gone
 
                     // getting the error
@@ -87,6 +88,14 @@ class CardFragment : Fragment() {
                         else -> null
                     }
                     error?.let {
+                        if (loadState.refresh is LoadState.Error) {
+                            AlertDialog.Builder(requireContext())
+                                .setMessage("網路連線不穩")
+                                .setPositiveButton("再試一次") { _, _ ->
+                                    retry()
+                                }
+                                .show()
+                        }
                         Toast.makeText(context, it.error.message, Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -102,10 +111,8 @@ class CardFragment : Fragment() {
         vm.cardList.observeSingle(viewLifecycleOwner) {
             cardAdapter.submitData(lifecycle, it)
 
-            if (it == null) {
-                binding.txtDefault.visible()
-            } else {
-                binding.txtDefault.gone()
+            binding.txtDefault.apply {
+                if (it == null) visible() else gone()
             }
         }
 

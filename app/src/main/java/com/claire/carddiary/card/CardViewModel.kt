@@ -14,9 +14,6 @@ import com.claire.carddiary.data.model.Post
 import com.claire.carddiary.utils.SingleLiveEvent
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectIndexed
-import kotlinx.coroutines.flow.count
-import kotlinx.coroutines.flow.singleOrNull
 
 class CardViewModel(
     private val repository: CardRepository

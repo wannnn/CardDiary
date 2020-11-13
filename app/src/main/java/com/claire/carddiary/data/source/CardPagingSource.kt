@@ -1,15 +1,11 @@
 package com.claire.carddiary.data.source
 
 import androidx.paging.PagingSource
-import coil.network.HttpException
 import com.claire.carddiary.data.model.Card
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
-import kotlinx.coroutines.tasks.asDeferred
+import com.google.firebase.firestore.Source
 import kotlinx.coroutines.tasks.await
-import okio.IOException
-import java.net.UnknownHostException
 
 class CardPagingSource(
     private val db: FirebaseFirestore
@@ -22,19 +18,22 @@ class CardPagingSource(
             val currentPage = params.key ?: db.collection("cards")
                 .orderBy("title")
                 .limit(5)
-                .get()
+                .get(Source.SERVER)
                 .await()
 
-            val lastDocumentSnapshot = runCatching {
-                currentPage.documents[currentPage.size() - 1]
-            }.getOrNull()
-
-            val nextPage = db.collection("cards")
-                .orderBy("title")
-                .limit(5)
-                .startAfter(lastDocumentSnapshot)
-                .get()
-                .await()
+            val nextPage = when {
+                currentPage.metadata.isFromCache -> throw Exception("No Internet Connect!")
+                currentPage.size() == 0 -> null
+                else -> {
+                    val lastDocumentSnapshot = currentPage.documents[currentPage.size() - 1]
+                    db.collection("cards")
+                        .orderBy("title")
+                        .limit(5)
+                        .startAfter(lastDocumentSnapshot)
+                        .get(Source.SERVER)
+                        .await()
+                }
+            }
 
             LoadResult.Page(
                 data = currentPage.toObjects(Card::class.java),
@@ -42,16 +41,8 @@ class CardPagingSource(
                 nextKey = nextPage
             )
 
-        } catch (exception: IOException) {
-
-            println("IOExceptions: ${exception.message}")
-            LoadResult.Error(exception)
-
-        } catch (exception: HttpException) {
-
-            println("HttpException: ${exception.message}")
-            LoadResult.Error(exception)
-
+        } catch (e: Exception) {
+            LoadResult.Error(e)
         }
     }
 
