@@ -45,16 +45,10 @@ class CardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewModel()
+        binding.appbar.outlineProvider = null
         binding.vm = vm
 
-        with(binding.toolbar) {
-            setOnMenuItemClickListener {
-                when(it.itemId) {
-                    R.id.arrow -> vm.setExpand()
-                }
-                true
-            }
-        }
+        binding.more.click { vm.setExpand() }
 
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, 1)
