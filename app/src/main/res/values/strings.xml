@@ -2,10 +2,7 @@
     <string name="app_name">CardDiary</string>
 
     <!-- option menu item -->
-    <string name="menu_arrow_down">expand</string>
     <string name="menu_check">done</string>
-    <string name="menu_edit">edit</string>
-    <string name="menu_close">close</string>
 
     <!-- LoginFragment -->
     <string name="account">帳號</string>
@@ -25,6 +22,8 @@
     <!-- LoadState -->
     <string name="loading_error">Retry</string>
     <string name="loading_end">End</string>
+    <string name="network_error">Network Error</string>
+    <string name="try_again">Try Again</string>
 
     <!-- Navigation PopBack Arg key -->
     <string name="nav_key_card">card</string>

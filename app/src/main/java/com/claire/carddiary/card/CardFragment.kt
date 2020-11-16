@@ -48,8 +48,6 @@ class CardFragment : Fragment() {
         binding.appbar.outlineProvider = null
         binding.vm = vm
 
-        binding.more.click { vm.setExpand() }
-
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, 1)
             adapter = concatAdapter
@@ -84,8 +82,8 @@ class CardFragment : Fragment() {
                     error?.let {
                         if (loadState.refresh is LoadState.Error) {
                             AlertDialog.Builder(requireContext())
-                                .setMessage("網路連線不穩")
-                                .setPositiveButton("再試一次") { _, _ ->
+                                .setMessage(getString(R.string.network_error))
+                                .setPositiveButton(getString(R.string.try_again)) { _, _ ->
                                     retry()
                                 }
                                 .show()

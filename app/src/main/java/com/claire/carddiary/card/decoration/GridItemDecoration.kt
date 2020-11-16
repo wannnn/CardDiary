@@ -24,7 +24,6 @@ class GridItemDecoration(
                 outRect.right = margin
                 when(position) {
                     0 -> {
-                        outRect.top = 20.px
                         outRect.bottom = 10.px
                     }
                     else -> {

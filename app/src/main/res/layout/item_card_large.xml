@@ -27,6 +27,7 @@
                 android:layout_height="250dp"
                 android:background="@drawable/leave"
                 android:imagePath="@{item.images[0]}"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,6 +43,7 @@
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                android:typeface="serif"
                 app:layout_constraintBottom_toTopOf="@+id/txt_date"
                 app:layout_constraintEnd_toEndOf="@+id/txt_date"
                 app:layout_constraintStart_toStartOf="@+id/txt_date"
@@ -59,6 +61,7 @@
                 android:text="@{item.date}"
                 android:textColor="@color/white"
                 android:textSize="16sp"
+                android:typeface="serif"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
