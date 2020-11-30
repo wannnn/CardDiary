@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/cardFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/cardFragment"
@@ -44,6 +44,12 @@
             android:name="item"
             app:argType="com.claire.carddiary.data.model.Card" />
     </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.claire.carddiary.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/frag_login"/>
 
     <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment"/>
 

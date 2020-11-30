@@ -1,98 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/bg"
+    <data>
+        <variable
+            name="vm"
+            type="com.claire.carddiary.login.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/wallpaper" />
+        android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        <ImageView
+            android:id="@+id/bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/wallpaper" />
 
-    <TextView
-        android:id="@+id/account_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/account"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/password_title"
-        app:layout_constraintEnd_toEndOf="@+id/password_title"
-        app:layout_constraintStart_toStartOf="@+id/password_title" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.4" />
 
-    <EditText
-        android:id="@+id/edt_account"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_corner_round"
-        android:paddingStart="15dp"
-        android:paddingTop="3dp"
-        android:paddingEnd="15dp"
-        android:paddingBottom="3dp"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/account_title"
-        app:layout_constraintEnd_toEndOf="@+id/edt_password"
-        app:layout_constraintStart_toStartOf="@+id/edt_password"
-        app:layout_constraintTop_toTopOf="@+id/account_title"
-        tools:text="A1234567" />
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/guideLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bg" />
 
-    <TextView
-        android:id="@+id/password_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="@string/password"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/edt_password"
-        app:layout_constraintEnd_toStartOf="@+id/edt_password"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@+id/bg"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/edt_password" />
-
-    <EditText
-        android:id="@+id/edt_password"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_corner_round"
-        android:inputType="textPassword"
-        android:paddingStart="15dp"
-        android:paddingTop="3dp"
-        android:paddingEnd="15dp"
-        android:paddingBottom="3dp"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/forget"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/password_title"
-        tools:text="A1234567" />
-
-    <TextView
-        android:id="@+id/forget"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
-        android:gravity="center"
-        android:text="@string/forget_password"
-        android:textColor="@color/blue_6495ED"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
