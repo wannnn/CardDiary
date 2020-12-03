@@ -49,7 +49,12 @@
         android:id="@+id/loginFragment"
         android:name="com.claire.carddiary.login.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/frag_login"/>
+        tools:layout="@layout/frag_login">
+        <action
+            android:id="@+id/to_cardFragment"
+            app:destination="@id/cardFragment"
+            app:popUpTo="@id/nav_graph"/>
+    </fragment>
 
     <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment"/>
 
