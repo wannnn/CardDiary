@@ -28,11 +28,8 @@ class CardViewModel(
     private val _navigateToEdit = SingleLiveEvent<Any>()
     val navigateToEdit: SingleLiveEvent<Any> = _navigateToEdit
 
-    private val _isExpand = MutableLiveData(false)
-    val isExpand: LiveData<Boolean> = _isExpand
-
-    private val _fabClick = SingleLiveEvent<Int>()
-    val fabClick: SingleLiveEvent<Int> = _fabClick
+    private val _optionClick = SingleLiveEvent<Any>()
+    val optionClick: SingleLiveEvent<Any> = _optionClick
 
     private var _card = Card()
 
@@ -58,17 +55,9 @@ class CardViewModel(
         }
     }
 
-    fun navigateToEdit() {
-        _navigateToEdit.call()
-    }
+    fun navigateToEdit() = _navigateToEdit.call()
 
-    fun setExpand() {
-        _isExpand.value = _isExpand.value?.not()
-    }
-
-    fun fabClick(position: Int) {
-        _fabClick.value = position
-    }
+    fun optionClick() = _optionClick.call()
 
     fun upload(card: Card) = viewModelScope.launch {
         count = 0

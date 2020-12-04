@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
-import com.claire.carddiary.NavGraphDirections
 import com.claire.carddiary.R
 import com.claire.carddiary.ViewModelFactory
 import com.claire.carddiary.card.decoration.GridItemDecoration
@@ -116,23 +115,8 @@ class CardFragment : Fragment() {
             findNavController().navigate(CardFragmentDirections.toEditFragment(null))
         }
 
-        vm.isExpand.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.fabEdit.expandFab()
-                binding.fabProfile.expandFab()
-            } else {
-                binding.fabEdit.collapseFab()
-                binding.fabProfile.collapseFab()
-            }
-        }
-
-        vm.fabClick.observeSingle(viewLifecycleOwner) {
-            vm.setExpand()
-            when(it) {
-                0 -> findNavController().navigate(CardFragmentDirections.toEditFragment(null))
-                1 -> findNavController().navigate(NavGraphDirections.actionGlobalProfileFragment())
-                else -> {}
-            }
+        vm.optionClick.observeSingle(viewLifecycleOwner) {
+            findNavController().navigate(CardFragmentDirections.toNavigateSheetDialog())
         }
 
         val savedStateHandle = findNavController().currentBackStackEntry?.savedStateHandle

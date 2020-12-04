@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:src="@drawable/ic_more_24"
-                    android:onClick="@{() -> vm.setExpand()}"
+                    android:onClick="@{() -> vm.optionClick()}"
                     app:layout_constraintBottom_toBottomOf="@+id/toolbarTitle"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -98,38 +98,6 @@
             android:visibility="gone"
             android:text="@string/empty_msg"
             android:onClick="@{() -> vm.navigateToEdit()}" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit_24"
-            android:tint="@color/white"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="15dp"
-            android:layout_gravity="end"
-            app:backgroundTint="@color/gray_888888"
-            app:fabSize="mini"
-            android:visibility="gone"
-            android:alpha="0"
-            android:onClick="@{() -> vm.fabClick(0)}"
-            app:rippleColor="@color/white" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="105dp"
-            android:layout_marginEnd="15dp"
-            android:layout_gravity="end"
-            android:alpha="0"
-            android:src="@drawable/ic_profile_24"
-            android:tint="@color/white"
-            android:visibility="gone"
-            app:backgroundTint="@color/gray_888888"
-            app:fabSize="mini"
-            android:onClick="@{() -> vm.fabClick(1)}"
-            app:rippleColor="@color/white" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
