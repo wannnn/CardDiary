@@ -66,10 +66,10 @@ class CardFragment : Fragment() {
             addLoadStateListener { loadState ->
 
                 if (loadState.refresh is LoadState.Loading){
-                    // progress bar visible
+                    binding.progress.visible()
                 }
                 else {
-                    // progress bar gone
+                    binding.progress.gone()
 
                     // getting the error
                     val error = when {
