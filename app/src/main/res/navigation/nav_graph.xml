@@ -66,7 +66,9 @@
         tools:layout="@layout/dialog_navigate">
         <action
             android:id="@+id/to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:enterAnim="@anim/anim_slide_up"
+            app:popExitAnim="@anim/anim_slide_down"/>
         <action
             android:id="@+id/to_editFragment"
             app:destination="@id/editFragment" />

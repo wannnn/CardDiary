@@ -22,7 +22,8 @@
     <string name="content_hint">Write Something…</string>
     <string name="tool_content">Events can be bound to handler methods directly, similar to the way android:onClick can be assigned to a method in an activity. One major advantage compared to the View onClick attribute is that the expression is processed at compile time, so if the method doesn\'t exist or its signature is incorrect, you receive a compile time error.</string>
 
-    <!-- EditFragment -->
+    <!-- ProfileFragment -->
+    <string name="logout">SignOut</string>
     <string name="logout_success">SignOut Successful!</string>
     <string name="logout_fail">SignOut Fail!</string>
 

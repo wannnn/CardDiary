@@ -28,7 +28,7 @@ class LoginFragment : Fragment() {
         startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             if (it.resultCode == Activity.RESULT_OK) {
                 Snackbar.make(binding.root,
-                    getString(R.string.login_success, AuthManager.getUser()),
+                    getString(R.string.login_success, AuthManager.user.value?.displayName),
                     Snackbar.LENGTH_SHORT).show()
             } else {
                 Snackbar.make(binding.root, getString(R.string.login_fail), Snackbar.LENGTH_SHORT).show()
@@ -40,7 +40,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -52,7 +52,7 @@ class LoginFragment : Fragment() {
             startForResult.launch(AuthManager.login())
         }
 
-        FirebaseUserLiveData().observe(viewLifecycleOwner) {
+        AuthManager.user.observe(viewLifecycleOwner) {
             it?.let {
                 findNavController().navigate(LoginFragmentDirections.toCardFragment())
             }

@@ -3,11 +3,12 @@ package com.claire.carddiary.login
 import android.content.Intent
 import com.claire.carddiary.CardApplication
 import com.firebase.ui.auth.AuthUI
-import com.google.firebase.auth.FirebaseAuth
 
 object AuthManager {
 
     private val providers by lazy { listOf(AuthUI.IdpConfig.GoogleBuilder().build()) }
+
+    val user = FirebaseUserLiveData()
 
     fun login(): Intent =
         AuthUI.getInstance()
@@ -24,8 +25,5 @@ object AuthManager {
                 callback.invoke(false)
             }
     }
-
-    fun getUser(): String =
-        FirebaseAuth.getInstance().currentUser?.displayName.orEmpty()
 
 }

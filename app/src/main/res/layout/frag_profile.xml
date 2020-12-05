@@ -4,95 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="user"
+            type="com.claire.carddiary.data.model.User" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideLine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.55" />
-
-        <ImageView
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/leave"
-            app:layout_constraintBottom_toTopOf="@+id/guideLine"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/picture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="120dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/bg_corner_search"
+            android:elevation="10dp"
+            android:roundImagePath="@{user.picture}"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{user.displayName}"
             android:textSize="25sp"
             android:typeface="serif"
+            android:maxLines="1"
+            android:ellipsize="end"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/picture"
+            app:layout_constraintStart_toEndOf="@+id/picture"
+            app:layout_constraintTop_toTopOf="@+id/picture"
             tools:text="Claire" />
 
-        <TextView
-            android:id="@+id/square1"
+        <com.claire.carddiary.view.ScrollItemView
+            android:id="@+id/scrollItemView"
             android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:background="@drawable/bg_content"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintEnd_toStartOf="@+id/square2"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="spread"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideLine" />
-
-        <TextView
-            android:id="@+id/square2"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:background="@drawable/bg_content"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintEnd_toStartOf="@+id/square3"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/square1"
-            app:layout_constraintTop_toTopOf="@+id/guideLine" />
-
-        <TextView
-            android:id="@+id/square3"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:background="@drawable/bg_content"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/square2"
-            app:layout_constraintTop_toTopOf="@+id/guideLine" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="@+id/name"
+            app:layout_constraintStart_toStartOf="@+id/picture"
+            app:layout_constraintTop_toBottomOf="@+id/picture" />
 
         <Button
             android:id="@+id/signOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-            android:text="登出"
+            android:text="@string/logout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.claire.carddiary.R
+import com.claire.carddiary.data.model.ProfileItemData
 import com.claire.carddiary.databinding.FragProfileBinding
 import com.claire.carddiary.login.AuthManager
 import com.claire.carddiary.utils.click
@@ -19,13 +20,15 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.user = AuthManager.user.value
 
         binding.signOut.click {
             AuthManager.logOut {
@@ -36,5 +39,7 @@ class ProfileFragment : Fragment() {
                 }
             }
         }
+
+        binding.scrollItemView.setData(R.layout.item_profile_card, ProfileItemData.DEFAULT)
     }
 }
