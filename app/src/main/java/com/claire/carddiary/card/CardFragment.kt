@@ -36,7 +36,7 @@ class CardFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragCardBinding.inflate(inflater, container, false)
         return binding.root
     }

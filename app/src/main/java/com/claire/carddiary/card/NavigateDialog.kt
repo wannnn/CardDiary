@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.claire.carddiary.R
-import com.claire.carddiary.databinding.DialogNavigateSheetBinding
+import com.claire.carddiary.databinding.DialogNavigateBinding
 import com.claire.carddiary.utils.click
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class NavigateSheetDialog : BottomSheetDialogFragment() {
+class NavigateDialog : BottomSheetDialogFragment() {
 
-    private lateinit var binding: DialogNavigateSheetBinding
+    private lateinit var binding: DialogNavigateBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +23,8 @@ class NavigateSheetDialog : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogNavigateSheetBinding.inflate(inflater, container, false)
+    ): View {
+        binding = DialogNavigateBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -32,12 +32,12 @@ class NavigateSheetDialog : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.navigateEdit.click {
-            findNavController().navigate(NavigateSheetDialogDirections.toEditFragment(null))
+            findNavController().navigate(NavigateDialogDirections.toEditFragment(null))
             dismiss()
         }
 
         binding.navigateProfile.click {
-            findNavController().navigate(NavigateSheetDialogDirections.toProfileFragment())
+            findNavController().navigate(NavigateDialogDirections.toProfileFragment())
             dismiss()
         }
     }

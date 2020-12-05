@@ -61,9 +61,9 @@
 
     <dialog
         android:id="@+id/navigateSheetDialog"
-        android:name="com.claire.carddiary.card.NavigateSheetDialog"
+        android:name="com.claire.carddiary.card.NavigateDialog"
         android:label="NavigateSheetDialog"
-        tools:layout="@layout/dialog_navigate_sheet">
+        tools:layout="@layout/dialog_navigate">
         <action
             android:id="@+id/to_profileFragment"
             app:destination="@id/profileFragment" />
