@@ -17,6 +17,10 @@ class CardLocalDataSource : CardDataSource {
         return emptyFlow()
     }
 
+    override suspend fun getKeyWordCards(query: String): Resource<PagingData<Card>> {
+        return Resource.Success(PagingData.empty())
+    }
+
     override suspend fun uploadPhoto(uri: Uri): Resource<String> {
         return Resource.Success("")
     }

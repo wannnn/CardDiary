@@ -16,6 +16,10 @@ class CardRepositoryImp(
         return remoteDataSource.getCards()
     }
 
+    override suspend fun getKeyWordCards(query: String): Resource<PagingData<Card>> {
+        return remoteDataSource.getKeyWordCards(query)
+    }
+
     override suspend fun uploadPhoto(uri: Uri): Resource<String> {
         return remoteDataSource.uploadPhoto(uri)
     }

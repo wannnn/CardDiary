@@ -8,6 +8,7 @@ import com.claire.carddiary.data.source.CardDataSource
 import com.claire.carddiary.data.source.CardPagingSource
 import com.claire.carddiary.utils.toSimpleDateFormat
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +26,23 @@ object CardRemoteDataSource : CardDataSource {
         return Pager(PagingConfig(pageSize = 5)) {
             CardPagingSource(firebase)
         }.flow
+
+    }
+
+    override suspend fun getKeyWordCards(query: String): Resource<PagingData<Card>> {
+
+        return try {
+            val result = firebase.collection("cards")
+                .whereEqualTo("title", query)
+                .get()
+                .await()
+                .mapNotNull { it.toObject() as? Card }
+
+            Resource.Success(PagingData.from(result))
+
+        } catch (e: Exception) {
+            Resource.NetworkError("Error query search result")
+        }
 
     }
 

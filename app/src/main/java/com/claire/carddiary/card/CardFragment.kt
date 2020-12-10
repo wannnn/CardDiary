@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
@@ -18,6 +20,7 @@ import com.claire.carddiary.card.decoration.GridItemDecoration
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.databinding.FragCardBinding
 import com.claire.carddiary.utils.*
+import kotlinx.coroutines.launch
 
 
 class CardFragment : Fragment() {
@@ -51,6 +54,21 @@ class CardFragment : Fragment() {
             layoutManager = GridLayoutManager(context, 1)
             adapter = concatAdapter
             addItemDecoration(GridItemDecoration(16.px, 16.px, 1))
+        }
+
+        with(binding.searchView) {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    lifecycleScope.launch {
+                        vm.searchQueryChannel.send(newText.toString())
+                    }
+                    return true
+                }
+            })
         }
 
         with(cardAdapter) {
@@ -132,8 +150,8 @@ class CardFragment : Fragment() {
             postAdapter.submitList(it)
         }
 
-        vm.errorMsg.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        vm.searchResult.observe(viewLifecycleOwner) { data ->
+            data?.let { cardAdapter.submitData(lifecycle, it) }
         }
 
     }
