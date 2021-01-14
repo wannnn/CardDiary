@@ -53,7 +53,7 @@ class EditFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragEditBinding.inflate(inflater, container, false)
         return binding.root
     }
