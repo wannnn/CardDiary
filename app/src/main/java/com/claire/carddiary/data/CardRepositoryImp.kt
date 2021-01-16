@@ -15,9 +15,7 @@ class CardRepositoryImp(
 ): CardRepository {
 
     override fun getCards(query: String): Flow<PagingData<Card>> {
-        return flow {
-            remoteDataSource.getCards(query).collect { emit(it) }
-        }
+        return remoteDataSource.getCards(query)
     }
 
     override suspend fun uploadPhoto(uri: Uri): Resource<String> {
