@@ -6,18 +6,18 @@ import com.claire.carddiary.Resource
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 
 class CardRepositoryImp(
     private val localDataSource: CardDataSource,
     private val remoteDataSource: CardDataSource
 ): CardRepository {
 
-    override suspend fun getCards(): Flow<PagingData<Card>> {
-        return remoteDataSource.getCards()
-    }
-
-    override suspend fun getKeyWordCards(query: String): Resource<PagingData<Card>> {
-        return remoteDataSource.getKeyWordCards(query)
+    override fun getCards(query: String): Flow<PagingData<Card>> {
+        return flow {
+            remoteDataSource.getCards(query).collect { emit(it) }
+        }
     }
 
     override suspend fun uploadPhoto(uri: Uri): Resource<String> {

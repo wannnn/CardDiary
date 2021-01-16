@@ -10,16 +10,13 @@ import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.model.Post
 import com.claire.carddiary.utils.SingleLiveEvent
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.BroadcastChannel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 
 class CardViewModel(
     private val repository: CardRepository
 ) : ViewModel() {
 
-    private val _cardList = SingleLiveEvent<PagingData<Card>>()
-    val cardList: SingleLiveEvent<PagingData<Card>> = _cardList
+    private var _cardList: LiveData<PagingData<Card>>? = null
 
     private val _errorMsg = MutableLiveData<String>()
     val errorMsg: LiveData<String> = _errorMsg
@@ -33,23 +30,17 @@ class CardViewModel(
     private val _progress = SingleLiveEvent<List<Post>>()
     val progress: SingleLiveEvent<List<Post>> = _progress
 
-    @ExperimentalCoroutinesApi
-    val searchQueryChannel = BroadcastChannel<String>(Channel.CONFLATED)
+    private val _stateFlow = MutableStateFlow("")
 
     @ExperimentalCoroutinesApi
     @FlowPreview
-    val searchResult = searchQueryChannel
-        .asFlow()
+    val searchResult = _stateFlow
         .debounce(500)
-        .mapLatest { s ->
-            when(val result = repository.getKeyWordCards(s)) {
-                is Resource.Success -> result.data
-                is Resource.NetworkError -> {
-                    _errorMsg.value = result.errorMessage
-                    PagingData.empty()
-                }
-                else -> PagingData.empty()
-            }
+//        .filter { s ->
+//            return@filter s.isNotEmpty()
+//        }
+        .flatMapLatest { s ->
+            repository.getCards(s).cachedIn(viewModelScope)
         }
         .catch {
             _errorMsg.value = "Error query search result!"
@@ -61,11 +52,10 @@ class CardViewModel(
         getCards()
     }
 
-    fun getCards() = viewModelScope.launch {
+    fun getCards() = _cardList ?: repository.getCards("").cachedIn(viewModelScope).asLiveData()
 
-        repository.getCards().cachedIn(viewModelScope).collect {
-            _cardList.value = it
-        }
+    fun searchQuery(s: String) {
+        _stateFlow.value = s
     }
 
     fun navigateToEdit() = _navigateToEdit.call()

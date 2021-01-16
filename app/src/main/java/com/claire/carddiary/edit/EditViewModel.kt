@@ -70,8 +70,4 @@ class EditViewModel : ViewModel() {
         _card.value = _card.value?.copy(content = content)
     }
 
-    override fun onCleared() {
-        super.onCleared()
-    }
-
 }

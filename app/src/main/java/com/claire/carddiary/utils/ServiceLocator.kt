@@ -16,11 +16,11 @@ object ServiceLocator {
         synchronized(this) {
             return cardRepository
                 ?: cardRepository
-                ?: createStylishRepository()
+                ?: createRepository()
         }
     }
 
-    private fun createStylishRepository(): CardRepository {
+    private fun createRepository(): CardRepository {
         return CardRepositoryImp(
             CardLocalDataSource(),
             CardRemoteDataSource

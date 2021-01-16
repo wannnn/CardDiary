@@ -8,9 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface CardDataSource {
 
-    suspend fun getCards(): Flow<PagingData<Card>>
-
-    suspend fun getKeyWordCards(query: String): Resource<PagingData<Card>>
+    fun getCards(query: String): Flow<PagingData<Card>>
 
     suspend fun uploadPhoto(uri: Uri): Resource<String>
 

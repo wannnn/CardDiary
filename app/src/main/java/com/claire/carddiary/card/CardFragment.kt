@@ -64,7 +64,7 @@ class CardFragment : Fragment() {
 
                 override fun onQueryTextChange(newText: String?): Boolean {
                     lifecycleScope.launch {
-                        vm.searchQueryChannel.send(newText.toString())
+                        vm.searchQuery(newText.toString())
                     }
                     return true
                 }
@@ -117,7 +117,7 @@ class CardFragment : Fragment() {
 
     private fun observeViewModel() {
 
-        vm.cardList.observeSingle(viewLifecycleOwner) {
+        vm.getCards().observe(viewLifecycleOwner) {
             cardAdapter.submitData(lifecycle, it)
 
             binding.txtDefault.apply {
@@ -152,6 +152,7 @@ class CardFragment : Fragment() {
 
         vm.searchResult.observe(viewLifecycleOwner) { data ->
             data?.let { cardAdapter.submitData(lifecycle, it) }
+            hideKeyboard()
         }
 
     }

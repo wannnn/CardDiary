@@ -13,12 +13,8 @@ class CardLocalDataSource : CardDataSource {
 
     private val db = CardDatabase.getInstance(CardApplication.instance).cardDao()
 
-    override suspend fun getCards(): Flow<PagingData<Card>> {
+    override fun getCards(query: String): Flow<PagingData<Card>> {
         return emptyFlow()
-    }
-
-    override suspend fun getKeyWordCards(query: String): Resource<PagingData<Card>> {
-        return Resource.Success(PagingData.empty())
     }
 
     override suspend fun uploadPhoto(uri: Uri): Resource<String> {
