@@ -10,17 +10,14 @@
             name="vm"
             type="com.claire.carddiary.card.CardViewModel" />
 
-        <variable
-            name="showDefault"
-            type="java.lang.Boolean"/>
+        <variable name="showDefault" type="java.lang.Boolean"/>
 
-        <variable
-            name="clearEnable"
-            type="java.lang.Boolean"/>
+        <variable name="clearEnable" type="java.lang.Boolean"/>
 
-        <variable
-            name="progressEnable"
-            type="java.lang.Boolean"/>
+        <variable name="progressEnable" type="java.lang.Boolean"/>
+
+        <variable name="month" type="String" />
+
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -30,7 +27,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:isShadowEnable="@{false}">
 
             <include
                 android:id="@+id/lay_header"

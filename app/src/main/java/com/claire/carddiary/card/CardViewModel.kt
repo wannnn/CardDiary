@@ -39,7 +39,7 @@ class CardViewModel(
     private val _progress = SingleLiveEvent<List<Post>>()
     val progress: SingleLiveEvent<List<Post>> = _progress
 
-    private val _stateFlow = MutableStateFlow("")
+//    private val _stateFlow = MutableStateFlow("")
 
 //    @ExperimentalCoroutinesApi
 //    @FlowPreview

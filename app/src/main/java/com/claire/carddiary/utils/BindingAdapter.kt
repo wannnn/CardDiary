@@ -9,7 +9,13 @@ import coil.api.load
 import coil.transform.RoundedCornersTransformation
 import com.claire.carddiary.card.CardViewModel
 import com.claire.carddiary.edit.EditViewModel
+import com.google.android.material.appbar.AppBarLayout
 
+
+@BindingAdapter("android:isShadowEnable")
+fun appBarShadowEnable(appBarLayout: AppBarLayout, isEnable: Boolean) {
+    if (isEnable.not()) appBarLayout.outlineProvider = null
+}
 
 @BindingAdapter("android:imagePath")
 fun setImage(view: ImageView, path: String?) {

@@ -45,7 +45,6 @@ class CardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.appbar.outlineProvider = null
         binding.vm = vm
 
         observeData()
