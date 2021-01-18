@@ -121,7 +121,7 @@ class CardFragment : Fragment() {
             hideKeyboard()
         }
 
-        vm.clearEnable.observeSingle(viewLifecycleOwner) {
+        vm.clearEnable.observe(viewLifecycleOwner) {
             binding.clearEnable = it
         }
 

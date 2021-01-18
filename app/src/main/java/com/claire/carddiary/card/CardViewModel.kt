@@ -31,8 +31,8 @@ class CardViewModel(
     private val _clearSearch = SingleLiveEvent<Any>()
     val clearSearch: SingleLiveEvent<Any> = _clearSearch
 
-    private val _clearEnable = SingleLiveEvent<Boolean>()
-    val clearEnable: SingleLiveEvent<Boolean> = _clearEnable
+    private val _clearEnable = MutableLiveData<Boolean>()
+    val clearEnable: LiveData<Boolean> = _clearEnable
 
     private val _queryKeyword = MutableLiveData<String>()
 
