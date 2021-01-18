@@ -16,7 +16,8 @@ class CardViewModel(
     private val repository: CardRepository
 ) : ViewModel() {
 
-    private var _cardList: LiveData<PagingData<Card>>? = null
+    private val _cardList = SingleLiveEvent<PagingData<Card>>()
+    val cardList: SingleLiveEvent<PagingData<Card>> = _cardList
 
     private val _errorMsg = MutableLiveData<String>()
     val errorMsg: LiveData<String> = _errorMsg
@@ -27,40 +28,59 @@ class CardViewModel(
     private val _optionClick = SingleLiveEvent<Any>()
     val optionClick: SingleLiveEvent<Any> = _optionClick
 
+    private val _clearSearch = SingleLiveEvent<Any>()
+    val clearSearch: SingleLiveEvent<Any> = _clearSearch
+
+    private val _clearEnable = SingleLiveEvent<Boolean>()
+    val clearEnable: SingleLiveEvent<Boolean> = _clearEnable
+
+    private val _queryKeyword = MutableLiveData<String>()
+
     private val _progress = SingleLiveEvent<List<Post>>()
     val progress: SingleLiveEvent<List<Post>> = _progress
 
     private val _stateFlow = MutableStateFlow("")
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
-    val searchResult = _stateFlow
-        .debounce(500)
+//    @ExperimentalCoroutinesApi
+//    @FlowPreview
+//    val searchResult = _stateFlow
+//        .debounce(500)
 //        .filter { s ->
 //            return@filter s.isNotEmpty()
 //        }
-        .flatMapLatest { s ->
-            repository.getCards(s).cachedIn(viewModelScope)
-        }
-        .catch {
-            _errorMsg.value = "Error query search result!"
-        }
-        .asLiveData()
+//        .flatMapLatest { s ->
+//            repository.getCards(s).cachedIn(viewModelScope)
+//        }
+//        .catch {
+//            _errorMsg.value = "Error query search result!"
+//        }
+//        .asLiveData()
 
 
     init {
         getCards()
     }
 
-    fun getCards() = _cardList ?: repository.getCards("").cachedIn(viewModelScope).asLiveData()
+    fun getCards(key: String = "") = viewModelScope.launch {
+        repository.getCards(key).cachedIn(viewModelScope).collect {
+            _cardList.value = it
+        }
+    }
 
     fun searchQuery(s: String) {
-        _stateFlow.value = s
+        _queryKeyword.value = s
+        _clearEnable.value = s.isNotBlank()
+    }
+
+    fun onSearch() {
+        if (_queryKeyword.value.isNullOrBlank().not()) getCards(_queryKeyword.value.orEmpty())
     }
 
     fun navigateToEdit() = _navigateToEdit.call()
 
     fun optionClick() = _optionClick.call()
+
+    fun clearSearch() = _clearSearch.call()
 
     fun upload(card: Card) = viewModelScope.launch {
         var count = 0

@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.claire.carddiary.R
 import com.claire.carddiary.databinding.ItemLoadStateBinding
 import com.claire.carddiary.utils.click
-import com.claire.carddiary.utils.gone
-import com.claire.carddiary.utils.visible
 
 class CardLoadStateAdapter(
     private val retry: () -> Unit

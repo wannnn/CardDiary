@@ -1,7 +1,5 @@
 package com.claire.carddiary.edit
 
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,21 +15,6 @@ class EditViewModel : ViewModel() {
     private val _alertMsg = MutableLiveData<String>()
     val alertMsg: LiveData<String> = _alertMsg
 
-    val titleTextWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            setTitle(s.toString())
-        }
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-    }
-
-    val contentTextWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            setContent(s.toString())
-        }
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-    }
 
     init {
         _card.value = _card.value?.copy(images = listOf(""))

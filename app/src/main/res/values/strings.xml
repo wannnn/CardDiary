@@ -11,6 +11,7 @@
     <!-- CardFragment -->
     <string name="empty_msg">This is Empty</string>
     <string name="uploading">Uploading…</string>
+    <string name="search_hint">search diary here</string>
 
     <!-- NavigateDialog -->
     <string name="item_new">New Diary</string>

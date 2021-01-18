@@ -4,9 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
             name="vm"
             type="com.claire.carddiary.card.CardViewModel" />
+
+        <variable
+            name="showDefault"
+            type="java.lang.Boolean"/>
+
+        <variable
+            name="clearEnable"
+            type="java.lang.Boolean"/>
+
+        <variable
+            name="progressEnable"
+            type="java.lang.Boolean"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -18,52 +32,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                app:layout_scrollFlags="scroll|enterAlways">
+            <include
+                android:id="@+id/lay_header"
+                layout="@layout/item_header"
+                app:vm="@{vm}"/>
 
-                <TextView
-                    android:id="@+id/toolbarTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="10dp"
-                    android:text="@string/app_name"
-                    android:textColor="@color/black75"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:typeface="serif"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/more"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <ImageView
-                    android:id="@+id/more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_more_24"
-                    android:onClick="@{() -> vm.optionClick()}"
-                    app:layout_constraintBottom_toBottomOf="@+id/toolbarTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/searchView"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/bg_corner_search"
-                android:elevation="10dp" />
+            <include
+                android:id="@+id/lay_search"
+                layout="@layout/item_search"
+                app:vm="@{vm}"
+                app:clearEnable="@{clearEnable}"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -97,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:visibility="@{progressEnable ? View.VISIBLE : View.GONE}"
             android:indeterminateOnly="true" />
 
         <TextView
@@ -104,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone"
+            android:visibility="@{showDefault ? View.VISIBLE : View.GONE, default = gone}"
             android:text="@string/empty_msg"
             android:onClick="@{() -> vm.navigateToEdit()}" />
 

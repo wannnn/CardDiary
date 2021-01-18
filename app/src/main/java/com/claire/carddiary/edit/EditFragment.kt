@@ -60,8 +60,11 @@ class EditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
+
         binding.vm = vm
+
+        observeData()
+
         vm.setScriptCard(args.item)
 
         with(binding.toolbar) {
@@ -91,7 +94,7 @@ class EditFragment : Fragment() {
 
     }
 
-    private fun observeViewModel() {
+    private fun observeData() {
 
         vm.card.observe(viewLifecycleOwner) {
             binding.item = it

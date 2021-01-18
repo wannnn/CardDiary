@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
@@ -19,8 +17,8 @@ import com.claire.carddiary.ViewModelFactory
 import com.claire.carddiary.card.decoration.GridItemDecoration
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.databinding.FragCardBinding
-import com.claire.carddiary.utils.*
-import kotlinx.coroutines.launch
+import com.claire.carddiary.utils.hideKeyboard
+import com.claire.carddiary.utils.px
 
 
 class CardFragment : Fragment() {
@@ -46,29 +44,16 @@ class CardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeViewModel()
+
         binding.appbar.outlineProvider = null
         binding.vm = vm
+
+        observeData()
 
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, 1)
             adapter = concatAdapter
             addItemDecoration(GridItemDecoration(16.px, 16.px, 1))
-        }
-
-        with(binding.searchView) {
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    lifecycleScope.launch {
-                        vm.searchQuery(newText.toString())
-                    }
-                    return true
-                }
-            })
         }
 
         with(cardAdapter) {
@@ -83,12 +68,9 @@ class CardFragment : Fragment() {
 
             addLoadStateListener { loadState ->
 
-                if (loadState.refresh is LoadState.Loading){
-                    binding.progress.visible()
-                }
-                else {
-                    binding.progress.gone()
+                binding.progressEnable = loadState.refresh is LoadState.Loading
 
+                if (loadState.refresh !is LoadState.Loading){
                     // getting the error
                     val error = when {
                         loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
@@ -108,21 +90,16 @@ class CardFragment : Fragment() {
                         Toast.makeText(context, it.error.message, Toast.LENGTH_SHORT).show()
                     }
                 }
-
             }
-
         }
-
     }
 
-    private fun observeViewModel() {
+    private fun observeData() {
 
-        vm.getCards().observe(viewLifecycleOwner) {
+        vm.cardList.observeSingle(viewLifecycleOwner) {
             cardAdapter.submitData(lifecycle, it)
-
-            binding.txtDefault.apply {
-                if (it == null) visible() else gone()
-            }
+            binding.showDefault = it == null
+            hideKeyboard()
         }
 
         vm.errorMsg.observe(viewLifecycleOwner) {
@@ -137,6 +114,17 @@ class CardFragment : Fragment() {
             findNavController().navigate(CardFragmentDirections.toNavigateSheetDialog())
         }
 
+        vm.clearSearch.observeSingle(viewLifecycleOwner) {
+            binding.laySearch.searchView.setText("")
+            binding.laySearch.searchView.clearFocus()
+            vm.getCards()
+            hideKeyboard()
+        }
+
+        vm.clearEnable.observeSingle(viewLifecycleOwner) {
+            binding.clearEnable = it
+        }
+
         val savedStateHandle = findNavController().currentBackStackEntry?.savedStateHandle
         savedStateHandle?.getLiveData<Card>(getString(R.string.nav_key_card))?.observe(viewLifecycleOwner) { card ->
 
@@ -148,11 +136,6 @@ class CardFragment : Fragment() {
 
         vm.progress.observeSingle(viewLifecycleOwner) {
             postAdapter.submitList(it)
-        }
-
-        vm.searchResult.observe(viewLifecycleOwner) { data ->
-            data?.let { cardAdapter.submitData(lifecycle, it) }
-            hideKeyboard()
         }
 
     }
