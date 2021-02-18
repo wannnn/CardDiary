@@ -3,12 +3,12 @@ package com.claire.carddiary.card.decoration
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.claire.carddiary.CardApplication
 import com.claire.carddiary.utils.px
 
 class GridItemDecoration(
     private val space: Int,
-    private val margin: Int,
-    private val spanCount: Int
+    private val margin: Int
 ) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
@@ -16,6 +16,7 @@ class GridItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
+        val spanCount = CardApplication.rvListType
         val position = parent.getChildAdapterPosition(view)
         if (position == -1) return
         when(spanCount) {

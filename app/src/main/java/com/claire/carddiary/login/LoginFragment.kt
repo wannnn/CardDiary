@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.claire.carddiary.R
+import com.claire.carddiary.base.FragmentBindingProvider
 import com.claire.carddiary.databinding.FragLoginBinding
 import com.claire.carddiary.utils.click
 import com.google.android.material.snackbar.Snackbar
@@ -19,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 
 class LoginFragment : Fragment() {
 
-    private lateinit var binding: FragLoginBinding
+    private val binding: FragLoginBinding by FragmentBindingProvider(R.layout.frag_login)
     private lateinit var startForResult: ActivityResultLauncher<Intent>
 
     override fun onAttach(context: Context) {
@@ -40,10 +41,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragLoginBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    ): View = binding.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

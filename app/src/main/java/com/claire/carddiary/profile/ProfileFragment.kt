@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.claire.carddiary.R
+import com.claire.carddiary.base.FragmentBindingProvider
 import com.claire.carddiary.data.model.ProfileItemData
 import com.claire.carddiary.databinding.FragProfileBinding
 import com.claire.carddiary.login.AuthManager
@@ -14,16 +15,13 @@ import com.google.android.material.snackbar.Snackbar
 
 class ProfileFragment : Fragment() {
 
-    private lateinit var binding: FragProfileBinding
+    private val binding: FragProfileBinding by FragmentBindingProvider(R.layout.frag_profile)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragProfileBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    ): View = binding.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

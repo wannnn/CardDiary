@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.claire.carddiary.CardApplication
 import com.claire.carddiary.R
 import com.claire.carddiary.base.DataBindingViewHolder
 import com.claire.carddiary.data.model.Card
@@ -25,7 +26,9 @@ class CardAdapter : PagingDataAdapter<Card, DataBindingViewHolder<Card>>(DiffCal
             oldItem == newItem
     }
 
-    override fun getItemViewType(position: Int): Int = R.layout.item_card_large
+    override fun getItemViewType(position: Int): Int {
+        return if (CardApplication.rvListType == 1) R.layout.item_card_large else R.layout.item_card
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<Card> {
         val layoutInflater = LayoutInflater.from(parent.context)

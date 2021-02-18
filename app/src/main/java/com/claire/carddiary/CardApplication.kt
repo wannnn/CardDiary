@@ -7,6 +7,10 @@ class CardApplication : Application() {
 
     companion object {
         var instance: CardApplication by Delegates.notNull()
+        var isSingleRaw = false
+
+        val rvListType: Int
+            get() = if (isSingleRaw) 1 else 2
     }
 
     override fun onCreate() {

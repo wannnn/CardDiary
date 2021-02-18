@@ -10,19 +10,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import com.claire.carddiary.CardApplication
 import com.claire.carddiary.R
 import com.claire.carddiary.ViewModelFactory
+import com.claire.carddiary.base.FragmentBindingProvider
 import com.claire.carddiary.card.decoration.GridItemDecoration
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.databinding.FragCardBinding
+import com.claire.carddiary.utils.click
 import com.claire.carddiary.utils.hideKeyboard
 import com.claire.carddiary.utils.px
 
 
 class CardFragment : Fragment() {
 
+    private val binding: FragCardBinding by FragmentBindingProvider(R.layout.frag_card)
     private val vm: CardViewModel by viewModels { ViewModelFactory() }
     private val postAdapter: PostAdapter by lazy { PostAdapter() }
     private val cardAdapter: CardAdapter by lazy { CardAdapter() }
@@ -30,17 +35,12 @@ class CardFragment : Fragment() {
         postAdapter,
         cardAdapter.withLoadStateFooter(CardLoadStateAdapter(cardAdapter::retry)))
     }
-    private lateinit var binding: FragCardBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragCardBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    ): View = binding.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -49,10 +49,12 @@ class CardFragment : Fragment() {
 
         observeData()
 
+        binding.listType.click { changeListType() }
+
         with(binding.rvCard) {
-            layoutManager = GridLayoutManager(context, 1)
+            layoutManager = GridLayoutManager(context, CardApplication.rvListType)
             adapter = concatAdapter
-            addItemDecoration(GridItemDecoration(16.px, 16.px, 1))
+            addItemDecoration(GridItemDecoration(16.px, 16.px))
         }
 
         with(cardAdapter) {
@@ -90,6 +92,19 @@ class CardFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun changeListType() {
+        binding.rvCard.apply {
+            val viewState = layoutManager?.onSaveInstanceState()
+
+            CardApplication.isSingleRaw = CardApplication.isSingleRaw.not()
+
+            cardAdapter.submitData(lifecycle, vm.cardList.value ?: PagingData.empty())
+
+            layoutManager = GridLayoutManager(context, CardApplication.rvListType)
+            layoutManager?.onRestoreInstanceState(viewState)
         }
     }
 

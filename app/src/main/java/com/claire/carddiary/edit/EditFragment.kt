@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.claire.carddiary.R
+import com.claire.carddiary.base.FragmentBindingProvider
 import com.claire.carddiary.databinding.FragEditBinding
 import com.claire.carddiary.utils.hideKeyboard
 import com.google.android.material.tabs.TabLayoutMediator
@@ -23,8 +24,8 @@ import java.util.*
 
 class EditFragment : Fragment() {
 
+    private val binding: FragEditBinding by FragmentBindingProvider(R.layout.frag_edit)
     private val vm: EditViewModel by viewModels()
-    private lateinit var binding: FragEditBinding
     private val adapter: ImagePagerAdapter by lazy { ImagePagerAdapter() }
     private val args: EditFragmentArgs by navArgs()
 
@@ -53,10 +54,7 @@ class EditFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = FragEditBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    ): View = binding.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
