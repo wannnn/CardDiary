@@ -1,6 +1,7 @@
 package com.claire.carddiary.data.source
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.claire.carddiary.data.model.Card
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -44,6 +45,10 @@ class CardPagingSource(
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
+    }
+
+    override fun getRefreshKey(state: PagingState<QuerySnapshot, Card>): QuerySnapshot? {
+        return null
     }
 
 }
