@@ -4,6 +4,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.claire.carddiary.CardApplication
 import com.claire.carddiary.Resource
 import com.claire.carddiary.data.CardRepository
 import com.claire.carddiary.data.model.Card
@@ -22,17 +23,20 @@ class CardViewModel(
     private val _errorMsg = MutableLiveData<String>()
     val errorMsg: LiveData<String> = _errorMsg
 
-    private val _navigateToEdit = SingleLiveEvent<Any>()
-    val navigateToEdit: SingleLiveEvent<Any> = _navigateToEdit
+    private val _navigateToEdit = SingleLiveEvent<Unit>()
+    val navigateToEdit: SingleLiveEvent<Unit> = _navigateToEdit
 
-    private val _optionClick = SingleLiveEvent<Any>()
-    val optionClick: SingleLiveEvent<Any> = _optionClick
+    private val _optionClick = SingleLiveEvent<Unit>()
+    val optionClick: SingleLiveEvent<Unit> = _optionClick
 
-    private val _clearSearch = SingleLiveEvent<Any>()
-    val clearSearch: SingleLiveEvent<Any> = _clearSearch
+    private val _clearSearch = SingleLiveEvent<Unit>()
+    val clearSearch: SingleLiveEvent<Unit> = _clearSearch
 
     private val _clearEnable = MutableLiveData<Boolean>()
     val clearEnable: LiveData<Boolean> = _clearEnable
+
+    private val _listType = SingleLiveEvent<Unit>()
+    val listType: LiveData<Unit> = _listType
 
     private val _queryKeyword = MutableLiveData<String>()
 
@@ -81,6 +85,11 @@ class CardViewModel(
     fun optionClick() = _optionClick.call()
 
     fun clearSearch() = _clearSearch.call()
+
+    fun changeListType() {
+        CardApplication.isSingleRaw = CardApplication.isSingleRaw.not()
+        _listType.call()
+    }
 
     fun upload(card: Card) = viewModelScope.launch {
         var count = 0

@@ -20,7 +20,6 @@ import com.claire.carddiary.base.FragmentBindingProvider
 import com.claire.carddiary.card.decoration.GridItemDecoration
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.databinding.FragCardBinding
-import com.claire.carddiary.utils.click
 import com.claire.carddiary.utils.hideKeyboard
 import com.claire.carddiary.utils.px
 
@@ -48,8 +47,6 @@ class CardFragment : Fragment() {
         binding.vm = vm
 
         observeData()
-
-        binding.listType.click { changeListType() }
 
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, CardApplication.rvListType)
@@ -95,19 +92,6 @@ class CardFragment : Fragment() {
         }
     }
 
-    private fun changeListType() {
-        binding.rvCard.apply {
-            val viewState = layoutManager?.onSaveInstanceState()
-
-            CardApplication.isSingleRaw = CardApplication.isSingleRaw.not()
-
-            cardAdapter.submitData(lifecycle, vm.cardList.value ?: PagingData.empty())
-
-            layoutManager = GridLayoutManager(context, CardApplication.rvListType)
-            layoutManager?.onRestoreInstanceState(viewState)
-        }
-    }
-
     private fun observeData() {
 
         vm.cardList.observeSingle(viewLifecycleOwner) {
@@ -139,6 +123,10 @@ class CardFragment : Fragment() {
             binding.clearEnable = it
         }
 
+        vm.listType.observe(viewLifecycleOwner) {
+            changeListType()
+        }
+
         val savedStateHandle = findNavController().currentBackStackEntry?.savedStateHandle
         savedStateHandle?.getLiveData<Card>(getString(R.string.nav_key_card))?.observe(viewLifecycleOwner) { card ->
 
@@ -152,6 +140,20 @@ class CardFragment : Fragment() {
             postAdapter.submitList(it)
         }
 
+    }
+
+    private fun changeListType() {
+        binding.rvCard.apply {
+
+            binding.listType = CardApplication.rvListType
+
+            val viewState = layoutManager?.onSaveInstanceState()
+
+            cardAdapter.submitData(lifecycle, vm.cardList.value ?: PagingData.empty())
+
+            layoutManager = GridLayoutManager(context, CardApplication.rvListType)
+            layoutManager?.onRestoreInstanceState(viewState)
+        }
     }
 
 }

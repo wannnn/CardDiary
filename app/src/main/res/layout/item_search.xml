@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View"/>
@@ -9,9 +10,9 @@
             name="vm"
             type="com.claire.carddiary.card.CardViewModel" />
 
-        <variable
-            name="clearEnable"
-            type="java.lang.Boolean"/>
+        <variable name="clearEnable" type="java.lang.Boolean"/>
+
+        <variable name="listType" type="Integer" />
 
     </data>
 
@@ -35,7 +36,7 @@
             android:paddingEnd="10dp"
             android:searchTextChangedListener="@{vm}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/search"
+            app:layout_constraintEnd_toStartOf="@+id/listType"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,23 +46,36 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:elevation="10dp"
-            android:src="@drawable/ic_cancel_20"
             android:onClick="@{() -> vm.clearSearch()}"
+            android:src="@drawable/ic_cancel_20"
             android:visibility="@{clearEnable ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/searchView"
-            app:layout_constraintEnd_toEndOf="@+id/searchView"
+            app:layout_constraintEnd_toStartOf="@+id/search"
             app:layout_constraintTop_toTopOf="@+id/searchView" />
 
         <ImageView
             android:id="@+id/search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_search_24"
+            android:layout_marginEnd="8dp"
             android:onClick="@{() -> vm.onSearch()}"
+            android:elevation="10dp"
+            android:src="@drawable/ic_search_24"
+            app:layout_constraintBottom_toBottomOf="@+id/searchView"
+            app:layout_constraintEnd_toEndOf="@+id/searchView"
+            app:layout_constraintTop_toTopOf="@+id/searchView" />
+
+        <ImageView
+            android:id="@+id/listType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:onClick="@{() -> vm.changeListType()}"
+            android:listType="@{listType}"
             app:layout_constraintBottom_toBottomOf="@+id/searchView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/searchView" />
+            app:layout_constraintTop_toTopOf="@+id/searchView"
+            tools:src="@drawable/ic_dashboard_24"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

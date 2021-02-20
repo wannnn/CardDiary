@@ -27,7 +27,7 @@ class CardAdapter : PagingDataAdapter<Card, DataBindingViewHolder<Card>>(DiffCal
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (CardApplication.rvListType == 1) R.layout.item_card_large else R.layout.item_card
+        return if (CardApplication.isSingleRaw) R.layout.item_card_large else R.layout.item_card
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataBindingViewHolder<Card> {

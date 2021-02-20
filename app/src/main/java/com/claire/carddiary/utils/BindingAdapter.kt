@@ -7,6 +7,8 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import coil.api.load
 import coil.transform.RoundedCornersTransformation
+import com.claire.carddiary.CardApplication
+import com.claire.carddiary.R
 import com.claire.carddiary.card.CardViewModel
 import com.claire.carddiary.edit.EditViewModel
 import com.google.android.material.appbar.AppBarLayout
@@ -28,6 +30,15 @@ fun setRoundImage(view: ImageView, path: String?) {
         view.load(it) {
             transformations(RoundedCornersTransformation(5f))
         }
+    }
+}
+
+@BindingAdapter("android:listType")
+fun setListTypeIcon(view: ImageView, listType: Int) {
+    if (CardApplication.isSingleRaw) {
+        view.setImageResource(R.drawable.ic_list_24)
+    } else {
+        view.setImageResource(R.drawable.ic_dashboard_24)
     }
 }
 

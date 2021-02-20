@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="android.view.View"/>
@@ -16,7 +15,7 @@
 
         <variable name="progressEnable" type="java.lang.Boolean"/>
 
-        <variable name="month" type="String" />
+        <variable name="listType" type="Integer" />
 
     </data>
 
@@ -39,21 +38,8 @@
                 android:id="@+id/lay_search"
                 layout="@layout/item_search"
                 app:vm="@{vm}"
-                app:clearEnable="@{clearEnable}"/>
-
-            <TextView
-                android:id="@+id/listType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black75"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:text="2020/2月"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="8dp"
-                tools:text="2020/2月"/>
+                app:clearEnable="@{clearEnable}"
+                app:listType="@{listType}"/>
 
         </com.google.android.material.appbar.AppBarLayout>
 
