@@ -20,7 +20,10 @@ data class Card(
     val date: String = Date().toSimpleDateFormat,
     val weather: Int = 0,  // ex.(0:sunny 1:rainy)
     val content: String = "",
-    val location: Location = Location()
+    val location: Location = Location(),
+
+    // app use
+    val isEditView: Boolean = false
 ): Parcelable {
 
     @Entity(tableName = "location")

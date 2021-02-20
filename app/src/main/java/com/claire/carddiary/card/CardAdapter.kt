@@ -24,6 +24,9 @@ class CardAdapter : PagingDataAdapter<Card, DataBindingViewHolder<Card>>(DiffCal
 
         override fun areContentsTheSame(oldItem: Card, newItem: Card): Boolean =
             oldItem == newItem
+
+        override fun getChangePayload(oldItem: Card, newItem: Card): Any? =
+            oldItem.isEditView
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -46,6 +49,18 @@ class CardAdapter : PagingDataAdapter<Card, DataBindingViewHolder<Card>>(DiffCal
         holder.itemView.setOnLongClickListener {
             longClickListener.invoke(position)
             true
+        }
+    }
+
+    override fun onBindViewHolder(
+        holder: DataBindingViewHolder<Card>,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            holder.bindWithPayload(payloads[0] as Boolean)
         }
     }
 
