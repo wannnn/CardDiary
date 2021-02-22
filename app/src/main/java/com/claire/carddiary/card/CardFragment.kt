@@ -60,10 +60,6 @@ class CardFragment : Fragment() {
                 findNavController().navigate(CardFragmentDirections.toDetailFragment(it))
             }
 
-            longClickListener = {
-                Toast.makeText(context, "long clickListener!$it", Toast.LENGTH_SHORT).show()
-            }
-
             addLoadStateListener { loadState ->
 
                 binding.progressEnable = loadState.refresh is LoadState.Loading
