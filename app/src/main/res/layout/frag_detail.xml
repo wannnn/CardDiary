@@ -12,8 +12,9 @@
             type="com.claire.carddiary.data.model.Card" />
 
         <variable
-            name="listener"
+            name="onBack"
             type="Function1&lt;Integer, Unit>" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,7 +67,7 @@
             android:layout_marginTop="16dp"
             android:elevation="8dp"
             android:src="@drawable/ic_detail_close"
-            android:onClick="@{_ -> listener.invoke(0)}"
+            android:onClick="@{_ -> onBack.invoke(0)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

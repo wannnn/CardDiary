@@ -32,7 +32,7 @@ class DetailFragment : Fragment() {
             item = args.item
             imagePager.adapter = adapter
 
-            listener = { findNavController().navigateUp() }
+            onBack = { findNavController().navigateUp() }
         }
 
         TabLayoutMediator(binding.indicator, binding.imagePager) { _, _ -> }.attach()

@@ -126,6 +126,7 @@ class CardFragment : Fragment() {
         val savedStateHandle = findNavController().currentBackStackEntry?.savedStateHandle
         savedStateHandle?.getLiveData<Card>(getString(R.string.nav_key_card))?.observe(viewLifecycleOwner) { card ->
 
+            Toast.makeText(context, getString(R.string.uploading), Toast.LENGTH_SHORT).show()
             binding.rvCard.smoothScrollToPosition(0)
             vm.upload(card)
 

@@ -70,8 +70,7 @@ class EditFragment : Fragment() {
             setNavigationIcon(R.drawable.ic_arrow_back_20)
             setOnMenuItemClickListener {
                 when(it.itemId) {
-                    R.id.check -> {  // save data
-                        Toast.makeText(context, getString(R.string.uploading), Toast.LENGTH_SHORT).show()
+                    R.id.check -> {  // save or update data
                         findNavController().previousBackStackEntry?.savedStateHandle?.set(getString(R.string.nav_key_card), vm.getCard())
                         findNavController().navigateUp()
                     }
