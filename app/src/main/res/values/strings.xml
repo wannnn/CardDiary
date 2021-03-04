@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">CardDiary</string>
 
+    <!-- base -->
+    <string name="are_u_sure">確定要刪除？</string>
+    <string name="sure">確定</string>
+    <string name="cancel">取消</string>
+
     <!-- option menu item -->
     <string name="menu_check">done</string>
 
@@ -16,6 +21,10 @@
     <!-- NavigateDialog -->
     <string name="item_new">New Diary</string>
     <string name="item_profile">Profile</string>
+
+    <!-- NavigateEditDialog -->
+    <string name="item_edit">Edit Diary</string>
+    <string name="item_delete">Delete Diary</string>
 
     <!-- EditFragment -->
     <string name="permission_denied">permission denied</string>

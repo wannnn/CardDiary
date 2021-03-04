@@ -17,6 +17,10 @@ class CardLocalDataSource : CardDataSource {
         return emptyFlow()
     }
 
+    override suspend fun deleteCard(id: String): Resource<String> {
+        return Resource.Success("")
+    }
+
     override suspend fun uploadPhoto(uri: Uri): Resource<String> {
         return Resource.Success("")
     }

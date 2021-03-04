@@ -19,6 +19,9 @@
         <action
             android:id="@+id/to_navigateSheetDialog"
             app:destination="@id/navigateSheetDialog" />
+        <action
+            android:id="@+id/to_navigateEditDialog"
+            app:destination="@id/navigateEditDialog" />
     </fragment>
 
     <fragment
@@ -61,7 +64,7 @@
 
     <dialog
         android:id="@+id/navigateSheetDialog"
-        android:name="com.claire.carddiary.card.NavigateDialog"
+        android:name="com.claire.carddiary.navigatedialog.NavigateDialog"
         android:label="NavigateSheetDialog"
         tools:layout="@layout/dialog_navigate">
         <action
@@ -69,6 +72,19 @@
             app:destination="@id/profileFragment"
             app:enterAnim="@anim/anim_slide_up"
             app:popExitAnim="@anim/anim_slide_down"/>
+        <action
+            android:id="@+id/to_editFragment"
+            app:destination="@id/editFragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/navigateEditDialog"
+        android:name="com.claire.carddiary.navigatedialog.NavigateEditDialog"
+        android:label="NavigateEditDialog"
+        tools:layout="@layout/dialog_edit_navigate">
+        <argument
+            android:name="item"
+            app:argType="com.claire.carddiary.data.model.Card" />
         <action
             android:id="@+id/to_editFragment"
             app:destination="@id/editFragment" />

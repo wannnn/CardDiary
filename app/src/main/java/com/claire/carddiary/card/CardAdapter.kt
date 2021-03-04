@@ -10,11 +10,13 @@ import com.claire.carddiary.CardApplication
 import com.claire.carddiary.R
 import com.claire.carddiary.base.DataBindingViewHolder
 import com.claire.carddiary.data.model.Card
+import com.claire.carddiary.utils.LongClickCallback
 import com.claire.carddiary.utils.click
 
 class CardAdapter : PagingDataAdapter<Card, DataBindingViewHolder<Card>>(DiffCallback()) {
 
     var clickListener: (card: Card) -> Unit = {}
+    var longClickListener: (card: Card) -> Unit = {}
 
     class DiffCallback : DiffUtil.ItemCallback<Card>() {
         override fun areItemsTheSame(oldItem: Card, newItem: Card): Boolean =
@@ -39,6 +41,11 @@ class CardAdapter : PagingDataAdapter<Card, DataBindingViewHolder<Card>>(DiffCal
 
         holder.itemView.click {
             clickListener.invoke(getItem(position) ?: Card())
+        }
+
+        holder.itemView.setOnLongClickListener {
+            longClickListener.invoke(getItem(position) ?: Card())
+            true
         }
     }
 }

@@ -35,6 +35,22 @@ object CardRemoteDataSource : CardDataSource {
 
     }
 
+    override suspend fun deleteCard(id: String): Resource<String> {
+
+        return try {
+
+            firebase.collection("cards")
+                .document(id)
+                .delete()
+                .await()
+
+            Resource.Success("刪除成功！")
+
+        } catch (e: Exception) {
+            Resource.NetworkError("Error Delete Diary")
+        }
+    }
+
     override suspend fun uploadPhoto(uri: Uri): Resource<String> {
 
         return try {

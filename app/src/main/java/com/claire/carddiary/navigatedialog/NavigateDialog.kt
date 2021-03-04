@@ -1,4 +1,4 @@
-package com.claire.carddiary.card
+package com.claire.carddiary.navigatedialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.claire.carddiary.R
+import com.claire.carddiary.base.FragmentBindingProvider
 import com.claire.carddiary.databinding.DialogNavigateBinding
 import com.claire.carddiary.utils.click
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class NavigateDialog : BottomSheetDialogFragment() {
 
-    private lateinit var binding: DialogNavigateBinding
+    private val binding: DialogNavigateBinding by FragmentBindingProvider(R.layout.dialog_navigate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,10 +24,7 @@ class NavigateDialog : BottomSheetDialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = DialogNavigateBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    ): View = binding.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

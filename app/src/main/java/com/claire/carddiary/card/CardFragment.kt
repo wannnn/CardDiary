@@ -60,6 +60,10 @@ class CardFragment : Fragment() {
                 findNavController().navigate(CardFragmentDirections.toDetailFragment(it))
             }
 
+            longClickListener = {
+                findNavController().navigate(CardFragmentDirections.toNavigateEditDialog(it))
+            }
+
             addLoadStateListener { loadState ->
 
                 binding.progressEnable = loadState.refresh is LoadState.Loading

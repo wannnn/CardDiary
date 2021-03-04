@@ -10,6 +10,8 @@ interface CardRepository {
 
     fun getCards(query: String): Flow<PagingData<Card>>
 
+    suspend fun deleteCard(id: String): Resource<String>
+
     suspend fun uploadPhoto(uri: Uri): Resource<String>
 
     suspend fun insertCard(card: Card): Resource<Boolean>
