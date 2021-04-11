@@ -51,22 +51,22 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-beta01'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0'
 
-    implementation "androidx.activity:activity-ktx:1.2.0-rc01"
-    implementation "androidx.fragment:fragment-ktx:1.3.0"
+    implementation "androidx.activity:activity-ktx:1.3.0-alpha06"
+    implementation "androidx.fragment:fragment-ktx:1.3.2"
 
     // supportLib
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.3.0'
 
     // navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
-    implementation "androidx.navigation:navigation-ui-ktx:2.3.3"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
 
     // lifecycle
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
 
     // room
     implementation 'androidx.room:room-runtime:2.2.6'
@@ -78,7 +78,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
     // paging
-    implementation 'androidx.paging:paging-runtime-ktx:3.0.0-beta01'
+    implementation 'androidx.paging:paging-runtime-ktx:3.0.0-beta03'
 
     // coil
     implementation("io.coil-kt:coil:0.11.0")
@@ -92,17 +92,17 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
 
     // firebase
-    implementation 'com.google.firebase:firebase-core:18.0.2'
-    implementation 'com.google.firebase:firebase-storage-ktx:19.2.1'
-    implementation 'com.google.firebase:firebase-firestore:22.1.0'
-    implementation 'com.google.firebase:firebase-firestore-ktx:22.1.0'
-    implementation 'com.google.firebase:firebase-analytics:18.0.2'
+    implementation 'com.google.firebase:firebase-core:18.0.3'
+    implementation 'com.google.firebase:firebase-storage-ktx:19.2.2'
+    implementation 'com.google.firebase:firebase-firestore:22.1.2'
+    implementation 'com.google.firebase:firebase-firestore-ktx:22.1.2'
+    implementation 'com.google.firebase:firebase-analytics:18.0.3'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.4.2'
     implementation 'com.firebaseui:firebase-ui-auth:5.0.0'
 
     // test
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation "androidx.room:room-testing:2.2.6"
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
