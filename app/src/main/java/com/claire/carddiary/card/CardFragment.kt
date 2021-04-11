@@ -48,6 +48,15 @@ class CardFragment : Fragment() {
 
         observeData()
 
+        with(binding.toolbar) {
+            setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.more -> findNavController().navigate(CardFragmentDirections.toNavigateSheetDialog())
+                }
+                true
+            }
+        }
+
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, CardApplication.rvListType)
 //                .apply {
@@ -113,10 +122,6 @@ class CardFragment : Fragment() {
 
         vm.navigateToEdit.observeSingle(viewLifecycleOwner) {
             findNavController().navigate(CardFragmentDirections.toEditFragment(null))
-        }
-
-        vm.optionClick.observeSingle(viewLifecycleOwner) {
-            findNavController().navigate(CardFragmentDirections.toNavigateSheetDialog())
         }
 
         vm.clearSearch.observeSingle(viewLifecycleOwner) {

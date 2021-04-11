@@ -8,6 +8,7 @@
 
     <!-- option menu item -->
     <string name="menu_check">done</string>
+    <string name="menu_more">more</string>
 
     <!-- LoginFragment -->
     <string name="login_success">Successfully signed in user %s!</string>

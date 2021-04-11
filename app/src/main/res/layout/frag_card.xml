@@ -29,10 +29,18 @@
             android:layout_height="wrap_content"
             android:isShadowEnable="@{false}">
 
-            <include
-                android:id="@+id/lay_header"
-                layout="@layout/item_header"
-                app:vm="@{vm}"/>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:title="@string/app_name"
+                app:titleTextAppearance="@style/MainPageToolbar"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:titleTextColor="@color/black75"
+                app:menu="@menu/menu_more"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <include
                 android:id="@+id/lay_search"

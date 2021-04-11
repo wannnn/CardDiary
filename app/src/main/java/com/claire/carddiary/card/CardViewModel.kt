@@ -26,9 +26,6 @@ class CardViewModel(
     private val _navigateToEdit = SingleLiveEvent<Unit>()
     val navigateToEdit: SingleLiveEvent<Unit> = _navigateToEdit
 
-    private val _optionClick = SingleLiveEvent<Unit>()
-    val optionClick: SingleLiveEvent<Unit> = _optionClick
-
     private val _clearSearch = SingleLiveEvent<Unit>()
     val clearSearch: SingleLiveEvent<Unit> = _clearSearch
 
@@ -81,8 +78,6 @@ class CardViewModel(
     }
 
     fun navigateToEdit() = _navigateToEdit.call()
-
-    fun optionClick() = _optionClick.call()
 
     fun clearSearch() = _clearSearch.call()
 
