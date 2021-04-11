@@ -50,6 +50,13 @@ class CardFragment : Fragment() {
 
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, CardApplication.rvListType)
+//                .apply {
+//                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+//                    override fun getSpanSize(position: Int): Int {
+//
+//                    }
+//                }
+//            }
             adapter = concatAdapter
             addItemDecoration(GridItemDecoration(16.px, 16.px))
         }
@@ -131,7 +138,7 @@ class CardFragment : Fragment() {
         savedStateHandle?.getLiveData<Card>(getString(R.string.nav_key_card))?.observe(viewLifecycleOwner) { card ->
 
             Toast.makeText(context, getString(R.string.uploading), Toast.LENGTH_SHORT).show()
-            binding.rvCard.smoothScrollToPosition(0)
+            binding.rvCard.scrollToPosition(0)
             vm.upload(card)
 
             savedStateHandle.remove<Card>(getString(R.string.nav_key_card))

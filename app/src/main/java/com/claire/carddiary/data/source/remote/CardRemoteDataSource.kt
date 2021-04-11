@@ -3,6 +3,7 @@ package com.claire.carddiary.data.source.remote
 import android.net.Uri
 import androidx.paging.*
 import com.claire.carddiary.Resource
+import com.claire.carddiary.card.CompressUtils
 import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
 import com.claire.carddiary.data.source.CardPagingSource
@@ -57,12 +58,20 @@ object CardRemoteDataSource : CardDataSource {
 
             val pathString = uri.lastPathSegment ?: Date().toSimpleDateFormat
             val imageRef = storageRef.child(pathString)
-            val url = imageRef.putFile(uri)
+
+            val url = imageRef.putBytes(CompressUtils.compress(uri))
                 .await()
                 .storage
                 .downloadUrl
                 .await()
                 .toString()
+
+//            val url = imageRef.putFile(uri)
+//                .await()
+//                .storage
+//                .downloadUrl
+//                .await()
+//                .toString()
 
             Resource.Success(url)
 
