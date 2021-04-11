@@ -80,5 +80,12 @@
             android:text="@string/empty_msg"
             android:onClick="@{() -> vm.navigateToEdit()}" />
 
+        <com.claire.carddiary.view.ScrollTopButton
+            android:id="@+id/scroll_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_gravity="bottom|end"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

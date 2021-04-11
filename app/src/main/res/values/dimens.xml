@@ -3,4 +3,5 @@
     <dimen name="space8">8dp</dimen>
     <dimen name="space16">16dp</dimen>
     <dimen name="indicator_size">3dp</dimen>
+    <dimen name="scroll_top_button_translation">80dp</dimen>
 </resources>

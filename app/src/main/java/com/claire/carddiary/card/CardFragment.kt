@@ -57,6 +57,8 @@ class CardFragment : Fragment() {
             }
         }
 
+        binding.scrollTop.bindRecyclerView(binding.rvCard)
+
         with(binding.rvCard) {
             layoutManager = GridLayoutManager(context, CardApplication.rvListType)
 //                .apply {
