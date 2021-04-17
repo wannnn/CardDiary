@@ -15,7 +15,7 @@ import java.util.*
 data class Card(
     @PrimaryKey
     val cardId: String = UUID.randomUUID().toString(),
-    val images: List<String> = listOf(),
+    val images: List<String> = listOf(""),
     val title: String = "",
     val date: String = Date().toSimpleDateFormat,
     val weather: Int = 0,  // ex.(0:sunny 1:rainy)

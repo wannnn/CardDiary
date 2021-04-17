@@ -10,17 +10,12 @@ import java.util.*
 class EditViewModel : ViewModel() {
 
     private val _card = MutableLiveData(Card())
-    val card: LiveData<Card> = _card
+    fun getCard(): LiveData<Card> = _card
 
     private val _alertMsg = MutableLiveData<String>()
     val alertMsg: LiveData<String> = _alertMsg
 
-
-    init {
-        _card.value = _card.value?.copy(images = listOf(""))
-    }
-
-    fun getCard(): Card = _card.value ?: Card()
+    fun hasImages(position: Int) = _card.value?.images?.getOrNull(position).isNullOrEmpty().not()
 
     fun setScriptCard(card: Card?) {  // 草搞
         card?.let { _card.value = card }
@@ -36,13 +31,28 @@ class EditViewModel : ViewModel() {
         } else {
             val newList = _card.value?.images?.toMutableList()?.apply {
                 addAll(images)
-            } ?: mutableListOf()
+            }.orEmpty()
+
             if (newList.size > 10) {
                 _alertMsg.value = "最多只能上傳10張照片"
             } else {
                 _card.value = _card.value?.copy(images = newList)
             }
         }
+    }
+
+    fun deleteImage(position: Int) {
+
+        val newList = _card.value?.images?.toMutableList()?.apply {
+            if (_card.value?.images?.size == 1) {
+                removeAt(position)
+                add("")
+            } else {
+                removeAt(position)
+            }
+        }.orEmpty()
+
+        _card.value = _card.value?.copy(images = newList)
     }
 
     fun setDate(date: Date) {

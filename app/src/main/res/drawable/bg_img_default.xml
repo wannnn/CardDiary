@@ -10,5 +10,5 @@
         android:width="48dp"
         android:height="48dp"
         android:gravity="center"
-        android:drawable="@drawable/ic_add_gray_24" />
+        android:drawable="@drawable/ic_outline_add_photo_24" />
 </layer-list>

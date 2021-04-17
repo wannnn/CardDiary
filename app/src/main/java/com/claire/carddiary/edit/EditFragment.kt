@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -71,7 +72,7 @@ class EditFragment : Fragment() {
             setOnMenuItemClickListener {
                 when(it.itemId) {
                     R.id.check -> {  // save or update data
-                        findNavController().previousBackStackEntry?.savedStateHandle?.set(getString(R.string.nav_key_card), vm.getCard())
+                        findNavController().previousBackStackEntry?.savedStateHandle?.set(getString(R.string.nav_key_card), vm.getCard().value)
                         findNavController().navigateUp()
                     }
                 }
@@ -81,6 +82,18 @@ class EditFragment : Fragment() {
 
         with(adapter) {
             clickListener = { openGallery() }
+
+            longClickListener = { position ->
+                if (vm.hasImages(position)) {
+                    AlertDialog.Builder(requireContext())
+                        .setMessage(getString(R.string.delete_photo_hilt))
+                        .setPositiveButton(getString(R.string.sure)) { _, _ ->
+                            vm.deleteImage(position)
+                        }
+                        .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+                        .show()
+                }
+            }
         }
 
         binding.listener = { openDatePicker() }
@@ -93,9 +106,9 @@ class EditFragment : Fragment() {
 
     private fun observeData() {
 
-        vm.card.observe(viewLifecycleOwner) {
+        vm.getCard().observe(viewLifecycleOwner) {
             binding.item = it
-            adapter.submitList(it.images)
+            adapter.submitList(it.images.toList())
         }
 
         vm.alertMsg.observe(viewLifecycleOwner) {

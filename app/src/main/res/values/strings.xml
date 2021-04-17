@@ -29,6 +29,7 @@
 
     <!-- EditFragment -->
     <string name="permission_denied">permission denied</string>
+    <string name="delete_photo_hilt">確定要刪除此照片？</string>
     <string name="title_hint">Title</string>
     <string name="content_hint">Write Something…</string>
     <string name="tool_content">Events can be bound to handler methods directly, similar to the way android:onClick can be assigned to a method in an activity. One major advantage compared to the View onClick attribute is that the expression is processed at compile time, so if the method doesn\'t exist or its signature is incorrect, you receive a compile time error.</string>
