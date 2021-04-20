@@ -8,6 +8,7 @@ import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
 import com.claire.carddiary.data.source.CardPagingSource
 import com.claire.carddiary.data.source.QueryPagingSource
+import com.claire.carddiary.login.AuthManager
 import com.claire.carddiary.utils.toSimpleDateFormat
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -39,7 +40,7 @@ object CardRemoteDataSource : CardDataSource {
 
         return try {
 
-            Firebase.firestore.collection("cards")
+            Firebase.firestore.collection(AuthManager.userId)
                 .document(id)
                 .delete()
                 .await()
@@ -84,7 +85,7 @@ object CardRemoteDataSource : CardDataSource {
 
         return try {
 
-            Firebase.firestore.collection("cards")
+            Firebase.firestore.collection(AuthManager.userId)
                 .document(card.cardId)
                 .set(card)
                 .await()

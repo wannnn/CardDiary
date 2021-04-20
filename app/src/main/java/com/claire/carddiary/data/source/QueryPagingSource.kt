@@ -3,6 +3,7 @@ package com.claire.carddiary.data.source
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.claire.carddiary.data.model.Card
+import com.claire.carddiary.login.AuthManager
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.firestore
@@ -17,7 +18,7 @@ class QueryPagingSource(
 
         return try {
 
-            val currentPage = params.key ?: Firebase.firestore.collection("cards")
+            val currentPage = params.key ?: Firebase.firestore.collection(AuthManager.userId)
                 .whereEqualTo("date", query)
                 .limit(5)
                 .get(Source.SERVER)
@@ -28,7 +29,7 @@ class QueryPagingSource(
                 currentPage.size() == 0 -> null
                 else -> {
                     val lastDocumentSnapshot = currentPage.documents[currentPage.size() - 1]
-                    Firebase.firestore.collection("cards")
+                    Firebase.firestore.collection(AuthManager.userId)
                         .whereEqualTo("date", query)
                         .limit(5)
                         .startAfter(lastDocumentSnapshot)
