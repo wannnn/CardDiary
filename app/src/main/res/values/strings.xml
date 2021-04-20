@@ -15,7 +15,7 @@
     <string name="login_fail">SignIn Fail！</string>
 
     <!-- CardFragment -->
-    <string name="empty_msg">This is Empty</string>
+    <string name="empty_msg">Add your first Diary</string>
     <string name="uploading">Uploading…</string>
     <string name="search_hint">search diary here</string>
 

@@ -114,7 +114,7 @@ class EditFragment : Fragment() {
 
         val dateListener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
             calender.set(year, month, day)
-            vm.setDate(calender.time)
+            vm.setDate(calender.time.time)
         }
 
         DatePickerDialog(requireContext(),

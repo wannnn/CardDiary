@@ -60,16 +60,8 @@ class CardFragment : Fragment() {
         binding.scrollTop.bindRecyclerView(binding.rvCard)
 
         with(binding.rvCard) {
-            layoutManager = GridLayoutManager(context, CardApplication.rvListType)
-//                .apply {
-//                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-//                    override fun getSpanSize(position: Int): Int {
-//
-//                    }
-//                }
-//            }
             adapter = concatAdapter
-            addItemDecoration(GridItemDecoration(16.px, 16.px))
+            addItemDecoration(GridItemDecoration(15.px))
         }
 
         with(cardAdapter) {
@@ -85,6 +77,11 @@ class CardFragment : Fragment() {
             addLoadStateListener { loadState ->
 
                 binding.progressEnable = loadState.refresh is LoadState.Loading
+
+                // show or hide empty view
+                if (loadState.append.endOfPaginationReached) {
+                    binding.showDefault = cardAdapter.itemCount < 1
+                }
 
                 if (loadState.refresh !is LoadState.Loading){
                     // getting the error
@@ -114,7 +111,6 @@ class CardFragment : Fragment() {
 
         vm.cardList.observeSingle(viewLifecycleOwner) {
             cardAdapter.submitData(lifecycle, it)
-            binding.showDefault = it == null
             hideKeyboard()
         }
 
@@ -137,8 +133,17 @@ class CardFragment : Fragment() {
             binding.clearEnable = it
         }
 
-        vm.listType.observe(viewLifecycleOwner) {
-            changeListType()
+        vm.listTypeChange.observe(viewLifecycleOwner) {
+            binding.rvCard.apply {
+                binding.listType = CardApplication.rvListType
+
+                val viewState = layoutManager?.onSaveInstanceState()
+
+                cardAdapter.submitData(lifecycle, vm.cardList.value ?: PagingData.empty())
+
+                layoutManager = GridLayoutManager(context, CardApplication.rvListType)
+                layoutManager?.onRestoreInstanceState(viewState)
+            }
         }
 
         val savedStateHandle = findNavController().currentBackStackEntry?.savedStateHandle
@@ -155,20 +160,6 @@ class CardFragment : Fragment() {
             postAdapter.submitList(it)
         }
 
-    }
-
-    private fun changeListType() {
-        binding.rvCard.apply {
-
-            binding.listType = CardApplication.rvListType
-
-            val viewState = layoutManager?.onSaveInstanceState()
-
-            cardAdapter.submitData(lifecycle, vm.cardList.value ?: PagingData.empty())
-
-            layoutManager = GridLayoutManager(context, CardApplication.rvListType)
-            layoutManager?.onRestoreInstanceState(viewState)
-        }
     }
 
 }

@@ -18,7 +18,6 @@ import java.util.*
 
 object CardRemoteDataSource : CardDataSource {
 
-    private val firebase = Firebase.firestore
     private val storage = Firebase.storage
     var storageRef = storage.reference
 
@@ -26,11 +25,11 @@ object CardRemoteDataSource : CardDataSource {
 
         return if (query.isBlank()) {
             Pager(PagingConfig(pageSize = 5)) {
-                CardPagingSource(firebase)
+                CardPagingSource()
             }.flow
         } else {
             Pager(PagingConfig(pageSize = 5)) {
-                QueryPagingSource(firebase, query)
+                QueryPagingSource(query)
             }.flow
         }
 
@@ -40,7 +39,7 @@ object CardRemoteDataSource : CardDataSource {
 
         return try {
 
-            firebase.collection("cards")
+            Firebase.firestore.collection("cards")
                 .document(id)
                 .delete()
                 .await()
@@ -56,7 +55,7 @@ object CardRemoteDataSource : CardDataSource {
 
         return try {
 
-            val pathString = uri.lastPathSegment ?: Date().toSimpleDateFormat
+            val pathString = uri.lastPathSegment ?: Date().time.toSimpleDateFormat
             val imageRef = storageRef.child(pathString)
 
             val url = imageRef.putBytes(CompressUtils.compress(uri))
@@ -85,7 +84,7 @@ object CardRemoteDataSource : CardDataSource {
 
         return try {
 
-            firebase.collection("cards")
+            Firebase.firestore.collection("cards")
                 .document(card.cardId)
                 .set(card)
                 .await()

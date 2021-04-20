@@ -32,8 +32,8 @@ class CardViewModel(
     private val _clearEnable = MutableLiveData<Boolean>()
     val clearEnable: LiveData<Boolean> = _clearEnable
 
-    private val _listType = SingleLiveEvent<Unit>()
-    val listType: LiveData<Unit> = _listType
+    private val _listTypeChange = SingleLiveEvent<Unit>()
+    val listTypeChange: LiveData<Unit> = _listTypeChange
 
     private val _queryKeyword = MutableLiveData<String>()
 
@@ -81,9 +81,9 @@ class CardViewModel(
 
     fun clearSearch() = _clearSearch.call()
 
-    fun changeListType() {
+    fun listTypeChange() {
         CardApplication.isSingleRaw = CardApplication.isSingleRaw.not()
-        _listType.call()
+        _listTypeChange.call()
     }
 
     fun upload(card: Card) = viewModelScope.launch {

@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.claire.carddiary.utils.CardUtilsKt" />
+
         <variable
             name="item"
             type="com.claire.carddiary.data.model.Card" />
@@ -57,7 +59,7 @@
                 android:layout_marginBottom="16dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{item.date}"
+                android:text="@{CardUtilsKt.getToSimpleDateFormat(item.date)}"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:typeface="serif"

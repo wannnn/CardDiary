@@ -4,10 +4,8 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.claire.carddiary.CardApplication
-import com.claire.carddiary.utils.px
 
 class GridItemDecoration(
-    private val space: Int,
     private val margin: Int
 ) : RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
@@ -18,38 +16,34 @@ class GridItemDecoration(
     ) {
         val spanCount = CardApplication.rvListType
         val position = parent.getChildAdapterPosition(view)
+
         if (position == -1) return
+
         when(spanCount) {
             1 -> {
-                outRect.left = margin
-                outRect.right = margin
-                when(position) {
-                    0 -> {
-                        outRect.bottom = 10.px
-                    }
-                    else -> {
-                        outRect.top = 10.px
-                        outRect.bottom = 10.px
-                    }
+                with(outRect) {
+                    left = margin
+                    right = margin
+                    bottom = margin / 2
+                    top = margin / 2
                 }
             }
             2 -> {
-                when {
-                    position % spanCount == 0 -> {
-                        outRect.left = margin
-                        outRect.right = space / 2
+                if (position.rem(2) == 0) {
+                    with(outRect) {
+                        left = margin
+                        top = margin / 2
+                        right = margin / 2
+                        bottom = margin / 2
                     }
-                    position % spanCount == spanCount - 1 -> {
-                        outRect.left = space / 2
-                        outRect.right = margin
-                    }
-                    else -> {
-                        outRect.left = space / 2
-                        outRect.right = space / 2
+                } else {
+                    with(outRect) {
+                        left = margin / 2
+                        top = margin / 2
+                        right = margin
+                        bottom = margin / 2
                     }
                 }
-                outRect.top = 16.px
-                outRect.bottom = 16.px
             }
         }
     }

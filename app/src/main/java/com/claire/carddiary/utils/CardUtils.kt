@@ -22,7 +22,7 @@ val Float.dp: Float
 val Int.px: Int
     get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
-val Date.toSimpleDateFormat: String
+val Long.toSimpleDateFormat: String
     get() = SimpleDateFormat("yyyy / MM / dd", Locale.TAIWAN).format(this)
 
 fun Fragment.hideKeyboard() {
