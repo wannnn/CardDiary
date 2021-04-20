@@ -118,10 +118,6 @@ class CardFragment : Fragment() {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }
 
-        vm.navigateToEdit.observeSingle(viewLifecycleOwner) {
-            findNavController().navigate(CardFragmentDirections.toEditFragment(null))
-        }
-
         vm.clearSearch.observeSingle(viewLifecycleOwner) {
             binding.laySearch.searchView.setText("")
             binding.laySearch.searchView.clearFocus()

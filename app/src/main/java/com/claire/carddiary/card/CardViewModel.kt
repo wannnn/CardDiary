@@ -23,9 +23,6 @@ class CardViewModel(
     private val _errorMsg = MutableLiveData<String>()
     val errorMsg: LiveData<String> = _errorMsg
 
-    private val _navigateToEdit = SingleLiveEvent<Unit>()
-    val navigateToEdit: SingleLiveEvent<Unit> = _navigateToEdit
-
     private val _clearSearch = SingleLiveEvent<Unit>()
     val clearSearch: SingleLiveEvent<Unit> = _clearSearch
 
@@ -76,8 +73,6 @@ class CardViewModel(
     fun onSearch() {
         if (_queryKeyword.value.isNullOrBlank().not()) getCards(_queryKeyword.value.orEmpty())
     }
-
-    fun navigateToEdit() = _navigateToEdit.call()
 
     fun clearSearch() = _clearSearch.call()
 

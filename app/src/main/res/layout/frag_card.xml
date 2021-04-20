@@ -79,8 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="@{showDefault ? View.VISIBLE : View.GONE, default = gone}"
-            android:text="@string/empty_msg"
-            android:onClick="@{() -> vm.navigateToEdit()}" />
+            android:text="@string/empty_msg" />
 
         <com.claire.carddiary.view.ScrollTopButton
             android:id="@+id/scroll_top"
