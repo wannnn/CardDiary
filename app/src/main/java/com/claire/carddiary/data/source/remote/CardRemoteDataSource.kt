@@ -8,6 +8,7 @@ import com.claire.carddiary.data.model.Card
 import com.claire.carddiary.data.source.CardDataSource
 import com.claire.carddiary.data.source.CardPagingSource
 import com.claire.carddiary.data.source.QueryPagingSource
+import com.claire.carddiary.login.AuthManager
 import com.claire.carddiary.utils.toSimpleDateFormat
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -18,7 +19,6 @@ import java.util.*
 
 object CardRemoteDataSource : CardDataSource {
 
-    private val firebase = Firebase.firestore
     private val storage = Firebase.storage
     var storageRef = storage.reference
 
@@ -26,11 +26,11 @@ object CardRemoteDataSource : CardDataSource {
 
         return if (query.isBlank()) {
             Pager(PagingConfig(pageSize = 5)) {
-                CardPagingSource(firebase)
+                CardPagingSource()
             }.flow
         } else {
             Pager(PagingConfig(pageSize = 5)) {
-                QueryPagingSource(firebase, query)
+                QueryPagingSource(query)
             }.flow
         }
 
@@ -40,7 +40,7 @@ object CardRemoteDataSource : CardDataSource {
 
         return try {
 
-            firebase.collection("cards")
+            Firebase.firestore.collection(AuthManager.userId)
                 .document(id)
                 .delete()
                 .await()
@@ -56,7 +56,7 @@ object CardRemoteDataSource : CardDataSource {
 
         return try {
 
-            val pathString = uri.lastPathSegment ?: Date().toSimpleDateFormat
+            val pathString = uri.lastPathSegment ?: Date().time.toSimpleDateFormat
             val imageRef = storageRef.child(pathString)
 
             val url = imageRef.putBytes(CompressUtils.compress(uri))
@@ -85,7 +85,7 @@ object CardRemoteDataSource : CardDataSource {
 
         return try {
 
-            firebase.collection("cards")
+            Firebase.firestore.collection(AuthManager.userId)
                 .document(card.cardId)
                 .set(card)
                 .await()

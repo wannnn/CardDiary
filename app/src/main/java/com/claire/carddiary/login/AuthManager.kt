@@ -11,7 +11,7 @@ object AuthManager {
 
     val user = FirebaseUserLiveData()
 
-    val userId = user.value?.uid.orEmpty()
+    var userId = ""
 
     fun login(): Intent =
         AuthUI.getInstance()

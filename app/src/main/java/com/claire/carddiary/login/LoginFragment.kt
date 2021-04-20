@@ -52,6 +52,7 @@ class LoginFragment : Fragment() {
 
         AuthManager.user.observe(viewLifecycleOwner) {
             it?.let {
+                AuthManager.userId = it.uid
                 findNavController().navigate(LoginFragmentDirections.toCardFragment())
             }
         }

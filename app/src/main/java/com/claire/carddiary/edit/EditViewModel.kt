@@ -55,8 +55,8 @@ class EditViewModel : ViewModel() {
         _card.value = _card.value?.copy(images = newList)
     }
 
-    fun setDate(date: Date) {
-        _card.value = _card.value?.copy(date = date.toSimpleDateFormat)
+    fun setDate(date: Long) {
+        _card.value = _card.value?.copy(date = date)
     }
 
     fun setContent(content: String) {
