@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import coil.api.load
+import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.claire.carddiary.card.CardViewModel
 import com.claire.carddiary.edit.EditViewModel
@@ -26,7 +27,7 @@ fun setImage(view: ImageView, path: String?) {
 fun setRoundImage(view: ImageView, path: String?) {
     path?.let {
         view.load(it) {
-            transformations(RoundedCornersTransformation(5f))
+            transformations(CircleCropTransformation())
         }
     }
 }

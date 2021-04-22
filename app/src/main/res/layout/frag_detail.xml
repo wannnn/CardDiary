@@ -54,6 +54,7 @@
             app:layout_constraintBottom_toTopOf="@+id/guideLine"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:tabUnboundedRipple="true"
             app:tabBackground="@drawable/tab_pager_selector"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp" />

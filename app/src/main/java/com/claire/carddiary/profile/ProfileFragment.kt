@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.claire.carddiary.R
 import com.claire.carddiary.base.FragmentBindingProvider
-import com.claire.carddiary.data.model.ProfileItemData
 import com.claire.carddiary.databinding.FragProfileBinding
 import com.claire.carddiary.login.AuthManager
 import com.claire.carddiary.utils.click
@@ -38,6 +37,5 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        binding.scrollItemView.setData(R.layout.item_profile_card, ProfileItemData.DEFAULT)
     }
 }
