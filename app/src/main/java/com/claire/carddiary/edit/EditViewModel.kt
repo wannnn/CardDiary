@@ -4,16 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.claire.carddiary.data.model.Card
-import com.claire.carddiary.utils.toSimpleDateFormat
-import java.util.*
 
 class EditViewModel : ViewModel() {
 
     private val _card = MutableLiveData(Card())
     fun getCard(): LiveData<Card> = _card
 
-    private val _alertMsg = MutableLiveData<String>()
-    val alertMsg: LiveData<String> = _alertMsg
+    private val _maxPhotoMsg = MutableLiveData<Unit>()
+    fun getMaxPhotoMsg(): LiveData<Unit> = _maxPhotoMsg
 
     fun hasImages(position: Int) = _card.value?.images?.getOrNull(position).isNullOrEmpty().not()
 
@@ -34,7 +32,7 @@ class EditViewModel : ViewModel() {
             }.orEmpty()
 
             if (newList.size > 10) {
-                _alertMsg.value = "最多只能上傳10張照片"
+                _maxPhotoMsg.value = Unit
             } else {
                 _card.value = _card.value?.copy(images = newList)
             }

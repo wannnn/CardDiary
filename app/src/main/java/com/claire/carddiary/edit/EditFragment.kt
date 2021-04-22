@@ -86,7 +86,7 @@ class EditFragment : Fragment() {
             longClickListener = { position ->
                 if (vm.hasImages(position)) {
                     AlertDialog.Builder(requireContext())
-                        .setMessage(getString(R.string.delete_photo_hilt))
+                        .setMessage(getString(R.string.delete_photo_hint))
                         .setPositiveButton(getString(R.string.sure)) { _, _ ->
                             vm.deleteImage(position)
                         }
@@ -111,8 +111,8 @@ class EditFragment : Fragment() {
             adapter.submitList(it.images.toList())
         }
 
-        vm.alertMsg.observe(viewLifecycleOwner) {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        vm.getMaxPhotoMsg().observe(viewLifecycleOwner) {
+            Toast.makeText(context, getString(R.string.max_photo), Toast.LENGTH_SHORT).show()
         }
 
     }

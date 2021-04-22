@@ -23,36 +23,18 @@ class CardViewModel(
     private val _errorMsg = MutableLiveData<String>()
     val errorMsg: LiveData<String> = _errorMsg
 
+    private val _queryKeyword = MutableLiveData<String>()
+
+    val clearEnable: LiveData<Boolean> = _queryKeyword.map { it.isNotBlank() }
+
     private val _clearSearch = SingleLiveEvent<Unit>()
     val clearSearch: SingleLiveEvent<Unit> = _clearSearch
-
-    private val _clearEnable = MutableLiveData<Boolean>()
-    val clearEnable: LiveData<Boolean> = _clearEnable
 
     private val _listTypeChange = SingleLiveEvent<Unit>()
     val listTypeChange: LiveData<Unit> = _listTypeChange
 
-    private val _queryKeyword = MutableLiveData<String>()
-
     private val _progress = SingleLiveEvent<List<Post>>()
     val progress: SingleLiveEvent<List<Post>> = _progress
-
-//    private val _stateFlow = MutableStateFlow("")
-
-//    @ExperimentalCoroutinesApi
-//    @FlowPreview
-//    val searchResult = _stateFlow
-//        .debounce(500)
-//        .filter { s ->
-//            return@filter s.isNotEmpty()
-//        }
-//        .flatMapLatest { s ->
-//            repository.getCards(s).cachedIn(viewModelScope)
-//        }
-//        .catch {
-//            _errorMsg.value = "Error query search result!"
-//        }
-//        .asLiveData()
 
 
     init {
@@ -67,7 +49,6 @@ class CardViewModel(
 
     fun searchQuery(s: String) {
         _queryKeyword.value = s
-        _clearEnable.value = s.isNotBlank()
     }
 
     fun onSearch() {
